@@ -37,16 +37,28 @@ class Opcode:
         self.operand_1_offset = operand_1_offset
         self.operand_2_offset = operand_2_offset
 
-
+# Always (Jmp)
+# GEU (greater or equal unsigned)
+# LTU (less than unsigned)
+# LTEU (Less than or equal unsighed)
+# GE (greater or equal signed)
+# GT (greater than signed)
+# LT (Less than signed
+# LTE (Less than or equal)
+# NE (not equal)
+# EQ (Equal
 class BranchCond(Enum):
-    AL = 0
-    GEU = 1
-    LTU = 2
-    GE = 3
-    GT = 4
-    LT = 5
-    NE = 6
-    EQ = 7
+    AL   =  0b0000
+    GTU  =  0b0001  # Greater than unsigned x
+    GEU  =  0b0010  # Greater or equal unsigned x
+    LTU  =  0b0011  # Less than unsigned x
+    LEU  =  0b0100  # Less than or equal unsigned x
+    GE   =  0b0101  # Greater than or equal signed x
+    GT   =  0b0110  # Greater than signed x
+    LT   =  0b0111  # Less than signed x
+    LE   =  0b1000  # Less than or equal signed x
+    NE   =  0b1001  # Not equal x
+    EQ   =  0b1010  # Equal x
 
 class Register(Enum):
     GP0 = 0
@@ -101,30 +113,30 @@ instruction_table = {
     "AND":   Opcode(OperandType.Register,         OperandType.Register          ,5, 10, 0b11101),
     "XOR":   Opcode(OperandType.Register,         OperandType.Register          ,5, 10, 0b11110),
     "NOT":   Opcode(OperandType.Register,         None                          ,5, 10, 0b11111),
-    "ADDI":  Opcode(OperandType.Register,         OperandType.IntegerImmediate  ,5,8, 0b10000),
-    "SUBI":  Opcode(OperandType.Register,         OperandType.IntegerImmediate  ,5,8, 0b10001),
-    "MULI":  Opcode(OperandType.Register,         OperandType.IntegerImmediate  ,5,8, 0b10010),
-    "DIVI":  Opcode(OperandType.Register,         OperandType.IntegerImmediate  ,5,8, 0b10011),
-    "ORI" :  Opcode(OperandType.Register,         OperandType.IntegerImmediate  ,5,8, 0b10100),
-    "ANDI":  Opcode(OperandType.Register,         OperandType.IntegerImmediate  ,5,8, 0b10101),
-    "XORI":  Opcode(OperandType.Register,         OperandType.IntegerImmediate  ,5,8, 0b10110),
-    "POP":   Opcode(OperandType.Register,         None                          ,5,0, 0b10111),
-    "BR":    Opcode(OperandType.Condition,        OperandType.AddressImmediate  ,5,8, 0b01000),
-    "BRI":   Opcode(OperandType.Condition,        OperandType.Register          ,5,8, 0b01001),
-    "LD":    Opcode(OperandType.Register,         OperandType.AddressImmediate  ,5,8, 0b01010),
-    "LDI":   Opcode(OperandType.Register,         OperandType.Register          ,5,10, 0b01011),
-    "ST":    Opcode(OperandType.Register,         OperandType.AddressImmediate  ,5,8, 0b01100),
-    "STI":   Opcode(OperandType.Register,         OperandType.Register          ,5,10, 0b01100),
-    "MOV":   Opcode(OperandType.Register,         OperandType.Register          ,5,10, 0b01110),
-    "PUSH":  Opcode(OperandType.Register,         OperandType.Register          ,5,10, 0b01111),
-    "NOP":   Opcode(None,                         None                          ,0,0, 0b00000),
-    "HALT":  Opcode(None,                         None                          ,0,0, 0b00001),
-    "CALL":  Opcode(OperandType.AddressImmediate, None                          ,5,10, 0b00010),
-    "CALLI": Opcode(OperandType.AddressImmediate, None                          ,5,10, 0b00011),
-    "RET":   Opcode(None,                         None                          ,0,0, 0b00100),
-    "SHR":   Opcode(OperandType.Register,         None                          ,5,10, 0b00101),
-    "LIU":   Opcode(OperandType.Register,         OperandType.IntegerImmediate  ,5,10, 0b00110),
-    "SMOV":  Opcode(OperandType.Register,         OperandType.SpecialRegister   ,5,10, 0b00111)
+    "ADDI":  Opcode(OperandType.Register,         OperandType.IntegerImmediate  ,5,8,   0b10000),
+    "SUBI":  Opcode(OperandType.Register,         OperandType.IntegerImmediate  ,5,8,   0b10001),
+    "MULI":  Opcode(OperandType.Register,         OperandType.IntegerImmediate  ,5,8,   0b10010),
+    "DIVI":  Opcode(OperandType.Register,         OperandType.IntegerImmediate  ,5,8,   0b10011),
+    "ORI" :  Opcode(OperandType.Register,         OperandType.IntegerImmediate  ,5,8,   0b10100),
+    "ANDI":  Opcode(OperandType.Register,         OperandType.IntegerImmediate  ,5,8,   0b10101),
+    "XORI":  Opcode(OperandType.Register,         OperandType.IntegerImmediate  ,5,8,   0b10110),
+    "CMP":   Opcode(OperandType.Register,         OperandType.Register          ,5,10,  0b10111),
+    "BR":    Opcode(OperandType.Condition,        OperandType.AddressImmediate  ,5,8,   0b01000),
+    "BRI":   Opcode(OperandType.Condition,        OperandType.Register          ,5,8,   0b01001),
+    "LD":    Opcode(OperandType.Register,         OperandType.AddressImmediate  ,5,8,   0b01010),
+    "LDI":   Opcode(OperandType.Register,         OperandType.Register          ,5,10,  0b01011),
+    "ST":    Opcode(OperandType.Register,         OperandType.AddressImmediate  ,5,8,   0b01100),
+    "STI":   Opcode(OperandType.Register,         OperandType.Register          ,5,10,  0b01100),
+    "MOV":   Opcode(OperandType.Register,         OperandType.Register          ,5,10,  0b01110),
+    "PUSH":  Opcode(OperandType.Register,         OperandType.Register          ,5,10,  0b01111),
+    "NOP":   Opcode(None,                         None                          ,0,0,   0b00000),
+    "HALT":  Opcode(None,                         None                          ,0,0,   0b00001),
+    "CALL":  Opcode(OperandType.AddressImmediate, None                          ,5,10,  0b00010),
+    "CALLI": Opcode(OperandType.AddressImmediate, None                          ,5,10,  0b00011),
+    "RET":   Opcode(None,                         None                          ,0,0,   0b00100),
+    "SHR":   Opcode(OperandType.Register,         None                          ,5,10,  0b00101),
+    "LIU":   Opcode(OperandType.Register,         OperandType.IntegerImmediate  ,5,10,  0b00110),
+    "SMOV":  Opcode(OperandType.Register,         OperandType.SpecialRegister   ,5,10,  0b00111)
 
 }
 
@@ -242,6 +254,6 @@ with open(out_path, "wb") as bf:
     bytes_used = len(instructions * 4)
     bytes_to_pad = 16768 - bytes_used
     for instruction in instructions:
-        bf.write(instruction.to_bytes(4, byteorder='big', signed=False))
+        bf.write(instruction.to_bytes(4, byteorder='little', signed=False))
     for num in range(0, bytes_to_pad):
-        bf.write((0).to_bytes(4, byteorder='big', signed=False))
+        bf.write((0).to_bytes(4, byteorder='little', signed=False))
