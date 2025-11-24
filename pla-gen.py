@@ -35,29 +35,30 @@ class OpCode(Enum):
     LIU   = 0b00110 # Done
     
 class MicroOp(Enum):
-    MEM_WRITE_ENABLE = 0b0000000000000000001
-    REG_B_LS_LITERAL = 0b0000000000000000010
-    IMM_TO_A         = 0b0000000000000000100
-    MDR_CU_WRITE     = 0b0000000000000001000
-    PC_WRITE_ENABLE  = 0b0000000000000010000
-    MDR_MEM_WRITE    = 0b0000000000000100000
+    HALT             = 0b00000000000000000001
+    MEM_WRITE_ENABLE = 0b00000000000000000010
+    REG_B_LS_LITERAL = 0b00000000000000000100
+    IMM_TO_A         = 0b00000000000000001000
+    MDR_CU_WRITE     = 0b00000000000000010000
+    PC_WRITE_ENABLE  = 0b00000000000000100000
+    MDR_MEM_WRITE    = 0b00000000000001000000
     # MOV micro-ops (2-bit encoded)
-    REG_B_TO_A       = 0b0000000000000000000
-    MEM_TO_A         = 0b0000000000000100000
-    ALU_TO_A         = 0b0000000000010000000
-    AUX_TO_A         = 0b0000000000011000000
+    REG_B_TO_A       = 0b00000000000000000000
+    MEM_TO_A         = 0b00000000000010000000
+    ALU_TO_A         = 0b00000000000100000000
+    AUX_TO_A         = 0b00000000000110000000
     #
-    MAR_CLEAR_ENABLE = 0b0000000000100000000
-    MDR_CLEAR_ENABLE = 0b0000000001000000000
-    REG_CLEAR_ENABLE = 0b0000000010000000000
-    NEXT_INSTRUCTION = 0b0000000100000000000
-    REG_WRITE_ENABLE = 0b0000001000000000000
-    REG_READ_A       = 0b0000010000000000000
-    REG_READ_B       = 0b0000100000000000000
-    ALU_ENABLE       = 0b0001000000000000000
-    MAR_WRITE_ENABLE = 0b0010000000000000000
-    MDR_WRITE_ENABLE = 0b0100000000000000000
-    MDR_READ_ENABLE  = 0b1000000000000000000
+    MAR_CLEAR_ENABLE = 0b00000000001000000000
+    MDR_CLEAR_ENABLE = 0b00000000010000000000
+    REG_CLEAR_ENABLE = 0b00000000100000000000
+    NEXT_INSTRUCTION = 0b00000001000000000000
+    REG_WRITE_ENABLE = 0b00000010000000000000
+    REG_READ_A       = 0b00000100000000000000
+    REG_READ_B       = 0b00001000000000000000
+    ALU_ENABLE       = 0b00010000000000000000
+    MAR_WRITE_ENABLE = 0b00100000000000000000
+    MDR_WRITE_ENABLE = 0b01000000000000000000
+    MDR_READ_ENABLE  = 0b10000000000000000000
 
 class Instruction:
     shorthand = OpCode.ADD
@@ -98,14 +99,15 @@ instructions = [
     Instruction(OpCode.CMP,     [MicroOp.REG_READ_A, MicroOp.REG_READ_B, MicroOp.ALU_ENABLE],                                   MicroOp.NEXT_INSTRUCTION),
     Instruction(OpCode.BR,      [MicroOp.PC_WRITE_ENABLE],                                                                      MicroOp.NEXT_INSTRUCTION),
     Instruction(OpCode.BRI,     [MicroOp.PC_WRITE_ENABLE, MicroOp.REG_READ_B],                                                  MicroOp.NEXT_INSTRUCTION),
-    Instruction(OpCode.LD,      [MicroOp.REG_READ_B, MicroOp.MAR_WRITE_ENABLE],                                                 [MicroOp.MDR_WRITE_ENABLE, MicroOp.MDR_MEM_WRITE],                              [MicroOp.MEM_TO_A , MicroOp.REG_WRITE_ENABLE, MicroOp.NEXT_INSTRUCTION]),
-    Instruction(OpCode.LDI,     [MicroOp.REG_READ_B, MicroOp.REG_B_LS_LITERAL, MicroOp.MAR_WRITE_ENABLE],                       [MicroOp.REG_WRITE_ENABLE, MicroOp.MDR_MEM_WRITE],                              [MicroOp.MEM_TO_A , MicroOp.REG_WRITE_ENABLE, MicroOp.NEXT_INSTRUCTION]),
+    Instruction(OpCode.LD,      [MicroOp.REG_READ_B, MicroOp.MAR_WRITE_ENABLE, MicroOp.MDR_READ_ENABLE],  [MicroOp.MDR_READ_ENABLE, MicroOp.MDR_WRITE_ENABLE],  [MicroOp.MEM_TO_A , MicroOp.REG_WRITE_ENABLE, MicroOp.NEXT_INSTRUCTION]),
+    Instruction(OpCode.LDI,     [MicroOp.REG_READ_B, MicroOp.REG_B_LS_LITERAL, MicroOp.MAR_WRITE_ENABLE],                       [MicroOp.MDR_WRITE_ENABLE, MicroOp.MDR_READ_ENABLE],                              [MicroOp.MEM_TO_A , MicroOp.REG_WRITE_ENABLE, MicroOp.NEXT_INSTRUCTION]),
     Instruction(OpCode.ST,      [MicroOp.REG_READ_A, MicroOp.REG_READ_B, MicroOp.MAR_WRITE_ENABLE, MicroOp.MDR_WRITE_ENABLE],   [MicroOp.MEM_WRITE_ENABLE], MicroOp.NEXT_INSTRUCTION),
     Instruction(OpCode.STI,     [MicroOp.REG_READ_B, MicroOp.REG_READ_B, MicroOp.REG_B_LS_LITERAL, MicroOp.MAR_WRITE_ENABLE, MicroOp.MDR_WRITE_ENABLE],                       [MicroOp.MEM_WRITE_ENABLE], MicroOp.NEXT_INSTRUCTION),
+    Instruction(OpCode.HALT, MicroOp.HALT),
     Instruction(OpCode.LIU,     MicroOp.REG_CLEAR_ENABLE,                                                                       [MicroOp.REG_WRITE_ENABLE, MicroOp.IMM_TO_A, MicroOp.NEXT_INSTRUCTION])
 ]
 
-opcode_pad_width = len(MicroOp)-1
+opcode_pad_width = len(MicroOp)-2
 
 with open("pla.txt", "w") as file:
     for instruction in instructions:

@@ -14,6 +14,8 @@ class OperandType(Enum):
     AddressImmediate = 2
     Condition = 3
     SpecialRegister = 4
+    One = 5
+    Zero = 6
 
 operandtype_prefixes = {
     OperandType.Register: "",
@@ -112,38 +114,42 @@ class Instruction:
         self.operand_3 = operand_3
 
 instruction_table = {
-    "ADD":   Opcode(OperandType.Register,         OperandType.Register          ,None, 5, 10, 0,  0b11000),
-    "SUB":   Opcode(OperandType.Register,         OperandType.Register          ,None, 5, 10, 0,  0b11001),
-    "MUL":   Opcode(OperandType.Register,         OperandType.Register          ,None, 5, 10, 0,  0b11010),
-    "DIV":   Opcode(OperandType.Register,         OperandType.Register          ,None, 5, 10, 0,  0b11011),
-    "OR" :   Opcode(OperandType.Register,         OperandType.Register          ,None, 5, 10, 0,  0b11100),
-    "AND":   Opcode(OperandType.Register,         OperandType.Register          ,None, 5, 10, 0,  0b11101),
-    "XOR":   Opcode(OperandType.Register,         OperandType.Register          ,None, 5, 10, 0,  0b11110),
-    "NOT":   Opcode(OperandType.Register,         None                          ,None, 5, 10, 0,  0b11111),
-    "ADDI":  Opcode(OperandType.Register,         OperandType.IntegerImmediate  ,None, 5, 10,  0, 0b10000),
-    "SUBI":  Opcode(OperandType.Register,         OperandType.IntegerImmediate  ,None, 5, 10,  0, 0b10001),
-    "MULI":  Opcode(OperandType.Register,         OperandType.IntegerImmediate  ,None, 5, 10,  0, 0b10010),
-    "DIVI":  Opcode(OperandType.Register,         OperandType.IntegerImmediate  ,None, 5, 10,  0, 0b10011),
-    "ORI" :  Opcode(OperandType.Register,         OperandType.IntegerImmediate  ,None, 5, 10,  0,  0b10100),
-    "ANDI":  Opcode(OperandType.Register,         OperandType.IntegerImmediate  ,None, 5, 10,  0, 0b10101),
-    "XORI":  Opcode(OperandType.Register,         OperandType.IntegerImmediate  ,None, 5, 10,  0, 0b10110),
-    "CMP":   Opcode(OperandType.Register,         OperandType.Register          ,None, 5, 10,  0,  0b10111),
-    "BR":    Opcode(OperandType.Condition,        OperandType.Register          ,OperandType.IntegerImmediate, 5, 10, 15,   0b01000),
-    "BRI":   Opcode(OperandType.Condition,        OperandType.Register          ,None, 5, 9,   0,    0b01001),
-    "LD":    Opcode(OperandType.Register,         OperandType.Register          ,OperandType.IntegerImmediate, 5, 10, 15,   0b01010),
-    "LDI":   Opcode(OperandType.Register,         OperandType.Register          ,None, 5, 10,  0,   0b01011),
-    "ST":    Opcode(OperandType.Register,         OperandType.Register          ,OperandType.IntegerImmediate, 5, 10, 15,   0b01100),
-    "STI":   Opcode(OperandType.Register,         OperandType.Register          ,None, 5, 10,  0, 0b01100),
-    "MOV":   Opcode(OperandType.Register,         OperandType.Register          ,None, 5,10, 0, 0b01110),
-    "PUSH":  Opcode(OperandType.Register,         OperandType.Register          ,None, 5,10, 0, 0b01111),
-    "NOP":   Opcode(None,                         None                          ,None, 0,0, 0,   0b00000),
-    "HALT":  Opcode(None,                         None                          ,None, 0,0, 0,  0b00001),
-    "CALL":  Opcode(OperandType.Register,         OperandType.IntegerImmediate  ,None,  5,10, 0, 0b00010),
-    "CALLI": Opcode(OperandType.Register,         None                          ,None, 5,10, 0, 0b00011),
-    "RET":   Opcode(None,                         None                          ,None, 0,0,0,   0b00100),
-    "SHR":   Opcode(OperandType.Register,         None                          ,None, 5,10,0,  0b00101),
-    "LIU":   Opcode(OperandType.Register,         OperandType.IntegerImmediate  ,None, 5,10,0,  0b00110),
-    "SMOV":  Opcode(OperandType.Register,         OperandType.SpecialRegister   ,None, 5,10,0,  0b00111)
+    "ADD":      Opcode(OperandType.Register,           OperandType.Register,           None,                           5,  10,  0, 0b11000),
+    "SUB":      Opcode(OperandType.Register,           OperandType.Register,           None,                           5,  10,  0, 0b11001),
+    "MUL":      Opcode(OperandType.Register,           OperandType.Register,           None,                           5,  10,  0, 0b11010),
+    "DIV":      Opcode(OperandType.Register,           OperandType.Register,           None,                           5,  10,  0, 0b11011),
+    "OR" :      Opcode(OperandType.Register,           OperandType.Register,           None,                           5,  10,  0, 0b11100),
+    "AND":      Opcode(OperandType.Register,           OperandType.Register,           None,                           5,  10,  0, 0b11101),
+    "XOR":      Opcode(OperandType.Register,           OperandType.Register,           None,                           5,  10,  0, 0b11110),
+    "NOT":      Opcode(OperandType.Register,           None,                           None,                           5,  10,  0, 0b11111),
+    "ADDI":     Opcode(OperandType.Register,           OperandType.IntegerImmediate,   None,                           5,  10,  0, 0b10000),
+    "SUBI":     Opcode(OperandType.Register,           OperandType.IntegerImmediate,   None,                           5,  10,  0, 0b10001),
+    "MULI":     Opcode(OperandType.Register,           OperandType.IntegerImmediate,   None,                           5,  10,  0, 0b10010),
+    "DIVI":     Opcode(OperandType.Register,           OperandType.IntegerImmediate,   None,                           5,  10,  0, 0b10011),
+    "ORI" :     Opcode(OperandType.Register,           OperandType.IntegerImmediate,   None,                           5,  10,  0, 0b10100),
+    "ANDI":     Opcode(OperandType.Register,           OperandType.IntegerImmediate,   None,                           5,  10,  0, 0b10101),
+    "XORI":     Opcode(OperandType.Register,           OperandType.IntegerImmediate,   None,                           5,  10,  0, 0b10110),
+    "CMP":      Opcode(OperandType.Register,           OperandType.Register,           None,                           5,  10,  0, 0b10111),
+    "BR":       Opcode(OperandType.Condition,          OperandType.Register,           OperandType.IntegerImmediate,   5,  10, 15, 0b01000),
+    "BRI":      Opcode(OperandType.Condition,          OperandType.Register,           None,                           5,  10,  0, 0b01001),
+    "LD":       Opcode(OperandType.Register,           OperandType.Register,           OperandType.IntegerImmediate,   5,  10, 15, 0b01010),
+    "LDI":      Opcode(OperandType.Register,           OperandType.Register,           None,                           5,  10,  0, 0b01011),
+    "ST":       Opcode(OperandType.Register,           OperandType.Register,           OperandType.IntegerImmediate,   5,  10, 15, 0b01100),
+    "STI":      Opcode(OperandType.Register,           OperandType.Register,           None,                           5,  10,  0, 0b01100),
+    "MOV":      Opcode(OperandType.Register,           OperandType.Register,           None,                           5,  10,  0, 0b01110),
+    "PUSH":     Opcode(OperandType.Register,           OperandType.Register,           None,                           5,  10,  0, 0b01111),
+    "NOP":      Opcode(None,                           None,                           None,                           0,  0,   0, 0b00000),
+    "HALT":     Opcode(None,                           None,                           None,                           0,  0,   0, 0b00001),
+    "CALL":     Opcode(OperandType.Register,           OperandType.IntegerImmediate,   None,                           5,  10,  0, 0b00010),
+    "CALLI":    Opcode(OperandType.Register,           None,                           None,                           5,  10,  0, 0b00011),
+    "RET":      Opcode(None,                           None,                           None,                           0,  0,   0, 0b00100),
+    "SHR":      Opcode(OperandType.Register,           None,                           None,                           5,  10,  0, 0b00101),
+    "LIU":      Opcode(OperandType.Register,           OperandType.IntegerImmediate,   None,                           5,  10,  0, 0b00110),
+    "SMOV":     Opcode(OperandType.Register,           OperandType.SpecialRegister,    None,                           5,  10,  0, 0b00111),
+    "SHIR":     Opcode(OperandType.Register,           OperandType.IntegerImmediate,   OperandType.One,                5,  10, 26, 0b10111),
+    "SHIL":     Opcode(OperandType.Register,           OperandType.IntegerImmediate,   OperandType.Zero,               5,  10, 26, 0b10111),
+    "SHR":      Opcode(OperandType.Register,           OperandType.Register,           OperandType.One,                5,  10, 15, 0b11111),
+    "SHL":      Opcode(OperandType.Register,           OperandType.Register,           OperandType.Zero,               5,  10, 15, 0b11111),
 
 }
 
