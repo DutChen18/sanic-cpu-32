@@ -2,38 +2,38 @@ from enum import Enum
 
 
 class OpCode(Enum):
-    ADD   = 0b11000 # Done
-    SUB   = 0b11001 
-    MUL   = 0b11010
-    DIV   = 0b11011
-    OR    = 0b11100
-    AND   = 0b11101
-    XOR   = 0b11110
-    NOT   = 0b11111
-    ADDI  = 0b10000
-    SUBI  = 0b10001
-    MULI  = 0b10010
-    DIVI  = 0b10011
-    ORI   = 0b10100
-    ANDI  = 0b10101
-    XORI  = 0b10110
-    CMP   = 0b10111 # Done
-    BR    = 0b01000 # Done
-    BRI   = 0b01001
-    LD    = 0b01010
-    LDI   = 0b01011
-    ST    = 0b01100
-    STI   = 0b01101
-    MOV   = 0b01110
-    RESERVED  = 0b01111
-    NOP   = 0b00000
-    HALT  = 0b00001
-    CALL  = 0b00010
-    CALLI = 0b00011
-    RET   = 0b00100
-    SHR   = 0b00101
-    LIU   = 0b00110 # Done
-    
+    CMP = 16
+    BR = 17
+    JMP = 18
+    CALL = 19
+    RET = 20
+
+    LD = 32
+    ST = 33
+    MOV = 34
+    LUI = 35
+    NOT = 36
+
+    ADD = 64
+    SUB = 65
+    MUL = 66
+    DIV = 67
+    AND = 68
+    OR = 69
+    XOR = 70
+    SHL = 71
+    SHR = 72
+
+    ADDI = 80
+    SUBI = 81
+    MULI = 82
+    DIVI = 83
+    ANDI = 84
+    ORI = 85
+    XORI = 86
+    SHLI = 87
+    SHRI = 88
+
 class MicroOp(Enum):
     HALT             = 0b00000000000000000001
     MEM_WRITE_ENABLE = 0b00000000000000000010
@@ -98,16 +98,15 @@ instructions = [
     Instruction(OpCode.XORI,    [MicroOp.REG_READ_A, MicroOp.ALU_ENABLE],                                                       [MicroOp.REG_WRITE_ENABLE, MicroOp.ALU_TO_A, MicroOp.NEXT_INSTRUCTION]),
     Instruction(OpCode.CMP,     [MicroOp.REG_READ_A, MicroOp.REG_READ_B, MicroOp.ALU_ENABLE],                                   MicroOp.NEXT_INSTRUCTION),
     Instruction(OpCode.BR,      [MicroOp.PC_WRITE_ENABLE],                                                                      MicroOp.NEXT_INSTRUCTION),
-    Instruction(OpCode.BRI,     [MicroOp.PC_WRITE_ENABLE, MicroOp.REG_READ_B],                                                  MicroOp.NEXT_INSTRUCTION),
     Instruction(OpCode.LD,      [MicroOp.REG_READ_B, MicroOp.MAR_WRITE_ENABLE, MicroOp.MDR_READ_ENABLE],  [MicroOp.MDR_READ_ENABLE, MicroOp.MDR_WRITE_ENABLE],  [MicroOp.MEM_TO_A , MicroOp.REG_WRITE_ENABLE, MicroOp.NEXT_INSTRUCTION]),
-    Instruction(OpCode.LDI,     [MicroOp.REG_READ_B, MicroOp.REG_B_LS_LITERAL, MicroOp.MAR_WRITE_ENABLE],                       [MicroOp.MDR_WRITE_ENABLE, MicroOp.MDR_READ_ENABLE],                              [MicroOp.MEM_TO_A , MicroOp.REG_WRITE_ENABLE, MicroOp.NEXT_INSTRUCTION]),
     Instruction(OpCode.ST,      [MicroOp.REG_READ_A, MicroOp.REG_READ_B, MicroOp.MAR_WRITE_ENABLE, MicroOp.MDR_WRITE_ENABLE],   [MicroOp.MEM_WRITE_ENABLE], MicroOp.NEXT_INSTRUCTION),
-    Instruction(OpCode.STI,     [MicroOp.REG_READ_B, MicroOp.REG_READ_B, MicroOp.REG_B_LS_LITERAL, MicroOp.MAR_WRITE_ENABLE, MicroOp.MDR_WRITE_ENABLE],                       [MicroOp.MEM_WRITE_ENABLE], MicroOp.NEXT_INSTRUCTION),
-    Instruction(OpCode.HALT, MicroOp.HALT),
-    Instruction(OpCode.LIU,     MicroOp.REG_CLEAR_ENABLE,                                                                       [MicroOp.REG_WRITE_ENABLE, MicroOp.IMM_TO_A, MicroOp.NEXT_INSTRUCTION])
+    Instruction(OpCode.LUI,     MicroOp.REG_CLEAR_ENABLE,                                                                       [MicroOp.REG_WRITE_ENABLE, MicroOp.IMM_TO_A, MicroOp.NEXT_INSTRUCTION])
 ]
 
 opcode_pad_width = len(MicroOp)-2
+opcode_width = 7
+cycle_width = 2
+micro_op_width = opcode_width + cycle_width
 
 with open("pla.txt", "w") as file:
     for instruction in instructions:
@@ -121,7 +120,7 @@ with open("pla.txt", "w") as file:
                 combined_op |= instruction.clock0.value
         if(instruction.clock0 != None):
             binary_string = format(combined_op, f"0{opcode_pad_width}b")
-            op_string = format(instruction.shorthand.value,             f"0{7}b")
+            op_string = format(instruction.shorthand.value,             f"0{micro_op_width}b")
             file.write(op_string + " " + binary_string + "\n")
         combined_op = 0b0
         if isinstance(instruction.clock1, list):
@@ -133,7 +132,7 @@ with open("pla.txt", "w") as file:
                 combined_op |= instruction.clock1.value
         if(instruction.clock1 != None):
             binary_string = format(combined_op, f"0{opcode_pad_width}b")
-            op_string = format(instruction.shorthand.value + 0b0100000, f"0{7}b")
+            op_string = format(instruction.shorthand.value + 0b010000000, f"0{micro_op_width}b")
             file.write(op_string + " " + binary_string + "\n")
         combined_op = 0b0
         if isinstance(instruction.clock2, list):
@@ -145,7 +144,7 @@ with open("pla.txt", "w") as file:
                 combined_op |= instruction.clock2.value
         if(instruction.clock2 != None):
             binary_string = format(combined_op, f"0{opcode_pad_width}b")
-            op_string = format(instruction.shorthand.value + 0b1000000, f"0{7}b")
+            op_string = format(instruction.shorthand.value + 0b100000000, f"0{micro_op_width}b")
             file.write(op_string + " " + binary_string + "\n")
         combined_op = 0b0
         if isinstance(instruction.clock3, list):
@@ -157,6 +156,6 @@ with open("pla.txt", "w") as file:
                 combined_op |= instruction.clock3.value
         if(instruction.clock3 != None):
             binary_string = format(combined_op, f"0{opcode_pad_width}b")
-            op_string = format(instruction.shorthand.value + 0b1100000, f"0{7}b")
+            op_string = format(instruction.shorthand.value + 0b110000000, f"0{micro_op_width}b")
             file.write(op_string + " " + binary_string + "\n")
         combined_op = 0b0

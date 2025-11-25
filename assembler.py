@@ -10,39 +10,50 @@ def can_decode_to_int(s):
 
 class OperandType(Enum):
     Register = 0
-    IntegerImmediate = 1
-    AddressImmediate = 2
-    Condition = 3
-    SpecialRegister = 4
-    One = 5
-    Zero = 6
+    IntegerImmediate20 = 1
+    IntegerImmediate16 = 2
+    AddressImmediate = 3
+    Condition = 4
+    SpecialRegister = 5
+    One = 6
+    Zero = 7
 
 operandtype_prefixes = {
     OperandType.Register: "",
-    OperandType.IntegerImmediate: "#",
+    OperandType.IntegerImmediate20: "#",
+    OperandType.IntegerImmediate16: "#",
     OperandType.AddressImmediate: "$",
     OperandType.Condition: "",
     OperandType.SpecialRegister: ""
 }
 
-class Opcode:
-    operand_1_type: OperandType
-    operand_2_type: OperandType
-    operand_3_type: OperandType
-    machine_code: int
-    opcode_offset = 0
-    operand_1_offset: int
-    operand_2_offset: int
-    operand_3_offset: int
+class Operand:
+    operand_type: OperandType
+    offset_1: int
+    def __init__(self, operand_type, offset):
+        self.operand_type = operand_type
+        self.offset = offset
 
-    def __init__(self, operand_1_type, operand_2_type, operand_3_type = None, operand_1_offset = 0, operand_2_offset = 0, operand_3_offset = 0, machine_code = 0b0):
-        self.operand_1_type = operand_1_type
-        self.operand_2_type = operand_2_type
-        self.operand_3_type = operand_3_type
+class Operands:
+    Register = Operand(OperandType.Register, 5)
+    Register6 = Operand(OperandType.Register, 6)
+    IntegerImmediate20 = Operand(OperandType.IntegerImmediate20, 20)
+    IntegerImmediate16 = Operand(OperandType.IntegerImmediate16, 16)
+    Condition = Operand(OperandType.Condition, 4)
+
+class Opcode:
+    operand_1: Operand
+    operand_2: Operand
+    operand_3: Operand
+    operand_4: Operand
+    machine_code: int
+
+    def __init__(self, operand_1, operand_2, operand_3, operand_4, machine_code = 0b0):
+        self.operand_1 = operand_1
+        self.operand_2 = operand_2
+        self.operand_3 = operand_3
+        self.operand_4 = operand_4
         self.machine_code = machine_code
-        self.operand_1_offset = operand_1_offset
-        self.operand_2_offset = operand_2_offset
-        self.operand_3_offset = operand_3_offset
 
 # Always (Jmp)
 # GEU (greater or equal unsigned)
@@ -106,51 +117,47 @@ class Instruction:
     operand_1: str
     operand_2: str
     operand_3: str
+    operand_4: str
 
-    def __init__(self, opcode, operand_1, operand_2, operand_3):
+    def __init__(self, opcode, operand_1, operand_2, operand_3, operand_4):
         self.opcode = opcode
         self.operand_1 = operand_1
         self.operand_2 = operand_2
         self.operand_3 = operand_3
+        self.operand_4 = operand_4
 
 instruction_table = {
-    "ADD":      Opcode(OperandType.Register,           OperandType.Register,           None,                           5,  10,  0, 0b11000),
-    "SUB":      Opcode(OperandType.Register,           OperandType.Register,           None,                           5,  10,  0, 0b11001),
-    "MUL":      Opcode(OperandType.Register,           OperandType.Register,           None,                           5,  10,  0, 0b11010),
-    "DIV":      Opcode(OperandType.Register,           OperandType.Register,           None,                           5,  10,  0, 0b11011),
-    "OR" :      Opcode(OperandType.Register,           OperandType.Register,           None,                           5,  10,  0, 0b11100),
-    "AND":      Opcode(OperandType.Register,           OperandType.Register,           None,                           5,  10,  0, 0b11101),
-    "XOR":      Opcode(OperandType.Register,           OperandType.Register,           None,                           5,  10,  0, 0b11110),
-    "NOT":      Opcode(OperandType.Register,           None,                           None,                           5,  10,  0, 0b11111),
-    "ADDI":     Opcode(OperandType.Register,           OperandType.IntegerImmediate,   None,                           5,  10,  0, 0b10000),
-    "SUBI":     Opcode(OperandType.Register,           OperandType.IntegerImmediate,   None,                           5,  10,  0, 0b10001),
-    "MULI":     Opcode(OperandType.Register,           OperandType.IntegerImmediate,   None,                           5,  10,  0, 0b10010),
-    "DIVI":     Opcode(OperandType.Register,           OperandType.IntegerImmediate,   None,                           5,  10,  0, 0b10011),
-    "ORI" :     Opcode(OperandType.Register,           OperandType.IntegerImmediate,   None,                           5,  10,  0, 0b10100),
-    "ANDI":     Opcode(OperandType.Register,           OperandType.IntegerImmediate,   None,                           5,  10,  0, 0b10101),
-    "XORI":     Opcode(OperandType.Register,           OperandType.IntegerImmediate,   None,                           5,  10,  0, 0b10110),
-    "CMP":      Opcode(OperandType.Register,           OperandType.Register,           None,                           5,  10,  0, 0b10111),
-    "BR":       Opcode(OperandType.Condition,          OperandType.Register,           OperandType.IntegerImmediate,   5,  10, 15, 0b01000),
-    "BRI":      Opcode(OperandType.Condition,          OperandType.Register,           None,                           5,  10,  0, 0b01001),
-    "LD":       Opcode(OperandType.Register,           OperandType.Register,           OperandType.IntegerImmediate,   5,  10, 15, 0b01010),
-    "LDI":      Opcode(OperandType.Register,           OperandType.Register,           None,                           5,  10,  0, 0b01011),
-    "ST":       Opcode(OperandType.Register,           OperandType.Register,           OperandType.IntegerImmediate,   5,  10, 15, 0b01100),
-    "STI":      Opcode(OperandType.Register,           OperandType.Register,           None,                           5,  10,  0, 0b01100),
-    "MOV":      Opcode(OperandType.Register,           OperandType.Register,           None,                           5,  10,  0, 0b01110),
-    "PUSH":     Opcode(OperandType.Register,           OperandType.Register,           None,                           5,  10,  0, 0b01111),
-    "NOP":      Opcode(None,                           None,                           None,                           0,  0,   0, 0b00000),
-    "HALT":     Opcode(None,                           None,                           None,                           0,  0,   0, 0b00001),
-    "CALL":     Opcode(OperandType.Register,           OperandType.IntegerImmediate,   None,                           5,  10,  0, 0b00010),
-    "CALLI":    Opcode(OperandType.Register,           None,                           None,                           5,  10,  0, 0b00011),
-    "RET":      Opcode(None,                           None,                           None,                           0,  0,   0, 0b00100),
-    "SHR":      Opcode(OperandType.Register,           None,                           None,                           5,  10,  0, 0b00101),
-    "LIU":      Opcode(OperandType.Register,           OperandType.IntegerImmediate,   None,                           5,  10,  0, 0b00110),
-    "SMOV":     Opcode(OperandType.Register,           OperandType.SpecialRegister,    None,                           5,  10,  0, 0b00111),
-    "SHIR":     Opcode(OperandType.Register,           OperandType.IntegerImmediate,   OperandType.One,                5,  10, 26, 0b10111),
-    "SHIL":     Opcode(OperandType.Register,           OperandType.IntegerImmediate,   OperandType.Zero,               5,  10, 26, 0b10111),
-    "SHR":      Opcode(OperandType.Register,           OperandType.Register,           OperandType.One,                5,  10, 15, 0b11111),
-    "SHL":      Opcode(OperandType.Register,           OperandType.Register,           OperandType.Zero,               5,  10, 15, 0b11111),
+    "CMP":      Opcode(Operands.Register,   Operands.Register,              None,                           None, 0b0010000),
+    "BR":       Opcode(Operands.Condition,  Operands.Register,              Operands.IntegerImmediate16,    None, 0b0010001),
+    "JMP":      Opcode(Operands.Condition,  Operands.IntegerImmediate16,    None,                           None, 0b0010010),
+    "CALL":     Opcode(Operands.Register,   Operands.IntegerImmediate16,    None,                           None, 0b0010011),
+    "RET":      Opcode(None,                None,                           None,                           None, 0b0010100),
 
+    "LD":       Opcode(Operands.Register,   Operands.Register,              Operands.IntegerImmediate16,    None, 0b0100000),
+    "ST":       Opcode(Operands.Register,   Operands.Register,              Operands.IntegerImmediate16,    None, 0b0100001),
+    "MOV":      Opcode(Operands.Register6,  Operands.Register,              None,                           None, 0b0100010),
+    "LUI":      Opcode(Operands.Register,   Operands.IntegerImmediate16,    None,                           None, 0b0100011),
+    "NOT":      Opcode(Operands.Register,   None,                           None,                           None, 0b0100100),
+
+    "ADD":      Opcode(Operands.Register,   Operands.Register,              None,                           None, 0b1000000),
+    "SUB":      Opcode(Operands.Register,   Operands.Register,              None,                           None, 0b1000001),
+    "MUL":      Opcode(Operands.Register,   Operands.Register,              None,                           None, 0b1000010),
+    "DIV":      Opcode(Operands.Register,   Operands.Register,              None,                           None, 0b1000011),
+    "OR" :      Opcode(Operands.Register,   Operands.Register,              None,                           None, 0b1000100),
+    "AND":      Opcode(Operands.Register,   Operands.Register,              None,                           None, 0b1000101),
+    "XOR":      Opcode(Operands.Register,   Operands.Register,              None,                           None, 0b1000110),
+    "SHR":      Opcode(Operands.Register,   Operands.Register,              None,                           None, 0b1000111),
+    "SHL":      Opcode(Operands.Register,   Operands.Register,              None,                           None, 0b1001000),
+
+    "ADDI":     Opcode(Operands.Register,   Operands.IntegerImmediate20,    None,                           None, 0b1010000),
+    "SUBI":     Opcode(Operands.Register,   Operands.IntegerImmediate20,    None,                           None, 0b1010001),
+    "MULI":     Opcode(Operands.Register,   Operands.IntegerImmediate20,    None,                           None, 0b1010010),
+    "DIVI":     Opcode(Operands.Register,   Operands.IntegerImmediate20,    None,                           None, 0b1010011),
+    "ORI" :     Opcode(Operands.Register,   Operands.IntegerImmediate20,    None,                           None, 0b1010100),
+    "ANDI":     Opcode(Operands.Register,   Operands.IntegerImmediate20,    None,                           None, 0b1010101),
+    "XORI":     Opcode(Operands.Register,   Operands.IntegerImmediate20,    None,                           None, 0b1010110),
+    "SHIR":     Opcode(Operands.Register,   Operands.IntegerImmediate20,    None,                           None, 0b1010111),
+    "SHIL":     Opcode(Operands.Register,   Operands.IntegerImmediate20,    None,                           None, 0b1011000),
 }
 
 assembly_file = ""
@@ -185,94 +192,132 @@ with open(assembly_file, "r") as af:
         opcode = instruction_table[opcode_str]
         arguments = line[len(opcode_str):].strip().split(",")
         operand_1 = arguments[0].strip()
-        operand_2 = arguments[1].strip()
+        operand_2 = ""
         operand_3 = ""
+        operand_4 = ""
+        if len(arguments) > 1:
+            operand_2 = arguments[1].strip()
         if len(arguments) > 2: 
             operand_3 = arguments[2].strip()
+        if len(arguments) > 3:
+            operand_4 = arguments[3].strip()
 
-        if opcode.operand_1_type != OperandType.Register and opcode.operand_1_type != OperandType.SpecialRegister and opcode.operand_1_type != OperandType.Condition:
-            if operand_1[0] != operandtype_prefixes[opcode.operand_1_type]:
-                operand_start = line.find(operand_1)
-                right_justified_error = " " * operand_start + "^Invalid operand - possibly bad symbol"
-                errors.append( line + "\n" +  right_justified_error)
-                continue
-        if opcode.operand_2_type != OperandType.Register and opcode.operand_2_type != OperandType.SpecialRegister and opcode.operand_2_type != OperandType.Condition:
-            if operand_2[0] != operandtype_prefixes[opcode.operand_2_type]:
-                operand_start = line.find(operand_2)
-                right_justified_error = " " * operand_start + "^Invalid operand - possibly bad symbol"
-                errors.append( line + "\n" +  right_justified_error)
-                continue
-        if len(operand_3) > 0 and opcode.operand_3_type != OperandType.Register and opcode.operand_3_type != OperandType.SpecialRegister and opcode.operand_3_type != OperandType.Condition:
-            if operand_3[0] != operandtype_prefixes[opcode.operand_3_type]:
-                operand_start = line.find(operand_3)
-                right_justified_error = " " * operand_start + "^Invalid operand - possibly bad symbol"
-                errors.append( line + "\n" +  right_justified_error)
-                continue
-        if opcode.operand_1_type == OperandType.Register:
-            if not operand_1.strip() in Register.__members__:
-                operand_start = line.find(operand_1)
-                right_justified_error = " " * operand_start + "^Register by that name does not exist."
-                errors.append( line + "\n" +  right_justified_error)
-                continue
-        if opcode.operand_2_type == OperandType.Register:
-            if not operand_2.strip() in Register.__members__:
-                operand_start = line.find(operand_2)
-                right_justified_error = " " * operand_start + "^Register by that name does not exist."
-                errors.append( line + "\n" +  right_justified_error)
-                continue
-        if len(operand_3) > 0 and opcode.operand_3_type == OperandType.Register:
-            if not operand_3.strip() in Register.__members__:
-                operand_start = line.find(operand_3)
-                right_justified_error = " " * operand_start + "^Register by that name does not exist."
-                errors.append( line + "\n" +  right_justified_error)
-                continue
-        if opcode.operand_1_type == OperandType.IntegerImmediate:
-            if not can_decode_to_int(operand_1.strip("#")):
-                operand_start = line.find(operand_1)
-                right_justified_error = " " * operand_start + "^Immediate not decodable to integer."
-                errors.append( line + "\n" +  right_justified_error)
-                continue
-        if opcode.operand_2_type == OperandType.IntegerImmediate:
-            if not can_decode_to_int(operand_2.strip("#")):
-                operand_start = line.find(operand_2)
-                right_justified_error = " " * operand_start + "^Immediate not decodable to integer."
-                errors.append( line + "\n" +  right_justified_error)
-                continue
-        if len(operand_3) > 0 and opcode.operand_3_type == OperandType.IntegerImmediate:
-            if not can_decode_to_int(operand_3.strip("#")):
-                operand_start = line.find(operand_3)
-                right_justified_error = " " * operand_start + "^Immediate not decodable to integer."
-                errors.append( line + "\n" +  right_justified_error)
-                continue
-        if opcode.operand_2_type == OperandType.AddressImmediate:
-            if opcode_str == "ST" and int(operand_2.strip("$")) < 0x7FFFFF and int(operand_2.strip("$")) > 0x3FFFFF:
-                operand_start = line.find(operand_2)
-                right_justified_error = " " * operand_start + "^Illegal write to read-only memory."
-                errors.append( line + "\n" +  right_justified_error)
-                continue
-            if opcode_str == "ST" or opcode_str == "LD" and int(operand_2.strip("$")) > 0xFFFFFF:
-                operand_start = line.find(operand_2)
-                right_justified_error = " " * operand_start + "^Invalid memory address"
-                errors.append( line + "\n" +  right_justified_error)
-                continue
-        if len(operand_3) > 0 and opcode.operand_3_type == OperandType.AddressImmediate:
-            if opcode_str == "ST" and int(operand_3.strip("$")) < 0x7FFFFF and int(operand_3.strip("$")) > 0x3FFFFF:
-                operand_start = line.find(operand_3)
-                right_justified_error = " " * operand_start + "^Illegal write to read-only memory."
-                errors.append( line + "\n" +  right_justified_error)
-                continue
-            if opcode_str == "ST" or opcode_str == "LD" and int(operand_3.strip("$")) > 0xFFFFFF:
-                operand_start = line.find(operand_3)
-                right_justified_error = " " * operand_start + "^Invalid memory address"
-                errors.append( line + "\n" +  right_justified_error)
-                continue
-        if opcode.operand_1_type == OperandType.Condition and not operand_1 in BranchCond.__members__:
+        if opcode.operand_1 != None:
+            if opcode.operand_1.operand_type != OperandType.Register and opcode.operand_1.operand_type != OperandType.SpecialRegister and opcode.operand_1.operand_type != OperandType.Condition:
+                if operand_1[0] != operandtype_prefixes[opcode.operand_1.operand_type]:
+                    operand_start = line.find(operand_1)
+                    right_justified_error = " " * operand_start + "^Invalid operand - possibly bad symbol"
+                    errors.append( line + "\n" +  right_justified_error)
+                    continue
+            if opcode.operand_1.operand_type == OperandType.Register:
+                if not operand_1.strip() in Register.__members__:
+                    operand_start = line.find(operand_1)
+                    right_justified_error = " " * operand_start + "^Register by that name does not exist."
+                    errors.append( line + "\n" +  right_justified_error)
+                    continue
+            if len(operand_1) > 0 and opcode.operand_1.operand_type == OperandType.IntegerImmediate20 or opcode.operand_1.operand_type == OperandType.IntegerImmediate16:
+                if not can_decode_to_int(operand_1.strip("#")):
+                    operand_start = line.find(operand_1)
+                    right_justified_error = " " * operand_start + "^Immediate not decodable to integer."
+                    errors.append( line + "\n" +  right_justified_error)
+                    continue
+            if opcode.operand_1.operand_type == OperandType.Condition and not operand_1 in BranchCond.__members__:
                 operand_start = line.find(operand_1)
                 right_justified_error = " " * operand_start + "^Invalid Condition"
                 errors.append( line + "\n" +  right_justified_error)
                 continue
-        
-        instruction_opcode_decoded.append(Instruction(opcode, operand_1.strip(" #$"), operand_2.strip(" #$"), operand_3.strip(" #$")))
+        if opcode.operand_2 != None:
+            if opcode.operand_2.operand_type != OperandType.Register and opcode.operand_2.operand_type != OperandType.SpecialRegister and opcode.operand_2.operand_type != OperandType.Condition:
+                if operand_2[0] != operandtype_prefixes[opcode.operand_2.operand_type]:
+                    operand_start = line.find(operand_2)
+                    right_justified_error = " " * operand_start + "^Invalid operand - possibly bad symbol"
+                    errors.append( line + "\n" +  right_justified_error)
+                    continue
+            if len(operand_2) > 0 and opcode.operand_2.operand_type == OperandType.Register:
+                if not operand_2.strip() in Register.__members__:
+                    operand_start = line.find(operand_2)
+                    right_justified_error = " " * operand_start + "^Register by that name does not exist."
+                    errors.append( line + "\n" +  right_justified_error)
+                    continue
+            if len(operand_2) > 0 and opcode.operand_2.operand_type == OperandType.IntegerImmediate20 or opcode.operand_2.operand_type == OperandType.IntegerImmediate16:
+                if not can_decode_to_int(operand_2.strip("#")):
+                    operand_start = line.find(operand_2)
+                    right_justified_error = " " * operand_start + "^Immediate not decodable to integer."
+                    errors.append( line + "\n" +  right_justified_error)
+                    continue
+            if len(operand_2) > 0 and opcode.operand_2.operand_type == OperandType.AddressImmediate:
+                if opcode_str == "ST" and int(operand_2.strip("$")) < 0x3FFFFF and int(operand_2.strip("$")) >= 0x000000:
+                    operand_start = line.find(operand_2)
+                    right_justified_error = " " * operand_start + "^Illegal write to read-only memory."
+                    errors.append( line + "\n" +  right_justified_error)
+                    continue
+                if opcode_str == "ST" or opcode_str == "LD" and int(operand_2.strip("$")) > 0xFFFFFF:
+                    operand_start = line.find(operand_2)
+                    right_justified_error = " " * operand_start + "^Invalid memory address"
+                    errors.append( line + "\n" +  right_justified_error)
+                    continue
+        if opcode.operand_3 != None:
+            if len(operand_3) > 0 and opcode.operand_3.operand_type != OperandType.Register and opcode.operand_3.operand_type != OperandType.SpecialRegister and opcode.operand_3.operand_type != OperandType.Condition:
+                if operand_3[0] != operandtype_prefixes[opcode.operand_3.operand_type]:
+                    operand_start = line.find(operand_3)
+                    right_justified_error = " " * operand_start + "^Invalid operand - possibly bad symbol"
+                    errors.append( line + "\n" +  right_justified_error)
+                    continue
+            if len(operand_3) > 0 and opcode.operand_3.operand_type == OperandType.Register:
+                if not operand_3.strip() in Register.__members__:
+                    operand_start = line.find(operand_3)
+                    right_justified_error = " " * operand_start + "^Register by that name does not exist."
+                    errors.append( line + "\n" +  right_justified_error)
+                    continue
+            if len(operand_3) > 0 and opcode.operand_3.operand_type == OperandType.IntegerImmediate20 or opcode.operand_3.operand_type == OperandType.IntegerImmediate16:
+                if not can_decode_to_int(operand_3.strip("#")):
+                    operand_start = line.find(operand_3)
+                    right_justified_error = " " * operand_start + "^Immediate not decodable to integer."
+                    errors.append( line + "\n" +  right_justified_error)
+                    continue
+            if len(operand_3) > 0 and opcode.operand_3.operand_type == OperandType.AddressImmediate:
+                if opcode_str == "ST" and int(operand_3.strip("$")) < 0x3FFFFF and int(operand_2.strip("$")) >= 0x000000:
+                    operand_start = line.find(operand_3)
+                    right_justified_error = " " * operand_start + "^Illegal write to read-only memory."
+                    errors.append( line + "\n" +  right_justified_error)
+                    continue
+                if opcode_str == "ST" or opcode_str == "LD" and int(operand_3.strip("$")) > 0xFFFFFF:
+                    operand_start = line.find(operand_3)
+                    right_justified_error = " " * operand_start + "^Invalid memory address"
+                    errors.append( line + "\n" +  right_justified_error)
+                    continue
+        if opcode.operand_4 != None:
+            if len(operand_4) > 0 and opcode.operand_4.operand_type != OperandType.Register and opcode.operand_4.operand_type != OperandType.SpecialRegister and opcode.operand_4.operand_type != OperandType.Condition:
+                if operand_4[0] != operandtype_prefixes[opcode.operand_4.operand_type]:
+                    operand_start = line.find(operand_4)
+                    right_justified_error = " " * operand_start + "^Invalid operand - possibly bad symbol"
+                    errors.append( line + "\n" +  right_justified_error)
+                    continue
+            if len(operand_4) > 0 and opcode.operand_4.operand_type == OperandType.Register:
+                if not operand_4.strip() in Register.__members__:
+                    operand_start = line.find(operand_4)
+                    right_justified_error = " " * operand_start + "^Register by that name does not exist."
+                    errors.append( line + "\n" +  right_justified_error)
+                    continue
+            if len(operand_4) > 0 and opcode.operand_4.operand_type == OperandType.IntegerImmediate20 or opcode.operand_4.operand_type == OperandType.IntegerImmediate16:
+                if not can_decode_to_int(operand_4.strip("#")):
+                    operand_start = line.find(operand_4)
+                    right_justified_error = " " * operand_start + "^Immediate not decodable to integer."
+                    errors.append( line + "\n" +  right_justified_error)
+                    continue
+            if len(operand_4) > 0 and opcode.operand_4.operand_type == OperandType.AddressImmediate:
+                if opcode_str == "ST" and int(operand_4.strip("$")) < 0x3FFFFF and int(operand_2.strip("$")) >= 0x000000:
+                    operand_start = line.find(operand_4)
+                    right_justified_error = " " * operand_start + "^Illegal write to read-only memory."
+                    errors.append( line + "\n" +  right_justified_error)
+                    continue
+                if opcode_str == "ST" or opcode_str == "LD" and int(operand_4.strip("$")) > 0xFFFFFF:
+                    operand_start = line.find(operand_4)
+                    right_justified_error = " " * operand_start + "^Invalid memory address"
+                    errors.append( line + "\n" +  right_justified_error)
+                    continue
+        instruction_opcode_decoded.append(Instruction(opcode, operand_1.strip(" #$"), operand_2.strip(" #$"), operand_3.strip(" #$"), operand_4.strip(" #$")))
+
 if len(errors) > 0:
     for error in errors:
         print(error)
@@ -282,30 +327,54 @@ for decode_middle in instruction_opcode_decoded:
     operand_1 = None
     operand_2 = None
     operand_3 = None
-    if decode_middle.opcode.operand_1_type == OperandType.Register:
-        operand_1 = Register[decode_middle.operand_1].value
-    if decode_middle.opcode.operand_1_type == OperandType.AddressImmediate or decode_middle.opcode.operand_1_type == OperandType.IntegerImmediate:
-        operand_1 = int(decode_middle.operand_1)
-    if decode_middle.opcode.operand_1_type == OperandType.Condition:
-        operand_1 = BranchCond[decode_middle.operand_1].value
-
-    if decode_middle.opcode.operand_2_type == OperandType.Register:
-        operand_2 = Register[decode_middle.operand_2].value
-    if decode_middle.opcode.operand_2_type == OperandType.AddressImmediate or decode_middle.opcode.operand_2_type == OperandType.IntegerImmediate:
-        operand_2 = int(decode_middle.operand_2)
-    if decode_middle.opcode.operand_2_type == OperandType.Condition:
-        operand_2 = BranchCond[decode_middle.operand_2].value
-
-    if decode_middle.opcode.operand_3_type == OperandType.Register:
-        operand_3 = Register[decode_middle.operand_3].value
-    if decode_middle.opcode.operand_3_type == OperandType.AddressImmediate or decode_middle.opcode.operand_3_type == OperandType.IntegerImmediate:
-        operand_3 = int(decode_middle.operand_3)
-    if decode_middle.opcode.operand_3_type == OperandType.Condition:
-        operand_3 = BranchCond[decode_middle.operand_3].value
+    operand_4 = None
+    if decode_middle.opcode.operand_1 != None:
+        if decode_middle.opcode.operand_1.operand_type == OperandType.Register:
+            operand_1 = Register[decode_middle.operand_1].value
+        if decode_middle.opcode.operand_1.operand_type == OperandType.AddressImmediate or decode_middle.opcode.operand_1.operand_type == OperandType.IntegerImmediate20 or decode_middle.opcode.operand_1.operand_type == OperandType.IntegerImmediate16:
+            operand_1 = int(decode_middle.operand_1)
+        if decode_middle.opcode.operand_1.operand_type == OperandType.Condition:
+            operand_1 = BranchCond[decode_middle.operand_1].value
+    # Operand 2
+    if decode_middle.opcode.operand_2 != None:
+        if decode_middle.opcode.operand_2.operand_type == OperandType.Register:
+            operand_2 = Register[decode_middle.operand_2].value
+        if decode_middle.opcode.operand_2.operand_type == OperandType.AddressImmediate or decode_middle.opcode.operand_2.operand_type == OperandType.IntegerImmediate20 or decode_middle.opcode.operand_2.operand_type == OperandType.IntegerImmediate16:
+            operand_2 = int(decode_middle.operand_2)
+        if decode_middle.opcode.operand_2.operand_type == OperandType.Condition:
+            operand_2 = BranchCond[decode_middle.operand_2].value
+    # Operand 3
+    if decode_middle.opcode.operand_3 != None:
+        if decode_middle.opcode.operand_3.operand_type == OperandType.Register:
+            operand_3 = Register[decode_middle.operand_3].value
+        if decode_middle.opcode.operand_3.operand_type == OperandType.AddressImmediate or decode_middle.opcode.operand_3.operand_type == OperandType.IntegerImmediate20 or decode_middle.opcode.operand_3.operand_type == OperandType.IntegerImmediate16:
+            operand_3 = int(decode_middle.operand_3)
+        if decode_middle.opcode.operand_3.operand_type == OperandType.Condition:
+            operand_3 = BranchCond[decode_middle.operand_3].value
+    # Operand 4
+    if decode_middle.opcode.operand_4 != None:
+        if decode_middle.opcode.operand_4.operand_type == OperandType.Register:
+            operand_4 = Register[decode_middle.operand_4].value
+        if decode_middle.opcode.operand_4.operand_type == OperandType.AddressImmediate or decode_middle.opcode.operand_4.operand_type == OperandType.IntegerImmediate20 or decode_middle.opcode.operand_4.operand_type == OperandType.IntegerImmediate16:
+            operand_4 = int(decode_middle.operand_4)
+        if decode_middle.opcode.operand_4.operand_type == OperandType.Condition:
+            operand_4 = BranchCond[decode_middle.operand_4].value
+    
+    instruction = decode_middle.opcode.machine_code
+    offset = 7
+    
+    if(operand_1 != None):
+        instruction += (operand_1 << offset)
+        offset += decode_middle.opcode.operand_1.offset
+    if(operand_2 != None):
+        instruction += (operand_2 << offset)
+        offset += decode_middle.opcode.operand_2.offset
     if(operand_3 != None):
-        instruction = decode_middle.opcode.machine_code + (operand_1 << decode_middle.opcode.operand_1_offset) + (operand_2 << decode_middle.opcode.operand_2_offset) + (operand_3 << decode_middle.opcode.operand_3_offset)
-    else:
-        instruction = decode_middle.opcode.machine_code + (operand_1 << decode_middle.opcode.operand_1_offset) + (operand_2 << decode_middle.opcode.operand_2_offset)
+        instruction += (operand_3 << offset)
+        offset += decode_middle.opcode.operand_3.offset
+    if(operand_4 != None):
+        instruction += (operand_4 << offset)
+        offset += decode_middle.opcode.operand_4.offset
     instructions.append(instruction)
 
 with open(out_path, "wb") as bf:
