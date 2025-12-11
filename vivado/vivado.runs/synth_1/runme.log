@@ -1,0 +1,579 @@
+
+*** Running vivado
+    with args -log top_level.vds -m64 -product Vivado -mode batch -messageDb vivado.pb -notrace -source top_level.tcl
+
+
+
+****** Vivado v2025.2 (64-bit)
+  **** SW Build 6299465 on Fri Nov 14 19:35:11 GMT 2025
+  **** IP Build 6300035 on Fri Nov 14 10:48:45 MST 2025
+  **** SharedData Build 6298862 on Thu Nov 13 04:50:51 MST 2025
+  **** Start of session at: Thu Nov 27 14:38:33 2025
+    ** Copyright 1986-2022 Xilinx, Inc. All Rights Reserved.
+    ** Copyright 2022-2025 Advanced Micro Devices, Inc. All Rights Reserved.
+
+source top_level.tcl -notrace
+WARNING: [Project 1-153] The current project device 'xczu5ev-sfvc784-1-i' does not match with the device on the 'XILINX.COM:KV260_SOM:PART0:1.4' board part. A device change to match the device on 'XILINX.COM:KV260_SOM:PART0:1.4' board part is being done. Please upgrade the IP in the project via the upgrade_ip command or by selecting Reports => Reports IP Status.
+INFO: [Project 1-152] Project part set to zynquplus (xck26-sfvc784-2lv-c)
+Command: read_checkpoint -auto_incremental -incremental C:/Users/boyso/git/saniccpu/vivado/vivado.srcs/utils_1/imports/synth_1/ALU.dcp
+INFO: [Vivado 12-5825] Read reference checkpoint from C:/Users/boyso/git/saniccpu/vivado/vivado.srcs/utils_1/imports/synth_1/ALU.dcp for incremental synthesis
+INFO: [Vivado 12-7989] Please ensure there are no constraint changes
+Command: synth_design -top top_level -part xczu5ev-sfvc784-1-i
+Starting synth_design
+Attempting to get a license for feature 'Synthesis' and/or device 'xczu5ev'
+INFO: [Common 17-349] Got license for feature 'Synthesis' and/or device 'xczu5ev'
+INFO: [Device 21-403] Loading part xczu5ev-sfvc784-1-i
+INFO: [Designutils 20-5440] No compile time benefit to using incremental synthesis; A full resynthesis will be run
+INFO: [Designutils 20-4379] Flow is switching to default flow due to incremental criteria not met. If you would like to alter this behaviour and have the flow terminate instead, please set the following parameter config_implementation {autoIncr.Synth.RejectBehavior Terminate}
+INFO: [Synth 8-7079] Multithreading enabled for synth_design using a maximum of 2 processes.
+INFO: [Synth 8-7078] Launching helper process for spawning children vivado processes
+INFO: [Synth 8-7075] Helper process launched with PID 46764
+---------------------------------------------------------------------------------
+Starting RTL Elaboration : Time (s): cpu = 00:00:04 ; elapsed = 00:00:04 . Memory (MB): peak = 1958.582 ; gain = 211.887
+---------------------------------------------------------------------------------
+INFO: [Synth 8-11241] undeclared symbol 'stage_1', assumed default net type 'wire' [C:/Users/boyso/git/saniccpu/vivado/vivado.srcs/sim_1/new/adder_1.sv:33]
+INFO: [Synth 8-11241] undeclared symbol 'CLK100MHz', assumed default net type 'wire' [C:/Users/boyso/git/saniccpu/vivado/vivado.srcs/sources_1/new/processor_core.sv:52]
+INFO: [Synth 8-11241] undeclared symbol 'NEXT_INSTRUCTION', assumed default net type 'wire' [C:/Users/boyso/git/saniccpu/vivado/vivado.srcs/sources_1/new/processor_core.sv:74]
+INFO: [Synth 8-11241] undeclared symbol 'PC_WRITE_ENABLE', assumed default net type 'wire' [C:/Users/boyso/git/saniccpu/vivado/vivado.srcs/sources_1/new/processor_core.sv:95]
+INFO: [Synth 8-11241] undeclared symbol 'next_intruction', assumed default net type 'wire' [C:/Users/boyso/git/saniccpu/vivado/vivado.srcs/sources_1/new/processor_core.sv:137]
+INFO: [Synth 8-6157] synthesizing module 'top_level' [C:/Users/boyso/git/saniccpu/vivado/vivado.srcs/sources_1/new/top_level.sv:23]
+INFO: [Synth 8-6157] synthesizing module 'processor_core' [C:/Users/boyso/git/saniccpu/vivado/vivado.srcs/sources_1/new/processor_core.sv:23]
+INFO: [Synth 8-6157] synthesizing module 'protected_reg32' [C:/Users/boyso/git/saniccpu/vivado/vivado.srcs/sources_1/new/protected_reg.sv:23]
+INFO: [Synth 8-6155] done synthesizing module 'protected_reg32' (0#1) [C:/Users/boyso/git/saniccpu/vivado/vivado.srcs/sources_1/new/protected_reg.sv:23]
+INFO: [Synth 8-6157] synthesizing module 'protected_reg24' [C:/Users/boyso/git/saniccpu/vivado/vivado.srcs/sources_1/new/protected_reg24.sv:23]
+INFO: [Synth 8-6155] done synthesizing module 'protected_reg24' (0#1) [C:/Users/boyso/git/saniccpu/vivado/vivado.srcs/sources_1/new/protected_reg24.sv:23]
+INFO: [Synth 8-6157] synthesizing module 'Cycle_counter' [C:/Users/boyso/git/saniccpu/vivado/vivado.srcs/sources_1/new/Cycle_counter.sv:23]
+INFO: [Synth 8-6155] done synthesizing module 'Cycle_counter' (0#1) [C:/Users/boyso/git/saniccpu/vivado/vivado.srcs/sources_1/new/Cycle_counter.sv:23]
+INFO: [Synth 8-6157] synthesizing module 'control_unit' [C:/Users/boyso/git/saniccpu/vivado/vivado.srcs/sources_1/new/control_unit.sv:23]
+WARNING: [Synth 8-324] index 66 out of range [C:/Users/boyso/git/saniccpu/vivado/vivado.srcs/sources_1/new/control_unit.sv:62]
+WARNING: [Synth 8-324] index 194 out of range [C:/Users/boyso/git/saniccpu/vivado/vivado.srcs/sources_1/new/control_unit.sv:63]
+WARNING: [Synth 8-324] index 67 out of range [C:/Users/boyso/git/saniccpu/vivado/vivado.srcs/sources_1/new/control_unit.sv:64]
+WARNING: [Synth 8-324] index 195 out of range [C:/Users/boyso/git/saniccpu/vivado/vivado.srcs/sources_1/new/control_unit.sv:65]
+WARNING: [Synth 8-324] index 68 out of range [C:/Users/boyso/git/saniccpu/vivado/vivado.srcs/sources_1/new/control_unit.sv:66]
+WARNING: [Synth 8-324] index 196 out of range [C:/Users/boyso/git/saniccpu/vivado/vivado.srcs/sources_1/new/control_unit.sv:67]
+WARNING: [Synth 8-324] index 69 out of range [C:/Users/boyso/git/saniccpu/vivado/vivado.srcs/sources_1/new/control_unit.sv:68]
+WARNING: [Synth 8-324] index 197 out of range [C:/Users/boyso/git/saniccpu/vivado/vivado.srcs/sources_1/new/control_unit.sv:69]
+WARNING: [Synth 8-324] index 70 out of range [C:/Users/boyso/git/saniccpu/vivado/vivado.srcs/sources_1/new/control_unit.sv:70]
+WARNING: [Synth 8-324] index 198 out of range [C:/Users/boyso/git/saniccpu/vivado/vivado.srcs/sources_1/new/control_unit.sv:71]
+WARNING: [Synth 8-324] index 80 out of range [C:/Users/boyso/git/saniccpu/vivado/vivado.srcs/sources_1/new/control_unit.sv:72]
+WARNING: [Synth 8-324] index 208 out of range [C:/Users/boyso/git/saniccpu/vivado/vivado.srcs/sources_1/new/control_unit.sv:73]
+WARNING: [Synth 8-324] index 81 out of range [C:/Users/boyso/git/saniccpu/vivado/vivado.srcs/sources_1/new/control_unit.sv:74]
+WARNING: [Synth 8-324] index 209 out of range [C:/Users/boyso/git/saniccpu/vivado/vivado.srcs/sources_1/new/control_unit.sv:75]
+WARNING: [Synth 8-324] index 82 out of range [C:/Users/boyso/git/saniccpu/vivado/vivado.srcs/sources_1/new/control_unit.sv:76]
+WARNING: [Synth 8-324] index 210 out of range [C:/Users/boyso/git/saniccpu/vivado/vivado.srcs/sources_1/new/control_unit.sv:77]
+WARNING: [Synth 8-324] index 83 out of range [C:/Users/boyso/git/saniccpu/vivado/vivado.srcs/sources_1/new/control_unit.sv:78]
+WARNING: [Synth 8-324] index 211 out of range [C:/Users/boyso/git/saniccpu/vivado/vivado.srcs/sources_1/new/control_unit.sv:79]
+WARNING: [Synth 8-324] index 84 out of range [C:/Users/boyso/git/saniccpu/vivado/vivado.srcs/sources_1/new/control_unit.sv:80]
+WARNING: [Synth 8-324] index 212 out of range [C:/Users/boyso/git/saniccpu/vivado/vivado.srcs/sources_1/new/control_unit.sv:81]
+WARNING: [Synth 8-324] index 85 out of range [C:/Users/boyso/git/saniccpu/vivado/vivado.srcs/sources_1/new/control_unit.sv:82]
+WARNING: [Synth 8-324] index 213 out of range [C:/Users/boyso/git/saniccpu/vivado/vivado.srcs/sources_1/new/control_unit.sv:83]
+WARNING: [Synth 8-324] index 86 out of range [C:/Users/boyso/git/saniccpu/vivado/vivado.srcs/sources_1/new/control_unit.sv:84]
+WARNING: [Synth 8-324] index 214 out of range [C:/Users/boyso/git/saniccpu/vivado/vivado.srcs/sources_1/new/control_unit.sv:85]
+WARNING: [Synth 8-324] index 101 out of range [C:/Users/boyso/git/saniccpu/vivado/vivado.srcs/sources_1/new/control_unit.sv:86]
+WARNING: [Synth 8-324] index 229 out of range [C:/Users/boyso/git/saniccpu/vivado/vivado.srcs/sources_1/new/control_unit.sv:87]
+WARNING: [Synth 8-324] index 32 out of range [C:/Users/boyso/git/saniccpu/vivado/vivado.srcs/sources_1/new/control_unit.sv:88]
+WARNING: [Synth 8-324] index 160 out of range [C:/Users/boyso/git/saniccpu/vivado/vivado.srcs/sources_1/new/control_unit.sv:89]
+WARNING: [Synth 8-324] index 33 out of range [C:/Users/boyso/git/saniccpu/vivado/vivado.srcs/sources_1/new/control_unit.sv:90]
+WARNING: [Synth 8-324] index 161 out of range [C:/Users/boyso/git/saniccpu/vivado/vivado.srcs/sources_1/new/control_unit.sv:91]
+WARNING: [Synth 8-324] index 34 out of range [C:/Users/boyso/git/saniccpu/vivado/vivado.srcs/sources_1/new/control_unit.sv:92]
+WARNING: [Synth 8-324] index 162 out of range [C:/Users/boyso/git/saniccpu/vivado/vivado.srcs/sources_1/new/control_unit.sv:93]
+WARNING: [Synth 8-324] index 35 out of range [C:/Users/boyso/git/saniccpu/vivado/vivado.srcs/sources_1/new/control_unit.sv:94]
+WARNING: [Synth 8-324] index 163 out of range [C:/Users/boyso/git/saniccpu/vivado/vivado.srcs/sources_1/new/control_unit.sv:95]
+WARNING: [Synth 8-324] index 36 out of range [C:/Users/boyso/git/saniccpu/vivado/vivado.srcs/sources_1/new/control_unit.sv:96]
+WARNING: [Synth 8-324] index 164 out of range [C:/Users/boyso/git/saniccpu/vivado/vivado.srcs/sources_1/new/control_unit.sv:97]
+WARNING: [Synth 8-324] index 37 out of range [C:/Users/boyso/git/saniccpu/vivado/vivado.srcs/sources_1/new/control_unit.sv:98]
+WARNING: [Synth 8-324] index 165 out of range [C:/Users/boyso/git/saniccpu/vivado/vivado.srcs/sources_1/new/control_unit.sv:99]
+WARNING: [Synth 8-324] index 38 out of range [C:/Users/boyso/git/saniccpu/vivado/vivado.srcs/sources_1/new/control_unit.sv:100]
+WARNING: [Synth 8-324] index 166 out of range [C:/Users/boyso/git/saniccpu/vivado/vivado.srcs/sources_1/new/control_unit.sv:101]
+WARNING: [Synth 8-324] index 39 out of range [C:/Users/boyso/git/saniccpu/vivado/vivado.srcs/sources_1/new/control_unit.sv:102]
+WARNING: [Synth 8-324] index 167 out of range [C:/Users/boyso/git/saniccpu/vivado/vivado.srcs/sources_1/new/control_unit.sv:103]
+WARNING: [Synth 8-324] index 40 out of range [C:/Users/boyso/git/saniccpu/vivado/vivado.srcs/sources_1/new/control_unit.sv:104]
+WARNING: [Synth 8-324] index 168 out of range [C:/Users/boyso/git/saniccpu/vivado/vivado.srcs/sources_1/new/control_unit.sv:105]
+WARNING: [Synth 8-324] index 41 out of range [C:/Users/boyso/git/saniccpu/vivado/vivado.srcs/sources_1/new/control_unit.sv:106]
+WARNING: [Synth 8-324] index 169 out of range [C:/Users/boyso/git/saniccpu/vivado/vivado.srcs/sources_1/new/control_unit.sv:107]
+WARNING: [Synth 8-324] index 42 out of range [C:/Users/boyso/git/saniccpu/vivado/vivado.srcs/sources_1/new/control_unit.sv:108]
+WARNING: [Synth 8-324] index 170 out of range [C:/Users/boyso/git/saniccpu/vivado/vivado.srcs/sources_1/new/control_unit.sv:109]
+WARNING: [Synth 8-324] index 48 out of range [C:/Users/boyso/git/saniccpu/vivado/vivado.srcs/sources_1/new/control_unit.sv:110]
+WARNING: [Synth 8-324] index 176 out of range [C:/Users/boyso/git/saniccpu/vivado/vivado.srcs/sources_1/new/control_unit.sv:111]
+WARNING: [Synth 8-324] index 49 out of range [C:/Users/boyso/git/saniccpu/vivado/vivado.srcs/sources_1/new/control_unit.sv:112]
+WARNING: [Synth 8-324] index 177 out of range [C:/Users/boyso/git/saniccpu/vivado/vivado.srcs/sources_1/new/control_unit.sv:113]
+WARNING: [Synth 8-324] index 50 out of range [C:/Users/boyso/git/saniccpu/vivado/vivado.srcs/sources_1/new/control_unit.sv:114]
+WARNING: [Synth 8-324] index 178 out of range [C:/Users/boyso/git/saniccpu/vivado/vivado.srcs/sources_1/new/control_unit.sv:115]
+WARNING: [Synth 8-324] index 51 out of range [C:/Users/boyso/git/saniccpu/vivado/vivado.srcs/sources_1/new/control_unit.sv:116]
+WARNING: [Synth 8-324] index 179 out of range [C:/Users/boyso/git/saniccpu/vivado/vivado.srcs/sources_1/new/control_unit.sv:117]
+WARNING: [Synth 8-324] index 52 out of range [C:/Users/boyso/git/saniccpu/vivado/vivado.srcs/sources_1/new/control_unit.sv:118]
+WARNING: [Synth 8-324] index 180 out of range [C:/Users/boyso/git/saniccpu/vivado/vivado.srcs/sources_1/new/control_unit.sv:119]
+WARNING: [Synth 8-324] index 53 out of range [C:/Users/boyso/git/saniccpu/vivado/vivado.srcs/sources_1/new/control_unit.sv:120]
+WARNING: [Synth 8-324] index 181 out of range [C:/Users/boyso/git/saniccpu/vivado/vivado.srcs/sources_1/new/control_unit.sv:121]
+WARNING: [Synth 8-324] index 54 out of range [C:/Users/boyso/git/saniccpu/vivado/vivado.srcs/sources_1/new/control_unit.sv:122]
+WARNING: [Synth 8-324] index 182 out of range [C:/Users/boyso/git/saniccpu/vivado/vivado.srcs/sources_1/new/control_unit.sv:123]
+WARNING: [Synth 8-324] index 55 out of range [C:/Users/boyso/git/saniccpu/vivado/vivado.srcs/sources_1/new/control_unit.sv:124]
+WARNING: [Synth 8-324] index 183 out of range [C:/Users/boyso/git/saniccpu/vivado/vivado.srcs/sources_1/new/control_unit.sv:125]
+WARNING: [Synth 8-324] index 56 out of range [C:/Users/boyso/git/saniccpu/vivado/vivado.srcs/sources_1/new/control_unit.sv:126]
+WARNING: [Synth 8-324] index 184 out of range [C:/Users/boyso/git/saniccpu/vivado/vivado.srcs/sources_1/new/control_unit.sv:127]
+WARNING: [Synth 8-324] index 57 out of range [C:/Users/boyso/git/saniccpu/vivado/vivado.srcs/sources_1/new/control_unit.sv:128]
+WARNING: [Synth 8-324] index 185 out of range [C:/Users/boyso/git/saniccpu/vivado/vivado.srcs/sources_1/new/control_unit.sv:129]
+WARNING: [Synth 8-324] index 58 out of range [C:/Users/boyso/git/saniccpu/vivado/vivado.srcs/sources_1/new/control_unit.sv:130]
+WARNING: [Synth 8-324] index 186 out of range [C:/Users/boyso/git/saniccpu/vivado/vivado.srcs/sources_1/new/control_unit.sv:131]
+WARNING: [Synth 8-324] index 96 out of range [C:/Users/boyso/git/saniccpu/vivado/vivado.srcs/sources_1/new/control_unit.sv:132]
+WARNING: [Synth 8-324] index 224 out of range [C:/Users/boyso/git/saniccpu/vivado/vivado.srcs/sources_1/new/control_unit.sv:133]
+WARNING: [Synth 8-324] index 352 out of range [C:/Users/boyso/git/saniccpu/vivado/vivado.srcs/sources_1/new/control_unit.sv:134]
+WARNING: [Synth 8-324] index 97 out of range [C:/Users/boyso/git/saniccpu/vivado/vivado.srcs/sources_1/new/control_unit.sv:135]
+WARNING: [Synth 8-324] index 225 out of range [C:/Users/boyso/git/saniccpu/vivado/vivado.srcs/sources_1/new/control_unit.sv:136]
+WARNING: [Synth 8-324] index 353 out of range [C:/Users/boyso/git/saniccpu/vivado/vivado.srcs/sources_1/new/control_unit.sv:137]
+WARNING: [Synth 8-324] index 99 out of range [C:/Users/boyso/git/saniccpu/vivado/vivado.srcs/sources_1/new/control_unit.sv:138]
+WARNING: [Synth 8-324] index 227 out of range [C:/Users/boyso/git/saniccpu/vivado/vivado.srcs/sources_1/new/control_unit.sv:139]
+WARNING: [Synth 8-324] index 100 out of range [C:/Users/boyso/git/saniccpu/vivado/vivado.srcs/sources_1/new/control_unit.sv:140]
+INFO: [Synth 8-6155] done synthesizing module 'control_unit' (0#1) [C:/Users/boyso/git/saniccpu/vivado/vivado.srcs/sources_1/new/control_unit.sv:23]
+INFO: [Synth 8-6157] synthesizing module 'RAM' [C:/Users/boyso/git/saniccpu/vivado/vivado.srcs/sources_1/new/RAM.sv:23]
+INFO: [Synth 8-6155] done synthesizing module 'RAM' (0#1) [C:/Users/boyso/git/saniccpu/vivado/vivado.srcs/sources_1/new/RAM.sv:23]
+INFO: [Synth 8-6157] synthesizing module 'ALU' [C:/Users/boyso/git/saniccpu/vivado/vivado.srcs/sources_1/new/ALU.sv:23]
+INFO: [Synth 8-6157] synthesizing module 'adder_32' [C:/Users/boyso/git/saniccpu/vivado/vivado.srcs/sim_1/new/adder_32.sv:23]
+INFO: [Synth 8-6157] synthesizing module 'adder_1' [C:/Users/boyso/git/saniccpu/vivado/vivado.srcs/sim_1/new/adder_1.sv:23]
+INFO: [Synth 8-6155] done synthesizing module 'adder_1' (0#1) [C:/Users/boyso/git/saniccpu/vivado/vivado.srcs/sim_1/new/adder_1.sv:23]
+INFO: [Synth 8-6155] done synthesizing module 'adder_32' (0#1) [C:/Users/boyso/git/saniccpu/vivado/vivado.srcs/sim_1/new/adder_32.sv:23]
+INFO: [Synth 8-6157] synthesizing module 'multiplier_32' [C:/Users/boyso/git/saniccpu/vivado/vivado.srcs/sources_1/new/multiplier_32.sv:23]
+INFO: [Synth 8-6155] done synthesizing module 'multiplier_32' (0#1) [C:/Users/boyso/git/saniccpu/vivado/vivado.srcs/sources_1/new/multiplier_32.sv:23]
+INFO: [Synth 8-6157] synthesizing module 'divider_32' [C:/Users/boyso/git/saniccpu/vivado/vivado.srcs/sources_1/new/divider_32.sv:23]
+INFO: [Synth 8-6155] done synthesizing module 'divider_32' (0#1) [C:/Users/boyso/git/saniccpu/vivado/vivado.srcs/sources_1/new/divider_32.sv:23]
+INFO: [Synth 8-6157] synthesizing module 'ShiftLeft' [C:/Users/boyso/git/saniccpu/vivado/vivado.srcs/sim_1/alu_ops/ShiftLeft.sv:3]
+INFO: [Synth 8-6155] done synthesizing module 'ShiftLeft' (0#1) [C:/Users/boyso/git/saniccpu/vivado/vivado.srcs/sim_1/alu_ops/ShiftLeft.sv:3]
+INFO: [Synth 8-6157] synthesizing module 'ShiftRight' [C:/Users/boyso/git/saniccpu/vivado/vivado.srcs/sim_1/alu_ops/ShiftRight.sv:23]
+INFO: [Synth 8-6155] done synthesizing module 'ShiftRight' (0#1) [C:/Users/boyso/git/saniccpu/vivado/vivado.srcs/sim_1/alu_ops/ShiftRight.sv:23]
+INFO: [Synth 8-6155] done synthesizing module 'ALU' (0#1) [C:/Users/boyso/git/saniccpu/vivado/vivado.srcs/sources_1/new/ALU.sv:23]
+INFO: [Synth 8-6157] synthesizing module 'register_file' [C:/Users/boyso/git/saniccpu/vivado/vivado.srcs/sources_1/new/register_file.sv:23]
+INFO: [Synth 8-6155] done synthesizing module 'register_file' (0#1) [C:/Users/boyso/git/saniccpu/vivado/vivado.srcs/sources_1/new/register_file.sv:23]
+INFO: [Synth 8-6155] done synthesizing module 'processor_core' (0#1) [C:/Users/boyso/git/saniccpu/vivado/vivado.srcs/sources_1/new/processor_core.sv:23]
+WARNING: [Synth 8-689] width (24) of port connection 'PERIPH_ADDR_OUT' does not match port width (22) of module 'processor_core' [C:/Users/boyso/git/saniccpu/vivado/vivado.srcs/sources_1/new/top_level.sv:33]
+WARNING: [Synth 8-567] referenced signal 'data_in' should be on the sensitivity list [C:/Users/boyso/git/saniccpu/vivado/vivado.srcs/sources_1/new/top_level.sv:36]
+WARNING: [Synth 8-567] referenced signal 'addr_in' should be on the sensitivity list [C:/Users/boyso/git/saniccpu/vivado/vivado.srcs/sources_1/new/top_level.sv:36]
+INFO: [Synth 8-6155] done synthesizing module 'top_level' (0#1) [C:/Users/boyso/git/saniccpu/vivado/vivado.srcs/sources_1/new/top_level.sv:23]
+WARNING: [Synth 8-3848] Net BOOTSTRAP_STATE in module/entity control_unit does not have driver. [C:/Users/boyso/git/saniccpu/vivado/vivado.srcs/sources_1/new/control_unit.sv:54]
+WARNING: [Synth 8-3848] Net add_out in module/entity ALU does not have driver. [C:/Users/boyso/git/saniccpu/vivado/vivado.srcs/sources_1/new/ALU.sv:31]
+WARNING: [Synth 8-3848] Net sub_out in module/entity ALU does not have driver. [C:/Users/boyso/git/saniccpu/vivado/vivado.srcs/sources_1/new/ALU.sv:31]
+WARNING: [Synth 8-3848] Net PERIPH_DATA_OUT in module/entity processor_core does not have driver. [C:/Users/boyso/git/saniccpu/vivado/vivado.srcs/sources_1/new/processor_core.sv:25]
+WARNING: [Synth 8-3848] Net PERIPH_ADDR_OUT in module/entity processor_core does not have driver. [C:/Users/boyso/git/saniccpu/vivado/vivado.srcs/sources_1/new/processor_core.sv:26]
+WARNING: [Synth 8-3848] Net CLK100MHz in module/entity processor_core does not have driver. [C:/Users/boyso/git/saniccpu/vivado/vivado.srcs/sources_1/new/processor_core.sv:52]
+WARNING: [Synth 8-3848] Net NEXT_INSTRUCTION in module/entity processor_core does not have driver. [C:/Users/boyso/git/saniccpu/vivado/vivado.srcs/sources_1/new/processor_core.sv:74]
+WARNING: [Synth 8-3848] Net PC_WRITE_ENABLE in module/entity processor_core does not have driver. [C:/Users/boyso/git/saniccpu/vivado/vivado.srcs/sources_1/new/processor_core.sv:95]
+WARNING: [Synth 8-3848] Net next_instruction in module/entity processor_core does not have driver. [C:/Users/boyso/git/saniccpu/vivado/vivado.srcs/sources_1/new/processor_core.sv:38]
+WARNING: [Synth 8-3848] Net MEM_IR in module/entity processor_core does not have driver. [C:/Users/boyso/git/saniccpu/vivado/vivado.srcs/sources_1/new/processor_core.sv:45]
+WARNING: [Synth 8-7129] Port REG_READ_SELECTOR_A[4] in module register_file is either unconnected or has no load
+WARNING: [Synth 8-7129] Port REG_READ_SELECTOR_A[3] in module register_file is either unconnected or has no load
+WARNING: [Synth 8-7129] Port REG_READ_SELECTOR_B[4] in module register_file is either unconnected or has no load
+WARNING: [Synth 8-7129] Port REG_READ_SELECTOR_B[3] in module register_file is either unconnected or has no load
+WARNING: [Synth 8-7129] Port REG_WRITE_SELECTOR[4] in module register_file is either unconnected or has no load
+WARNING: [Synth 8-7129] Port REG_WRITE_SELECTOR[3] in module register_file is either unconnected or has no load
+WARNING: [Synth 8-7129] Port shift_amount[31] in module ShiftRight is either unconnected or has no load
+WARNING: [Synth 8-7129] Port shift_amount[30] in module ShiftRight is either unconnected or has no load
+WARNING: [Synth 8-7129] Port shift_amount[29] in module ShiftRight is either unconnected or has no load
+WARNING: [Synth 8-7129] Port shift_amount[28] in module ShiftRight is either unconnected or has no load
+WARNING: [Synth 8-7129] Port shift_amount[27] in module ShiftRight is either unconnected or has no load
+WARNING: [Synth 8-7129] Port shift_amount[26] in module ShiftRight is either unconnected or has no load
+WARNING: [Synth 8-7129] Port shift_amount[25] in module ShiftRight is either unconnected or has no load
+WARNING: [Synth 8-7129] Port shift_amount[24] in module ShiftRight is either unconnected or has no load
+WARNING: [Synth 8-7129] Port shift_amount[23] in module ShiftRight is either unconnected or has no load
+WARNING: [Synth 8-7129] Port shift_amount[22] in module ShiftRight is either unconnected or has no load
+WARNING: [Synth 8-7129] Port shift_amount[21] in module ShiftRight is either unconnected or has no load
+WARNING: [Synth 8-7129] Port shift_amount[20] in module ShiftRight is either unconnected or has no load
+WARNING: [Synth 8-7129] Port shift_amount[19] in module ShiftRight is either unconnected or has no load
+WARNING: [Synth 8-7129] Port shift_amount[18] in module ShiftRight is either unconnected or has no load
+WARNING: [Synth 8-7129] Port shift_amount[17] in module ShiftRight is either unconnected or has no load
+WARNING: [Synth 8-7129] Port shift_amount[16] in module ShiftRight is either unconnected or has no load
+WARNING: [Synth 8-7129] Port shift_amount[15] in module ShiftRight is either unconnected or has no load
+WARNING: [Synth 8-7129] Port shift_amount[14] in module ShiftRight is either unconnected or has no load
+WARNING: [Synth 8-7129] Port shift_amount[13] in module ShiftRight is either unconnected or has no load
+WARNING: [Synth 8-7129] Port shift_amount[12] in module ShiftRight is either unconnected or has no load
+WARNING: [Synth 8-7129] Port shift_amount[11] in module ShiftRight is either unconnected or has no load
+WARNING: [Synth 8-7129] Port shift_amount[10] in module ShiftRight is either unconnected or has no load
+WARNING: [Synth 8-7129] Port shift_amount[9] in module ShiftRight is either unconnected or has no load
+WARNING: [Synth 8-7129] Port shift_amount[8] in module ShiftRight is either unconnected or has no load
+WARNING: [Synth 8-7129] Port shift_amount[7] in module ShiftRight is either unconnected or has no load
+WARNING: [Synth 8-7129] Port shift_amount[6] in module ShiftRight is either unconnected or has no load
+WARNING: [Synth 8-7129] Port shift_amount[5] in module ShiftRight is either unconnected or has no load
+WARNING: [Synth 8-7129] Port shift_amount[31] in module ShiftLeft is either unconnected or has no load
+WARNING: [Synth 8-7129] Port shift_amount[30] in module ShiftLeft is either unconnected or has no load
+WARNING: [Synth 8-7129] Port shift_amount[29] in module ShiftLeft is either unconnected or has no load
+WARNING: [Synth 8-7129] Port shift_amount[28] in module ShiftLeft is either unconnected or has no load
+WARNING: [Synth 8-7129] Port shift_amount[27] in module ShiftLeft is either unconnected or has no load
+WARNING: [Synth 8-7129] Port shift_amount[26] in module ShiftLeft is either unconnected or has no load
+WARNING: [Synth 8-7129] Port shift_amount[25] in module ShiftLeft is either unconnected or has no load
+WARNING: [Synth 8-7129] Port shift_amount[24] in module ShiftLeft is either unconnected or has no load
+WARNING: [Synth 8-7129] Port shift_amount[23] in module ShiftLeft is either unconnected or has no load
+WARNING: [Synth 8-7129] Port shift_amount[22] in module ShiftLeft is either unconnected or has no load
+WARNING: [Synth 8-7129] Port shift_amount[21] in module ShiftLeft is either unconnected or has no load
+WARNING: [Synth 8-7129] Port shift_amount[20] in module ShiftLeft is either unconnected or has no load
+WARNING: [Synth 8-7129] Port shift_amount[19] in module ShiftLeft is either unconnected or has no load
+WARNING: [Synth 8-7129] Port shift_amount[18] in module ShiftLeft is either unconnected or has no load
+WARNING: [Synth 8-7129] Port shift_amount[17] in module ShiftLeft is either unconnected or has no load
+WARNING: [Synth 8-7129] Port shift_amount[16] in module ShiftLeft is either unconnected or has no load
+WARNING: [Synth 8-7129] Port shift_amount[15] in module ShiftLeft is either unconnected or has no load
+WARNING: [Synth 8-7129] Port shift_amount[14] in module ShiftLeft is either unconnected or has no load
+WARNING: [Synth 8-7129] Port shift_amount[13] in module ShiftLeft is either unconnected or has no load
+WARNING: [Synth 8-7129] Port shift_amount[12] in module ShiftLeft is either unconnected or has no load
+WARNING: [Synth 8-7129] Port shift_amount[11] in module ShiftLeft is either unconnected or has no load
+WARNING: [Synth 8-7129] Port shift_amount[10] in module ShiftLeft is either unconnected or has no load
+WARNING: [Synth 8-7129] Port shift_amount[9] in module ShiftLeft is either unconnected or has no load
+WARNING: [Synth 8-7129] Port shift_amount[8] in module ShiftLeft is either unconnected or has no load
+WARNING: [Synth 8-7129] Port shift_amount[7] in module ShiftLeft is either unconnected or has no load
+WARNING: [Synth 8-7129] Port shift_amount[6] in module ShiftLeft is either unconnected or has no load
+WARNING: [Synth 8-7129] Port shift_amount[5] in module ShiftLeft is either unconnected or has no load
+WARNING: [Synth 8-7129] Port FLAGS[31] in module ALU is either unconnected or has no load
+WARNING: [Synth 8-7129] Port FLAGS[30] in module ALU is either unconnected or has no load
+WARNING: [Synth 8-7129] Port FLAGS[29] in module ALU is either unconnected or has no load
+WARNING: [Synth 8-7129] Port FLAGS[28] in module ALU is either unconnected or has no load
+WARNING: [Synth 8-7129] Port FLAGS[27] in module ALU is either unconnected or has no load
+WARNING: [Synth 8-7129] Port FLAGS[26] in module ALU is either unconnected or has no load
+WARNING: [Synth 8-7129] Port FLAGS[25] in module ALU is either unconnected or has no load
+WARNING: [Synth 8-7129] Port FLAGS[24] in module ALU is either unconnected or has no load
+WARNING: [Synth 8-7129] Port FLAGS[23] in module ALU is either unconnected or has no load
+WARNING: [Synth 8-7129] Port FLAGS[22] in module ALU is either unconnected or has no load
+WARNING: [Synth 8-7129] Port FLAGS[21] in module ALU is either unconnected or has no load
+WARNING: [Synth 8-7129] Port FLAGS[20] in module ALU is either unconnected or has no load
+WARNING: [Synth 8-7129] Port FLAGS[19] in module ALU is either unconnected or has no load
+WARNING: [Synth 8-7129] Port FLAGS[18] in module ALU is either unconnected or has no load
+WARNING: [Synth 8-7129] Port FLAGS[17] in module ALU is either unconnected or has no load
+WARNING: [Synth 8-7129] Port FLAGS[16] in module ALU is either unconnected or has no load
+WARNING: [Synth 8-7129] Port FLAGS[15] in module ALU is either unconnected or has no load
+WARNING: [Synth 8-7129] Port FLAGS[14] in module ALU is either unconnected or has no load
+WARNING: [Synth 8-7129] Port FLAGS[13] in module ALU is either unconnected or has no load
+WARNING: [Synth 8-7129] Port FLAGS[12] in module ALU is either unconnected or has no load
+WARNING: [Synth 8-7129] Port FLAGS[11] in module ALU is either unconnected or has no load
+WARNING: [Synth 8-7129] Port FLAGS[10] in module ALU is either unconnected or has no load
+WARNING: [Synth 8-7129] Port FLAGS[9] in module ALU is either unconnected or has no load
+WARNING: [Synth 8-7129] Port FLAGS[8] in module ALU is either unconnected or has no load
+WARNING: [Synth 8-7129] Port FLAGS[7] in module ALU is either unconnected or has no load
+WARNING: [Synth 8-7129] Port FLAGS[6] in module ALU is either unconnected or has no load
+WARNING: [Synth 8-7129] Port FLAGS[5] in module ALU is either unconnected or has no load
+WARNING: [Synth 8-7129] Port FLAGS[4] in module ALU is either unconnected or has no load
+WARNING: [Synth 8-7129] Port ADDR_IN[23] in module RAM is either unconnected or has no load
+WARNING: [Synth 8-7129] Port ADDR_IN[22] in module RAM is either unconnected or has no load
+WARNING: [Synth 8-7129] Port ADDR_IN[21] in module RAM is either unconnected or has no load
+WARNING: [Synth 8-7129] Port ADDR_IN[20] in module RAM is either unconnected or has no load
+WARNING: [Synth 8-7129] Port ADDR_IN[19] in module RAM is either unconnected or has no load
+WARNING: [Synth 8-7129] Port ADDR_IN[18] in module RAM is either unconnected or has no load
+WARNING: [Synth 8-7129] Port ADDR_IN[17] in module RAM is either unconnected or has no load
+WARNING: [Synth 8-7129] Port ADDR_IN[16] in module RAM is either unconnected or has no load
+WARNING: [Synth 8-7129] Port ADDR_IN[15] in module RAM is either unconnected or has no load
+WARNING: [Synth 8-7129] Port ADDR_IN[14] in module RAM is either unconnected or has no load
+WARNING: [Synth 8-7129] Port ADDR_IN[13] in module RAM is either unconnected or has no load
+WARNING: [Synth 8-7129] Port ADDR_IN[12] in module RAM is either unconnected or has no load
+INFO: [Common 17-14] Message 'Synth 8-7129' appears 100 times and further instances of the messages will be disabled. Use the Tcl command set_msg_config to change the current settings.
+---------------------------------------------------------------------------------
+Finished RTL Elaboration : Time (s): cpu = 00:00:05 ; elapsed = 00:00:05 . Memory (MB): peak = 2079.156 ; gain = 332.461
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Handling Custom Attributes
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Handling Custom Attributes : Time (s): cpu = 00:00:05 ; elapsed = 00:00:05 . Memory (MB): peak = 2079.156 ; gain = 332.461
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished RTL Optimization Phase 1 : Time (s): cpu = 00:00:05 ; elapsed = 00:00:05 . Memory (MB): peak = 2079.156 ; gain = 332.461
+---------------------------------------------------------------------------------
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.014 . Memory (MB): peak = 2079.156 ; gain = 0.000
+INFO: [Project 1-570] Preparing netlist for logic optimization
+
+Processing XDC Constraints
+Initializing timing engine
+Parsing XDC File [C:/Users/boyso/git/saniccpu/vivado/vivado.srcs/constrs_1/new/kria-kv260.xdc]
+Finished Parsing XDC File [C:/Users/boyso/git/saniccpu/vivado/vivado.srcs/constrs_1/new/kria-kv260.xdc]
+Completed Processing XDC Constraints
+
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.001 . Memory (MB): peak = 2146.914 ; gain = 0.000
+INFO: [Project 1-111] Unisim Transformation Summary:
+No Unisim elements were transformed.
+
+Constraint Validation Runtime : Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.007 . Memory (MB): peak = 2146.914 ; gain = 0.000
+INFO: [Designutils 20-5440] No compile time benefit to using incremental synthesis; A full resynthesis will be run
+INFO: [Designutils 20-4379] Flow is switching to default flow due to incremental criteria not met. If you would like to alter this behaviour and have the flow terminate instead, please set the following parameter config_implementation {autoIncr.Synth.RejectBehavior Terminate}
+---------------------------------------------------------------------------------
+Finished Constraint Validation : Time (s): cpu = 00:00:10 ; elapsed = 00:00:10 . Memory (MB): peak = 2146.914 ; gain = 400.219
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Loading Part and Timing Information
+---------------------------------------------------------------------------------
+Loading part: xczu5ev-sfvc784-1-i
+INFO: [Synth 8-6742] Reading net delay rules and data
+---------------------------------------------------------------------------------
+Finished Loading Part and Timing Information : Time (s): cpu = 00:00:10 ; elapsed = 00:00:10 . Memory (MB): peak = 2146.914 ; gain = 400.219
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Applying 'set_property' XDC Constraints
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished applying 'set_property' XDC Constraints : Time (s): cpu = 00:00:10 ; elapsed = 00:00:10 . Memory (MB): peak = 2146.914 ; gain = 400.219
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished RTL Optimization Phase 2 : Time (s): cpu = 00:00:10 ; elapsed = 00:00:11 . Memory (MB): peak = 2146.914 ; gain = 400.219
+---------------------------------------------------------------------------------
+No constraint files found.
+---------------------------------------------------------------------------------
+Start RTL Component Statistics 
+---------------------------------------------------------------------------------
+Detailed RTL Component Info : 
++---Adders : 
+	   2 Input   64 Bit       Adders := 1     
+	   2 Input   24 Bit       Adders := 2     
+	   2 Input    2 Bit       Adders := 1     
++---XORs : 
+	   2 Input     32 Bit         XORs := 1     
+	   2 Input      1 Bit         XORs := 131   
++---Registers : 
+	               32 Bit    Registers := 5     
+	               24 Bit    Registers := 2     
+	                2 Bit    Registers := 1     
++---Muxes : 
+	   2 Input   32 Bit        Muxes := 9     
+	   2 Input   24 Bit        Muxes := 2     
+	   1 Input   24 Bit        Muxes := 1     
+	   2 Input   16 Bit        Muxes := 1     
+	   2 Input    1 Bit        Muxes := 8     
+---------------------------------------------------------------------------------
+Finished RTL Component Statistics 
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Part Resource Summary
+---------------------------------------------------------------------------------
+Part Resources:
+DSPs: 1248 (col length:96)
+BRAMs: 288 (col length: RAMB18 96 RAMB36 48)
+---------------------------------------------------------------------------------
+Finished Part Resource Summary
+---------------------------------------------------------------------------------
+No constraint files found.
+---------------------------------------------------------------------------------
+Start Cross Boundary and Area Optimization
+---------------------------------------------------------------------------------
+WARNING: [Synth 8-6014] Unused sequential element dev_core0/dev_ram/data_reg was removed. 
+WARNING: [Synth 8-4767] Trying to implement RAM 'dev_core0/dev_rf0/regN_reg' in registers. Block RAM or DRAM implementation is not possible; see log for reasons. [C:/Users/boyso/git/saniccpu/vivado/vivado.srcs/sources_1/new/register_file.sv:40]
+Reason is one or more of the following :
+	1: Invalid write data for RAM. 
+DSP Report: Generating DSP dev_core0/dev_alu0/d2/stage_1, operation Mode is: A2*B.
+DSP Report: register dev_core0/dev_alu0/d2/stage_1 is absorbed into DSP dev_core0/dev_alu0/d2/stage_1.
+DSP Report: operator dev_core0/dev_alu0/d2/stage_1 is absorbed into DSP dev_core0/dev_alu0/d2/stage_1.
+DSP Report: operator dev_core0/dev_alu0/d2/stage_1 is absorbed into DSP dev_core0/dev_alu0/d2/stage_1.
+DSP Report: Generating DSP dev_core0/dev_alu0/d2/stage_1, operation Mode is: A*B2.
+DSP Report: register dev_core0/dev_alu0/d2/stage_1 is absorbed into DSP dev_core0/dev_alu0/d2/stage_1.
+DSP Report: operator dev_core0/dev_alu0/d2/stage_1 is absorbed into DSP dev_core0/dev_alu0/d2/stage_1.
+DSP Report: operator dev_core0/dev_alu0/d2/stage_1 is absorbed into DSP dev_core0/dev_alu0/d2/stage_1.
+WARNING: [Synth 8-3332] Sequential element (dev_core0/dev_rf0/regN_reg[1][31]) is unused and will be removed from module top_level.
+WARNING: [Synth 8-3332] Sequential element (dev_core0/dev_rf0/regN_reg[1][30]) is unused and will be removed from module top_level.
+WARNING: [Synth 8-3332] Sequential element (dev_core0/dev_rf0/regN_reg[1][29]) is unused and will be removed from module top_level.
+WARNING: [Synth 8-3332] Sequential element (dev_core0/dev_rf0/regN_reg[1][28]) is unused and will be removed from module top_level.
+WARNING: [Synth 8-3332] Sequential element (dev_core0/dev_rf0/regN_reg[1][27]) is unused and will be removed from module top_level.
+WARNING: [Synth 8-3332] Sequential element (dev_core0/dev_rf0/regN_reg[1][26]) is unused and will be removed from module top_level.
+WARNING: [Synth 8-3332] Sequential element (dev_core0/dev_rf0/regN_reg[1][25]) is unused and will be removed from module top_level.
+WARNING: [Synth 8-3332] Sequential element (dev_core0/dev_rf0/regN_reg[1][24]) is unused and will be removed from module top_level.
+WARNING: [Synth 8-3332] Sequential element (dev_core0/dev_rf0/regN_reg[1][23]) is unused and will be removed from module top_level.
+WARNING: [Synth 8-3332] Sequential element (dev_core0/dev_rf0/regN_reg[1][22]) is unused and will be removed from module top_level.
+WARNING: [Synth 8-3332] Sequential element (dev_core0/dev_rf0/regN_reg[1][21]) is unused and will be removed from module top_level.
+WARNING: [Synth 8-3332] Sequential element (dev_core0/dev_rf0/regN_reg[1][20]) is unused and will be removed from module top_level.
+WARNING: [Synth 8-3332] Sequential element (dev_core0/dev_rf0/regN_reg[1][19]) is unused and will be removed from module top_level.
+WARNING: [Synth 8-3332] Sequential element (dev_core0/dev_rf0/regN_reg[1][18]) is unused and will be removed from module top_level.
+WARNING: [Synth 8-3332] Sequential element (dev_core0/dev_rf0/regN_reg[1][17]) is unused and will be removed from module top_level.
+WARNING: [Synth 8-3332] Sequential element (dev_core0/dev_rf0/regN_reg[1][16]) is unused and will be removed from module top_level.
+WARNING: [Synth 8-3332] Sequential element (dev_core0/dev_rf0/regN_reg[1][15]) is unused and will be removed from module top_level.
+WARNING: [Synth 8-3332] Sequential element (dev_core0/dev_rf0/regN_reg[1][14]) is unused and will be removed from module top_level.
+WARNING: [Synth 8-3332] Sequential element (dev_core0/dev_rf0/regN_reg[1][13]) is unused and will be removed from module top_level.
+WARNING: [Synth 8-3332] Sequential element (dev_core0/dev_rf0/regN_reg[1][12]) is unused and will be removed from module top_level.
+WARNING: [Synth 8-3332] Sequential element (dev_core0/dev_rf0/regN_reg[1][11]) is unused and will be removed from module top_level.
+WARNING: [Synth 8-3332] Sequential element (dev_core0/dev_rf0/regN_reg[1][10]) is unused and will be removed from module top_level.
+WARNING: [Synth 8-3332] Sequential element (dev_core0/dev_rf0/regN_reg[1][9]) is unused and will be removed from module top_level.
+WARNING: [Synth 8-3332] Sequential element (dev_core0/dev_rf0/regN_reg[1][8]) is unused and will be removed from module top_level.
+WARNING: [Synth 8-3332] Sequential element (dev_core0/dev_rf0/regN_reg[1][7]) is unused and will be removed from module top_level.
+WARNING: [Synth 8-3332] Sequential element (dev_core0/dev_rf0/regN_reg[1][6]) is unused and will be removed from module top_level.
+WARNING: [Synth 8-3332] Sequential element (dev_core0/dev_rf0/regN_reg[1][5]) is unused and will be removed from module top_level.
+WARNING: [Synth 8-3332] Sequential element (dev_core0/dev_rf0/regN_reg[1][4]) is unused and will be removed from module top_level.
+WARNING: [Synth 8-3332] Sequential element (dev_core0/dev_rf0/regN_reg[1][3]) is unused and will be removed from module top_level.
+WARNING: [Synth 8-3332] Sequential element (dev_core0/dev_rf0/regN_reg[1][2]) is unused and will be removed from module top_level.
+WARNING: [Synth 8-3332] Sequential element (dev_core0/dev_rf0/regN_reg[1][1]) is unused and will be removed from module top_level.
+WARNING: [Synth 8-3332] Sequential element (dev_core0/dev_rf0/regN_reg[1][0]) is unused and will be removed from module top_level.
+WARNING: [Synth 8-3332] Sequential element (dev_core0/dev_rf0/regN_reg[2][31]) is unused and will be removed from module top_level.
+WARNING: [Synth 8-3332] Sequential element (dev_core0/dev_rf0/regN_reg[2][30]) is unused and will be removed from module top_level.
+WARNING: [Synth 8-3332] Sequential element (dev_core0/dev_rf0/regN_reg[2][29]) is unused and will be removed from module top_level.
+WARNING: [Synth 8-3332] Sequential element (dev_core0/dev_rf0/regN_reg[2][28]) is unused and will be removed from module top_level.
+WARNING: [Synth 8-3332] Sequential element (dev_core0/dev_rf0/regN_reg[2][27]) is unused and will be removed from module top_level.
+WARNING: [Synth 8-3332] Sequential element (dev_core0/dev_rf0/regN_reg[2][26]) is unused and will be removed from module top_level.
+WARNING: [Synth 8-3332] Sequential element (dev_core0/dev_rf0/regN_reg[2][25]) is unused and will be removed from module top_level.
+WARNING: [Synth 8-3332] Sequential element (dev_core0/dev_rf0/regN_reg[2][24]) is unused and will be removed from module top_level.
+WARNING: [Synth 8-3332] Sequential element (dev_core0/dev_rf0/regN_reg[2][23]) is unused and will be removed from module top_level.
+WARNING: [Synth 8-3332] Sequential element (dev_core0/dev_rf0/regN_reg[2][22]) is unused and will be removed from module top_level.
+WARNING: [Synth 8-3332] Sequential element (dev_core0/dev_rf0/regN_reg[2][21]) is unused and will be removed from module top_level.
+WARNING: [Synth 8-3332] Sequential element (dev_core0/dev_rf0/regN_reg[2][20]) is unused and will be removed from module top_level.
+WARNING: [Synth 8-3332] Sequential element (dev_core0/dev_rf0/regN_reg[2][19]) is unused and will be removed from module top_level.
+WARNING: [Synth 8-3332] Sequential element (dev_core0/dev_rf0/regN_reg[2][18]) is unused and will be removed from module top_level.
+WARNING: [Synth 8-3332] Sequential element (dev_core0/dev_rf0/regN_reg[2][17]) is unused and will be removed from module top_level.
+WARNING: [Synth 8-3332] Sequential element (dev_core0/dev_rf0/regN_reg[2][16]) is unused and will be removed from module top_level.
+WARNING: [Synth 8-3332] Sequential element (dev_core0/dev_rf0/regN_reg[2][15]) is unused and will be removed from module top_level.
+WARNING: [Synth 8-3332] Sequential element (dev_core0/dev_rf0/regN_reg[2][14]) is unused and will be removed from module top_level.
+WARNING: [Synth 8-3332] Sequential element (dev_core0/dev_rf0/regN_reg[2][13]) is unused and will be removed from module top_level.
+WARNING: [Synth 8-3332] Sequential element (dev_core0/dev_rf0/regN_reg[2][12]) is unused and will be removed from module top_level.
+WARNING: [Synth 8-3332] Sequential element (dev_core0/dev_rf0/regN_reg[2][11]) is unused and will be removed from module top_level.
+WARNING: [Synth 8-3332] Sequential element (dev_core0/dev_rf0/regN_reg[2][10]) is unused and will be removed from module top_level.
+WARNING: [Synth 8-3332] Sequential element (dev_core0/dev_rf0/regN_reg[2][9]) is unused and will be removed from module top_level.
+WARNING: [Synth 8-3332] Sequential element (dev_core0/dev_rf0/regN_reg[2][8]) is unused and will be removed from module top_level.
+WARNING: [Synth 8-3332] Sequential element (dev_core0/dev_rf0/regN_reg[2][7]) is unused and will be removed from module top_level.
+WARNING: [Synth 8-3332] Sequential element (dev_core0/dev_rf0/regN_reg[2][6]) is unused and will be removed from module top_level.
+WARNING: [Synth 8-3332] Sequential element (dev_core0/dev_rf0/regN_reg[2][5]) is unused and will be removed from module top_level.
+WARNING: [Synth 8-3332] Sequential element (dev_core0/dev_rf0/regN_reg[2][4]) is unused and will be removed from module top_level.
+WARNING: [Synth 8-3332] Sequential element (dev_core0/dev_rf0/regN_reg[2][3]) is unused and will be removed from module top_level.
+WARNING: [Synth 8-3332] Sequential element (dev_core0/dev_rf0/regN_reg[2][2]) is unused and will be removed from module top_level.
+WARNING: [Synth 8-3332] Sequential element (dev_core0/dev_rf0/regN_reg[2][1]) is unused and will be removed from module top_level.
+WARNING: [Synth 8-3332] Sequential element (dev_core0/dev_rf0/regN_reg[2][0]) is unused and will be removed from module top_level.
+WARNING: [Synth 8-3332] Sequential element (dev_core0/dev_rf0/regN_reg[3][31]) is unused and will be removed from module top_level.
+WARNING: [Synth 8-3332] Sequential element (dev_core0/dev_rf0/regN_reg[3][30]) is unused and will be removed from module top_level.
+WARNING: [Synth 8-3332] Sequential element (dev_core0/dev_rf0/regN_reg[3][29]) is unused and will be removed from module top_level.
+WARNING: [Synth 8-3332] Sequential element (dev_core0/dev_rf0/regN_reg[3][28]) is unused and will be removed from module top_level.
+WARNING: [Synth 8-3332] Sequential element (dev_core0/dev_rf0/regN_reg[3][27]) is unused and will be removed from module top_level.
+WARNING: [Synth 8-3332] Sequential element (dev_core0/dev_rf0/regN_reg[3][26]) is unused and will be removed from module top_level.
+WARNING: [Synth 8-3332] Sequential element (dev_core0/dev_rf0/regN_reg[3][25]) is unused and will be removed from module top_level.
+WARNING: [Synth 8-3332] Sequential element (dev_core0/dev_rf0/regN_reg[3][24]) is unused and will be removed from module top_level.
+WARNING: [Synth 8-3332] Sequential element (dev_core0/dev_rf0/regN_reg[3][23]) is unused and will be removed from module top_level.
+WARNING: [Synth 8-3332] Sequential element (dev_core0/dev_rf0/regN_reg[3][22]) is unused and will be removed from module top_level.
+WARNING: [Synth 8-3332] Sequential element (dev_core0/dev_rf0/regN_reg[3][21]) is unused and will be removed from module top_level.
+WARNING: [Synth 8-3332] Sequential element (dev_core0/dev_rf0/regN_reg[3][20]) is unused and will be removed from module top_level.
+WARNING: [Synth 8-3332] Sequential element (dev_core0/dev_rf0/regN_reg[3][19]) is unused and will be removed from module top_level.
+WARNING: [Synth 8-3332] Sequential element (dev_core0/dev_rf0/regN_reg[3][18]) is unused and will be removed from module top_level.
+WARNING: [Synth 8-3332] Sequential element (dev_core0/dev_rf0/regN_reg[3][17]) is unused and will be removed from module top_level.
+WARNING: [Synth 8-3332] Sequential element (dev_core0/dev_rf0/regN_reg[3][16]) is unused and will be removed from module top_level.
+WARNING: [Synth 8-3332] Sequential element (dev_core0/dev_rf0/regN_reg[3][15]) is unused and will be removed from module top_level.
+WARNING: [Synth 8-3332] Sequential element (dev_core0/dev_rf0/regN_reg[3][14]) is unused and will be removed from module top_level.
+WARNING: [Synth 8-3332] Sequential element (dev_core0/dev_rf0/regN_reg[3][13]) is unused and will be removed from module top_level.
+WARNING: [Synth 8-3332] Sequential element (dev_core0/dev_rf0/regN_reg[3][12]) is unused and will be removed from module top_level.
+WARNING: [Synth 8-3332] Sequential element (dev_core0/dev_rf0/regN_reg[3][11]) is unused and will be removed from module top_level.
+WARNING: [Synth 8-3332] Sequential element (dev_core0/dev_rf0/regN_reg[3][10]) is unused and will be removed from module top_level.
+WARNING: [Synth 8-3332] Sequential element (dev_core0/dev_rf0/regN_reg[3][9]) is unused and will be removed from module top_level.
+WARNING: [Synth 8-3332] Sequential element (dev_core0/dev_rf0/regN_reg[3][8]) is unused and will be removed from module top_level.
+WARNING: [Synth 8-3332] Sequential element (dev_core0/dev_rf0/regN_reg[3][7]) is unused and will be removed from module top_level.
+WARNING: [Synth 8-3332] Sequential element (dev_core0/dev_rf0/regN_reg[3][6]) is unused and will be removed from module top_level.
+WARNING: [Synth 8-3332] Sequential element (dev_core0/dev_rf0/regN_reg[3][5]) is unused and will be removed from module top_level.
+WARNING: [Synth 8-3332] Sequential element (dev_core0/dev_rf0/regN_reg[3][4]) is unused and will be removed from module top_level.
+WARNING: [Synth 8-3332] Sequential element (dev_core0/dev_rf0/regN_reg[3][3]) is unused and will be removed from module top_level.
+WARNING: [Synth 8-3332] Sequential element (dev_core0/dev_rf0/regN_reg[3][2]) is unused and will be removed from module top_level.
+WARNING: [Synth 8-3332] Sequential element (dev_core0/dev_rf0/regN_reg[3][1]) is unused and will be removed from module top_level.
+WARNING: [Synth 8-3332] Sequential element (dev_core0/dev_rf0/regN_reg[3][0]) is unused and will be removed from module top_level.
+WARNING: [Synth 8-3332] Sequential element (dev_core0/dev_rf0/regN_reg[4][31]) is unused and will be removed from module top_level.
+WARNING: [Synth 8-3332] Sequential element (dev_core0/dev_rf0/regN_reg[4][30]) is unused and will be removed from module top_level.
+WARNING: [Synth 8-3332] Sequential element (dev_core0/dev_rf0/regN_reg[4][29]) is unused and will be removed from module top_level.
+WARNING: [Synth 8-3332] Sequential element (dev_core0/dev_rf0/regN_reg[4][28]) is unused and will be removed from module top_level.
+INFO: [Common 17-14] Message 'Synth 8-3332' appears 100 times and further instances of the messages will be disabled. Use the Tcl command set_msg_config to change the current settings.
+---------------------------------------------------------------------------------
+Finished Cross Boundary and Area Optimization : Time (s): cpu = 00:00:12 ; elapsed = 00:00:12 . Memory (MB): peak = 2146.914 ; gain = 400.219
+---------------------------------------------------------------------------------
+ Sort Area is  dev_core0/dev_alu0/d2/stage_1_0 : 0 0 : 2719 2719 : Used 1 time 0
+ Sort Area is  dev_core0/dev_alu0/d2/stage_1_2 : 0 0 : 2357 2357 : Used 1 time 0
+---------------------------------------------------------------------------------
+Start ROM, RAM, DSP, Shift Register and Retiming Reporting
+---------------------------------------------------------------------------------
+
+DSP: Preliminary Mapping Report (see note below. The ' indicates corresponding REG is set)
++------------+-------------+--------+--------+--------+--------+--------+------+------+------+------+-------+------+------+
+|Module Name | DSP Mapping | A Size | B Size | C Size | D Size | P Size | AREG | BREG | CREG | DREG | ADREG | MREG | PREG | 
++------------+-------------+--------+--------+--------+--------+--------+------+------+------+------+-------+------+------+
+|top_level   | A2*B        | 18     | 16     | -      | -      | 48     | 1    | 0    | -    | -    | -     | 0    | 0    | 
+|top_level   | A*B2        | 18     | 18     | -      | -      | 48     | 0    | 1    | -    | -    | -     | 0    | 0    | 
++------------+-------------+--------+--------+--------+--------+--------+------+------+------+------+-------+------+------+
+
+Note: The table above is a preliminary report that shows the DSPs inferred at the current stage of the synthesis flow. Some DSP may be reimplemented as non DSP primitives later in the synthesis flow. Multiple instantiated DSPs are reported only once.
+---------------------------------------------------------------------------------
+Finished ROM, RAM, DSP, Shift Register and Retiming Reporting
+---------------------------------------------------------------------------------
+No constraint files found.
+---------------------------------------------------------------------------------
+Start Timing Optimization
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Timing Optimization : Time (s): cpu = 00:00:12 ; elapsed = 00:00:12 . Memory (MB): peak = 2146.914 ; gain = 400.219
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Technology Mapping
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Technology Mapping : Time (s): cpu = 00:00:12 ; elapsed = 00:00:12 . Memory (MB): peak = 2146.914 ; gain = 400.219
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start IO Insertion
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Flattening Before IO Insertion
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Flattening Before IO Insertion
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Final Netlist Cleanup
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Final Netlist Cleanup
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished IO Insertion : Time (s): cpu = 00:00:14 ; elapsed = 00:00:15 . Memory (MB): peak = 2354.168 ; gain = 607.473
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Renaming Generated Instances
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Renaming Generated Instances : Time (s): cpu = 00:00:14 ; elapsed = 00:00:15 . Memory (MB): peak = 2354.168 ; gain = 607.473
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Rebuilding User Hierarchy
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Rebuilding User Hierarchy : Time (s): cpu = 00:00:14 ; elapsed = 00:00:15 . Memory (MB): peak = 2354.168 ; gain = 607.473
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Renaming Generated Ports
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Renaming Generated Ports : Time (s): cpu = 00:00:14 ; elapsed = 00:00:15 . Memory (MB): peak = 2354.168 ; gain = 607.473
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Handling Custom Attributes
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Handling Custom Attributes : Time (s): cpu = 00:00:14 ; elapsed = 00:00:15 . Memory (MB): peak = 2354.168 ; gain = 607.473
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Renaming Generated Nets
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Renaming Generated Nets : Time (s): cpu = 00:00:14 ; elapsed = 00:00:15 . Memory (MB): peak = 2354.168 ; gain = 607.473
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Writing Synthesis Report
+---------------------------------------------------------------------------------
+
+Report BlackBoxes: 
++-+--------------+----------+
+| |BlackBox name |Instances |
++-+--------------+----------+
++-+--------------+----------+
+
+Report Cell Usage: 
++-+-----+------+
+| |Cell |Count |
++-+-----+------+
++-+-----+------+
+---------------------------------------------------------------------------------
+Finished Writing Synthesis Report : Time (s): cpu = 00:00:14 ; elapsed = 00:00:15 . Memory (MB): peak = 2354.168 ; gain = 607.473
+---------------------------------------------------------------------------------
+Synthesis finished with 0 errors, 0 critical warnings and 195 warnings.
+Synthesis Optimization Runtime : Time (s): cpu = 00:00:08 ; elapsed = 00:00:14 . Memory (MB): peak = 2354.168 ; gain = 539.715
+Synthesis Optimization Complete : Time (s): cpu = 00:00:14 ; elapsed = 00:00:15 . Memory (MB): peak = 2354.168 ; gain = 607.473
+INFO: [Project 1-571] Translating synthesized netlist
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 2354.168 ; gain = 0.000
+INFO: [Project 1-570] Preparing netlist for logic optimization
+INFO: [Opt 31-138] Pushed 0 inverter(s) to 0 load pin(s).
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 2460.613 ; gain = 0.000
+INFO: [Project 1-111] Unisim Transformation Summary:
+No Unisim elements were transformed.
+
+Synth Design complete | Checksum: 5ca596ff
+INFO: [Common 17-83] Releasing license: Synthesis
+57 Infos, 295 Warnings, 0 Critical Warnings and 0 Errors encountered.
+synth_design completed successfully
+synth_design: Time (s): cpu = 00:00:19 ; elapsed = 00:00:22 . Memory (MB): peak = 2460.613 ; gain = 1791.402
+INFO: [Common 17-1381] The checkpoint 'C:/Users/boyso/git/saniccpu/vivado/vivado.runs/synth_1/top_level.dcp' has been generated.
+INFO: [Vivado 12-24828] Executing command : report_utilization -file top_level_utilization_synth.rpt -pb top_level_utilization_synth.pb
+INFO: [Common 17-206] Exiting Vivado at Thu Nov 27 14:39:03 2025...

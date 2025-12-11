@@ -12,16 +12,18 @@ class OperandType(Enum):
     Register = 0
     IntegerImmediate20 = 1
     IntegerImmediate16 = 2
-    AddressImmediate = 3
-    Condition = 4
-    SpecialRegister = 5
-    One = 6
-    Zero = 7
+    IntegerImmediate15 = 3
+    AddressImmediate = 4
+    Condition = 5
+    SpecialRegister = 6
+    One = 7
+    Zero = 8
 
 operandtype_prefixes = {
     OperandType.Register: "",
     OperandType.IntegerImmediate20: "#",
     OperandType.IntegerImmediate16: "#",
+    OperandType.IntegerImmediate15: "#",
     OperandType.AddressImmediate: "$",
     OperandType.Condition: "",
     OperandType.SpecialRegister: ""
@@ -39,6 +41,7 @@ class Operands:
     Register6 = Operand(OperandType.Register, 6)
     IntegerImmediate20 = Operand(OperandType.IntegerImmediate20, 20)
     IntegerImmediate16 = Operand(OperandType.IntegerImmediate16, 16)
+    IntegerImmediate15 = Operand(OperandType.IntegerImmediate15, 15)
     Condition = Operand(OperandType.Condition, 4)
 
 class Opcode:
@@ -54,29 +57,6 @@ class Opcode:
         self.operand_3 = operand_3
         self.operand_4 = operand_4
         self.machine_code = machine_code
-
-# Always (Jmp)
-# GEU (greater or equal unsigned)
-# LTU (less than unsigned)
-# LTEU (Less than or equal unsighed)
-# GE (greater or equal signed)
-# GT (greater than signed)
-# LT (Less than signed
-# LTE (Less than or equal)
-# NE (not equal)
-# EQ (Equal
-class BranchCond(Enum):
-    AL   =  0b0000
-    GTU  =  0b0001  # Greater than unsigned x
-    GEU  =  0b0010  # Greater or equal unsigned x
-    LTU  =  0b0011  # Less than unsigned x
-    LEU  =  0b0100  # Less than or equal unsigned x
-    GE   =  0b0101  # Greater than or equal signed x
-    GT   =  0b0110  # Greater than signed x
-    LT   =  0b0111  # Less than signed x
-    LE   =  0b1000  # Less than or equal signed x
-    NE   =  0b1001  # Not equal x
-    EQ   =  0b1010  # Equal x
 
 class Register(Enum):
     GP0 = 0
@@ -127,37 +107,56 @@ class Instruction:
         self.operand_4 = operand_4
 
 instruction_table = {
-    "CMP":      Opcode(Operands.Register,   Operands.Register,              None,                           None, 0b0010000),
-    "BR":       Opcode(Operands.Condition,  Operands.Register,              Operands.IntegerImmediate16,    None, 0b0010001),
-    "JMP":      Opcode(Operands.Condition,  Operands.IntegerImmediate16,    None,                           None, 0b0010010),
-    "CALL":     Opcode(Operands.Register,   Operands.IntegerImmediate16,    None,                           None, 0b0010011),
-    "RET":      Opcode(None,                None,                           None,                           None, 0b0010100),
+    "BR":       Opcode(Operands.Register,           Operands.Register,              None,                           None, 32),
+    "BEQ":      Opcode(Operands.Register,           Operands.Register,              None,                           None, 33),
+    "BNE":      Opcode(Operands.Register,           Operands.Register,              None,                           None, 34),
+    "BLE":      Opcode(Operands.Register,           Operands.Register,              None,                           None, 35),
+    "BLT":      Opcode(Operands.Register,           Operands.Register,              None,                           None, 36),
+    "BGT":      Opcode(Operands.Register,           Operands.Register,              None,                           None, 37),
+    "BGE":      Opcode(Operands.Register,           Operands.Register,              None,                           None, 38),
+    "BLEU":     Opcode(Operands.Register,           Operands.Register,              None,                           None, 39),
+    "BLTU":     Opcode(Operands.Register,           Operands.Register,              None,                           None, 40),
+    "BGEU":     Opcode(Operands.Register,           Operands.Register,              None,                           None, 41),
+    "BGTU":     Opcode(Operands.Register,           Operands.Register,              None,                           None, 42),
 
-    "LD":       Opcode(Operands.Register,   Operands.Register,              Operands.IntegerImmediate16,    None, 0b0100000),
-    "ST":       Opcode(Operands.Register,   Operands.Register,              Operands.IntegerImmediate16,    None, 0b0100001),
-    "MOV":      Opcode(Operands.Register6,  Operands.Register,              None,                           None, 0b0100010),
-    "LUI":      Opcode(Operands.Register,   Operands.IntegerImmediate16,    None,                           None, 0b0100011),
-    "NOT":      Opcode(Operands.Register,   None,                           None,                           None, 0b0100100),
+    "JMP":      Opcode(Operands.IntegerImmediate16, None,                           None,                           None, 48),
+    "JEQ":      Opcode(Operands.IntegerImmediate16, None,                           None,                           None, 49),
+    "JNE":      Opcode(Operands.IntegerImmediate16, None,                           None,                           None, 50),
+    "JLE":      Opcode(Operands.IntegerImmediate16, None,                           None,                           None, 51),
+    "JLT":      Opcode(Operands.IntegerImmediate16, None,                           None,                           None, 52),
+    "JGT":      Opcode(Operands.IntegerImmediate16, None,                           None,                           None, 53),
+    "JGE":      Opcode(Operands.IntegerImmediate16, None,                           None,                           None, 54),
+    "JLEU":     Opcode(Operands.IntegerImmediate16, None,                           None,                           None, 55),
+    "JLTU":     Opcode(Operands.IntegerImmediate16, None,                           None,                           None, 56),
+    "JGEU":     Opcode(Operands.IntegerImmediate16, None,                           None,                           None, 57),
+    "JGTU":     Opcode(Operands.IntegerImmediate16, None,                           None,                           None, 58),
 
-    "ADD":      Opcode(Operands.Register,   Operands.Register,              None,                           None, 0b1000000),
-    "SUB":      Opcode(Operands.Register,   Operands.Register,              None,                           None, 0b1000001),
-    "MUL":      Opcode(Operands.Register,   Operands.Register,              None,                           None, 0b1000010),
-    "DIV":      Opcode(Operands.Register,   Operands.Register,              None,                           None, 0b1000011),
-    "OR" :      Opcode(Operands.Register,   Operands.Register,              None,                           None, 0b1000100),
-    "AND":      Opcode(Operands.Register,   Operands.Register,              None,                           None, 0b1000101),
-    "XOR":      Opcode(Operands.Register,   Operands.Register,              None,                           None, 0b1000110),
-    "SHR":      Opcode(Operands.Register,   Operands.Register,              None,                           None, 0b1000111),
-    "SHL":      Opcode(Operands.Register,   Operands.Register,              None,                           None, 0b1001000),
+    "ADD":      Opcode(Operands.Register,           Operands.Register,              None,                           None, 0b1000000),
+    "SUB":      Opcode(Operands.Register,           Operands.Register,              None,                           None, 0b1000001),
+    "MUL":      Opcode(Operands.Register,           Operands.Register,              None,                           None, 0b1000010),
+    "DIV":      Opcode(Operands.Register,           Operands.Register,              None,                           None, 0b1000011),
+    "OR" :      Opcode(Operands.Register,           Operands.Register,              None,                           None, 0b1000100),
+    "AND":      Opcode(Operands.Register,           Operands.Register,              None,                           None, 0b1000101),
+    "XOR":      Opcode(Operands.Register,           Operands.Register,              None,                           None, 0b1000110),
+    "SHR":      Opcode(Operands.Register,           Operands.Register,              None,                           None, 0b1000111),
+    "SHL":      Opcode(Operands.Register,           Operands.Register,              None,                           None, 0b1001000),
 
-    "ADDI":     Opcode(Operands.Register,   Operands.IntegerImmediate20,    None,                           None, 0b1010000),
-    "SUBI":     Opcode(Operands.Register,   Operands.IntegerImmediate20,    None,                           None, 0b1010001),
-    "MULI":     Opcode(Operands.Register,   Operands.IntegerImmediate20,    None,                           None, 0b1010010),
-    "DIVI":     Opcode(Operands.Register,   Operands.IntegerImmediate20,    None,                           None, 0b1010011),
-    "ORI" :     Opcode(Operands.Register,   Operands.IntegerImmediate20,    None,                           None, 0b1010100),
-    "ANDI":     Opcode(Operands.Register,   Operands.IntegerImmediate20,    None,                           None, 0b1010101),
-    "XORI":     Opcode(Operands.Register,   Operands.IntegerImmediate20,    None,                           None, 0b1010110),
-    "SHIR":     Opcode(Operands.Register,   Operands.IntegerImmediate20,    None,                           None, 0b1010111),
-    "SHIL":     Opcode(Operands.Register,   Operands.IntegerImmediate20,    None,                           None, 0b1011000),
+    "ADDI":     Opcode(Operands.Register,           Operands.IntegerImmediate20,    None,                           None, 0b1010000),
+    "SUBI":     Opcode(Operands.Register,           Operands.IntegerImmediate20,    None,                           None, 0b1010001),
+    "MULI":     Opcode(Operands.Register,           Operands.IntegerImmediate20,    None,                           None, 0b1010010),
+    "DIVI":     Opcode(Operands.Register,           Operands.IntegerImmediate20,    None,                           None, 0b1010011),
+    "ORI" :     Opcode(Operands.Register,           Operands.IntegerImmediate20,    None,                           None, 0b1010100),
+    "ANDI":     Opcode(Operands.Register,           Operands.IntegerImmediate20,    None,                           None, 0b1010101),
+    "XORI":     Opcode(Operands.Register,           Operands.IntegerImmediate20,    None,                           None, 0b1010110),
+    "SHIR":     Opcode(Operands.Register,           Operands.IntegerImmediate20,    None,                           None, 0b1010111),
+    "SHIL":     Opcode(Operands.Register,           Operands.IntegerImmediate20,    None,                           None, 0b1011000),
+
+    "LD":       Opcode(Operands.Register,           Operands.Register,              Operands.IntegerImmediate15,    None, 96),
+    "ST":       Opcode(Operands.Register,           Operands.Register,              Operands.IntegerImmediate15,    None, 97),
+    "MOV":      Opcode(Operands.Register6,          Operands.Register,              None,                           None, 98),
+    "LUI":      Opcode(Operands.Register,           Operands.IntegerImmediate16,    None,                           None, 99),
+    "NOT":      Opcode(Operands.Register,           None,                           None,                           None, 100),
+    "CMP":      Opcode(Operands.Register,           Operands.Register,              None,                           None, 101),
 }
 
 assembly_file = ""
@@ -175,6 +174,13 @@ if len(sys.argv) > 1:
 
 # First, get all lines, and attempt to find instructions that match the opcode (split by " ", first cell is opcode)
 # If any are found that don't match an instruction, error with the line # and reason like a compiler.
+def pack_operand(instruction, operand, offset, bit_width):
+    if operand is None:
+        return instruction, offset
+    mask = (1 << bit_width) - 1
+    instruction |= (operand & mask) << offset
+    offset += bit_width
+    return instruction, offset
 
 instructions =  []
 instruction_opcode_decoded = []
@@ -364,23 +370,22 @@ for decode_middle in instruction_opcode_decoded:
     offset = 7
     
     if(operand_1 != None):
-        instruction += (operand_1 << offset)
-        offset += decode_middle.opcode.operand_1.offset
+        instruction, offset = pack_operand(instruction, operand_1, offset, decode_middle.opcode.operand_1.offset)
     if(operand_2 != None):
-        instruction += (operand_2 << offset)
-        offset += decode_middle.opcode.operand_2.offset
+        instruction, offset = pack_operand(instruction, operand_2, offset, decode_middle.opcode.operand_2.offset)
     if(operand_3 != None):
-        instruction += (operand_3 << offset)
-        offset += decode_middle.opcode.operand_3.offset
+        instruction, offset = pack_operand(instruction, operand_3, offset, decode_middle.opcode.operand_3.offset)
     if(operand_4 != None):
-        instruction += (operand_4 << offset)
-        offset += decode_middle.opcode.operand_4.offset
+        instruction, offset = pack_operand(instruction, operand_4, offset, decode_middle.opcode.operand_4.offset)
     instructions.append(instruction)
 
 with open(out_path, "wb") as bf:
     bytes_used = len(instructions * 4)
     bytes_to_pad = 16768 - bytes_used
     for instruction in instructions:
-        bf.write(instruction.to_bytes(4, byteorder='little', signed=False))
+        bf.write(instruction.to_bytes(4, byteorder='little', signed=True))
     for num in range(0, bytes_to_pad):
         bf.write((0).to_bytes(4, byteorder='little', signed=False))
+
+
+
