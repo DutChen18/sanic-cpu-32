@@ -106,6 +106,7 @@ class Instruction:
         self.operand_4 = operand_4
 
 instruction_table = {
+    "NOP":      Opcode(None,                        None,                           None,                           None, 1),
     "BR":       Opcode(Operands.Register,           Operands.Register,              None,                           None, 32),
     "BEQ":      Opcode(Operands.Register,           Operands.Register,              None,                           None, 33),
     "BNE":      Opcode(Operands.Register,           Operands.Register,              None,                           None, 34),
@@ -152,10 +153,11 @@ instruction_table = {
 
     "LD":       Opcode(Operands.Register,           Operands.Register,              Operands.IntegerImmediate15,    None, 96),
     "ST":       Opcode(Operands.Register,           Operands.Register,              Operands.IntegerImmediate15,    None, 97),
-    "MOV":      Opcode(Operands.Register6,          Operands.Register,              None,                           None, 98),
-    "LUI":      Opcode(Operands.Register,           Operands.IntegerImmediate16,    None,                           None, 99),
+    "LUI":      Opcode(Operands.Register,           Operands.IntegerImmediate16,    None,                           None, 98),
+    "LLI":      Opcode(Operands.Register,           Operands.IntegerImmediate16,    None,                           None, 99),
     "NOT":      Opcode(Operands.Register,           None,                           None,                           None, 100),
     "CMP":      Opcode(Operands.Register,           Operands.Register,              None,                           None, 101),
+    "MOV":      Opcode(Operands.Register,           Operands.Register,              None,                           None, 102),
 }
 
 assembly_file = ""
