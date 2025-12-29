@@ -1,3 +1,4 @@
 Time resolution is 1 ps
 Error: Oops!
 Time: 50 ns  Iteration: 0  Process: /tb_core/test1  Scope: tb_core.test1  File: C:/Users/boyso/git/saniccpu/vivado/vivado.srcs/sim_1/new/tb_core.sv Line: 71
+INFO: xsimkernel Simulation Memory Usage: 151556 KB (Peak: 151556 KB), Simulation CPU Usage: 999 ms
