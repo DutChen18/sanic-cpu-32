@@ -2,6 +2,7 @@
 .rom_addr_hi #0
 .peripheral_addr_hi #64
 .memory_addr_hi #128
+.char_newline #10
 .char_space #32
 .char_exclamation #33
 .char_dquote #34
@@ -99,34 +100,49 @@
 .char_tilde #126
 
 
-; Load peripheral addresses into registers
+; Load peripheral address into dedicated register
 LUI GP31, #64 ; Peripheral address
-MOV GP30, GP31 ; Copy peripheral address
-ADDI GP31, #1 ; TTY
-ADDI GP30, #2 ; keyboard
 
-; Memory allocation
+; Stack allocation
 LUI GP29, #255 ; Memory
 ADDI GP29, #65535 ; Max memory address
-SUBI GP29, #256 ; Reduce stack to allocate memory for command table (256 4-byte words)
-MOV GP28, GP29 ; Copy pointer for command table to GP28
+
+; Heap allocation
+LUI GP30, #128 ; Minimum memory address, heap grow upward?
+
+; "Hello there, traveller!\n" 6 words for reply, 1 word for command
+; Allocate memory for command and response
+LLI GP23, #7 ; Allocate 7 words total 
+CALL :malloc ; Obtain the pointer, it's now on GP28
 
 ; Add command words
-LLI GP0, .h      ; set to .h value 
+LLI GP0, .i      ; set to .h value 
 SHLI GP0, #8     ; Shift left 8  bits 
-ADDI GP0, .i     ; Add ascii value for LLI
-ST GP0, GP28, #0 ; Store numeric value of hi to command table + 2 (the word in between command words is the pointer to the reply)
+ADDI GP0, .h     ; Add ascii value for LLI
+ST GP0, GP28, #0 ; Store command in first word
 
+LLI GP0, .l
+SHLI GP0, #8
+ADDI GP0, .l
+SHLI GP0, #8
+ADDI GP0, .e
+SHLI GP0, .h
+ST GP0, GP28, #1 ; Store first chunk of reply
+LLI GP0, .h
+SHLI GP0, #8
+
+SHLI GP
 
 ; Calling convention
+; GP 
 ; GP23-26 (4) = function parameters
 ; 27 = return pointer (to return to calling function entrypoint + 1)
 ; 28 = return value
-; 29 = stack pointer
-; 30 = kb pointer
-; 31 = tty pointer
-malloc:
-SUB GP29, GP23  ; subtract GP0 words from stack pointer
-MOV GP29, GP28  ; return pointer
-BR GP27, #0     ; return control to calling function
-
+; 29 = stack pointer (grows down)
+; 30 = heap pointer (grows up)
+; 31 = peripheral pointer
+malloc: ; Given a number of words to allocate, add that value to the heap pointer and return the old heap pointer value for use in those bounds 
+  MOV GP0, GP30  ; Save heap pointer
+  ADD GP30, GP23 ; Add GP23 words to heap pointer
+  MOV GP28, GP0  ; Mov old heap pointer to return register
+  RET            ; return
