@@ -145,8 +145,8 @@ instruction_table = {
     "OR" :      Opcode(Operands.Register,           Operands.Register,              None,                           None, 0b1000100),
     "AND":      Opcode(Operands.Register,           Operands.Register,              None,                           None, 0b1000101),
     "XOR":      Opcode(Operands.Register,           Operands.Register,              None,                           None, 0b1000110),
-    "SHR":      Opcode(Operands.Register,           Operands.Register,              None,                           None, 0b1000111),
-    "SHL":      Opcode(Operands.Register,           Operands.Register,              None,                           None, 0b1001000),
+    "SHL":      Opcode(Operands.Register,           Operands.Register,              None,                           None, 0b1000111),
+    "SHR":      Opcode(Operands.Register,           Operands.Register,              None,                           None, 0b1001000),
 
     "ADDI":     Opcode(Operands.Register,           Operands.IntegerImmediate20,    None,                           None, 0b1010000),
     "SUBI":     Opcode(Operands.Register,           Operands.IntegerImmediate20,    None,                           None, 0b1010001),
@@ -155,8 +155,8 @@ instruction_table = {
     "ORI" :     Opcode(Operands.Register,           Operands.IntegerImmediate20,    None,                           None, 0b1010100),
     "ANDI":     Opcode(Operands.Register,           Operands.IntegerImmediate20,    None,                           None, 0b1010101),
     "XORI":     Opcode(Operands.Register,           Operands.IntegerImmediate20,    None,                           None, 0b1010110),
-    "SHRI":     Opcode(Operands.Register,           Operands.IntegerImmediate20,    None,                           None, 0b1010111),
-    "SHLI":     Opcode(Operands.Register,           Operands.IntegerImmediate20,    None,                           None, 0b1011000),
+    "SHLI":     Opcode(Operands.Register,           Operands.IntegerImmediate20,    None,                           None, 0b1010111),
+    "SHRI":     Opcode(Operands.Register,           Operands.IntegerImmediate20,    None,                           None, 0b1011000),
 
     "LD":       Opcode(Operands.Register,           Operands.Register,              Operands.IntegerImmediate15,    None, 96),
     "ST":       Opcode(Operands.Register,           Operands.Register,              Operands.IntegerImmediate15,    None, 97),

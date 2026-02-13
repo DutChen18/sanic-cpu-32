@@ -118,66 +118,70 @@ CALLI :malloc ; Obtain the pointer, it's now on GP28
 
 ; Add command words
 LLI GP0, .i      ; set to .h value 
-SHLI GP0, #8     ; Shift left 8  bits 
+SHLI GP0, #16     ; Shift left 24  bits 
+ADD GP1, GP0 ; Add value
 ADDI GP0, .h     ; Add ascii value for LLI
-MOV GP21, GP28    ; Copy function return value to somewhere we can control a bit better.
-ST GP0, GP21, #0 ; Store command in first word
+SHLI GP0, #24    ; Shift left 16 bits
+ADD GP1, GP0 ; Add value 
+MOV GP10, GP28    ; Copy function return value to somewhere we can control a bit better.
+ST GP1, GP10, #0 ; Store command in first word
 
 LLI GP20, .char_newline
+LLI GP21, .char_NUL
 
-LLI GP0, .l
+LLI GP0, .H
+SHLI GP0, #8
+ADDI GP0, .e
 SHLI GP0, #8
 ADDI GP0, .l
 SHLI GP0, #8
-ADDI GP0, .e
+ADDI GP0, .l
+ST GP0, GP10, #1 ; Store first chunk of reply
+
+LLI GP0, .o
+SHLI GP0, #8
+ADDI GP0, .char_space
+SHLI GP0, #8
+ADDI GP0, .t
 SHLI GP0, #8
 ADDI GP0, .h
-ST GP0, GP21, #1 ; Store first chunk of reply
+ST GP0, GP10, #2 ; Store second chunk of reply
 
-LLI GP0, .h
+LLI GP0, .e
+SHLI GP0, #8
+ADDI GP0, .r
+SHLI GP0, #8
+ADDI GP0, .e
+SHLI GP0, #8
+ADDI GP0, .char_comma
+ST GP0, GP10, #3 ; Store third chunk of reply
+
+LLI GP0, .char_space
 SHLI GP0, #8
 ADDI GP0, .t
-SHLI GP0, #8
-ADDI GP0, .char_space
-SHLI GP0, #8
-ADDI GP0, .o
-ST GP0, GP21, #2 ; Store second chunk of reply
-
-LLI GP0, .char_comma
-SHLI GP0, #8
-ADDI GP0, .e
-SHLI GP0, #8
-ADDI GP0, .r
-SHLI GP0, #8
-ADDI GP0, .e
-ST GP0, GP21, #3 ; Store third chunk of reply
-
-LLI GP0, .a
-SHLI GP0, #8
-ADDI GP0, .r
 SHLI GP0, #8 
-ADDI GP0, .t
+ADDI GP0, .r
 SHLI GP0, #8
-ADDI GP0, .char_space
-ST GP0, GP21, #4 ; Store 4th chunk of reply
+ADDI GP0, .a
+ST GP0, GP10, #4 ; Store 4th chunk of reply
 
-LLI GP0, .l
+LLI GP0, .v
+SHLI GP0, #8
+ADDI GP0, .e
 SHLI GP0, #8
 ADDI GP0, .l
 SHLI GP0, #8
-ADDI GP0, .e
-SHLI GP0, #8
-ADDI GP0, .v
-ST GP0, GP21, #5 ; Store 5th chunk of reply
+ADDI GP0, .l
+ST GP0, GP10, #5 ; Store 5th chunk of reply
 
-LLI GP0, .char_newline
+LLI GP0, .e
+SHLI GP0, #8
+ADDI GP0, .r
 SHLI GP0, #8
 ADDI GP0, .char_exclamation
 SHLI GP0, #8
-ADDI GP0, .r
-SHLI GP0, #8
-ADDI GP0, .e
-ST GP0, GP21, #6 ; Store final chunk of reply 
+ADDI GP0, .char_newline
+ST GP0, GP10, #6 ; Store final chunk of reply 
 
 JMP :prompt
 ; Calling convention
@@ -195,9 +199,12 @@ malloc:
   MOV GP28, GP0  ; Mov old heap pointer to return register
   RET            ; return
 
+more_to_process:
+  ADDI GP0, #1 ; Next address
+  JMP :do_loop
 display_output:
-  more_to_process:
   MOV GP0, GP23
+  do_loop:
   LD GP1, GP0, #0 ; Load first word of reply
   MOV GP2, GP1 ; Copy
   SHRI GP2, #24 ; Shifts right 24 bits, effectively putting top 8 bits at bottom.
@@ -209,7 +216,7 @@ display_output:
   MOV GP2, GP1 ; Copy
   SHLI GP2, #16 ; Shift up 16 bits to throw away top 16 bits
   SHRI GP2, #24 ; Shift down 24 bits to throw away the bottom 8 bits, keeping 2nd highest 8 bits
-  ST GP2, GP30, #1
+  ST GP2, GP31, #1
   MOV GP2, GP1 ; Copy
   SHLI GP2, #24 ; Shift up 24 bits to throw away top 24
   SHRI GP2, #24 ; Shift down 24 bits to put it back where it belongs.
@@ -220,19 +227,21 @@ display_output:
 
 process_input:
   MOV GP0, GP23 ; Copy parameter
+  MOV GP2, GP10 ; Copy heap pointer 
   pi_loop:
-  MOV GP2, GP21 ; Copy heap pointer 
-  LD GP1, GP21, #0 ; Load in the first command word for the command table
+  LD GP1, GP2, #0 ; Load in the first command word for the command table
   CMP GP0, GP1 ; Check if they match
   JNE :not_match ; Jump away if they don't match
   ADDI GP2, #1 ; Add one to advance pointer to the beginning of the reply 
-  MOV GP28, GP2 ; Set parameter to pointer
+  MOV GP23, GP2 ; Set parameter to pointer
   CALLI :display_output
   RET
   not_match:
   ADDI GP2, #1 ; Advance pointer
   JMP :pi_loop ; Jump back to beginning of function to try again
 prompt:
+  LLI GP1, #3 ; Init GP1 to 3, so we shift up by 24 bits for the first one
+  LLI GP2, #0 ; Init GP2 to 0, mostly to allow for multiple prompts
   loop:
     LD GP0, GP31, #2    ; Load keyboard next value into register
     CMP GP0, GP21       ; Check if it's empty
@@ -244,11 +253,17 @@ prompt:
     PUSH GP0
     PUSH GP1
     PUSH GP2
+    PUSH GP4
     CALLI :process_input  ; Call process input
+    POP GP4
     POP GP2
     POP GP1
     POP GP0
-  continue_prompt:
-    ADD GP2, GP0        ; We have a value, so add it to the word
-    SHLI GP2, #8
+    JMP :prompt
+  continue_prompt: 
+    MOV GP4, GP1 ; Copy counter
+    MULI GP4, #8 ; Multiply by bits to shift
+    SHL GP0, GP4 ; Shift left the number of bits appropriate
+    ADD GP2, GP0 ; We have a value, so add it to the word
+    SUBI GP1, #1 ; Counter to adjust the shift value
     JMP :loop

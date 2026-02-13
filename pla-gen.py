@@ -185,8 +185,8 @@ instructions = [
     Instruction(OpCode.JGEU,    [MicroOp.PC_WRITE_ENABLE,  MicroOp.CONDITION_GEU, MicroOp.PC_RELATIVE_ADDR], MicroOp.NEXT_INSTRUCTION),
     Instruction(OpCode.JGTU,    [MicroOp.PC_WRITE_ENABLE,  MicroOp.CONDITION_GTU, MicroOp.PC_RELATIVE_ADDR], MicroOp.NEXT_INSTRUCTION),
     
-    Instruction(OpCode.LD,      [MicroOp.REG_READ_B,       MicroOp.MEM_TO_A, MicroOp.MEM_ADDR_EMIT, MicroOp.REG_WRITE_ENABLE],  MicroOp.NEXT_INSTRUCTION),
-    Instruction(OpCode.ST,      [MicroOp.REG_READ_B, MicroOp.MEM_ADDR_EMIT, MicroOp.MEM_WRITE_ENABLE],  MicroOp.NEXT_INSTRUCTION),
+    Instruction(OpCode.LD,      [MicroOp.MEM_TO_A, MicroOp.MEM_ADDR_EMIT, MicroOp.REG_WRITE_ENABLE],  MicroOp.NEXT_INSTRUCTION),
+    Instruction(OpCode.ST,      [MicroOp.MEM_ADDR_EMIT, MicroOp.MEM_WRITE_ENABLE],  MicroOp.NEXT_INSTRUCTION),
     Instruction(OpCode.LUI,     [MicroOp.ZERO_TO_A, MicroOp.REG_WRITE_ENABLE], [MicroOp.REG_WRITE_ENABLE, MicroOp.IMM_TO_A, MicroOp.NEXT_INSTRUCTION]),
     Instruction(OpCode.LLI,     [MicroOp.ZERO_TO_A, MicroOp.REG_WRITE_ENABLE], [MicroOp.REG_WRITE_ENABLE, MicroOp.IMM_USE_LOWER16, MicroOp.IMM_TO_A, MicroOp.NEXT_INSTRUCTION]),
     Instruction(OpCode.NOT,     [MicroOp.INVERT_REG_A, MicroOp.REG_WRITE_ENABLE, MicroOp.NEXT_INSTRUCTION]),
