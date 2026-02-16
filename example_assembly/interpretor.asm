@@ -330,6 +330,7 @@ find_match:
   ; We have to first retrieve the command word pointer from the command struct pointer
   MOV GP2, GP24 ; Copy beginning of command pointers array
   MOV GP3, GP23 ; Copy beginning of entered command
+  ; GP7 will be the "non-zero means we didn't match" reg, because we need to check if there's a null byte at the end of the word so we know to stop scanning.
   outer_loop:
     CMP GP2, GP21   ; Check if the pointer is null
     JEQ :fail_exit  ; Early exit if we reached the end of the pointers array
@@ -338,30 +339,40 @@ find_match:
     LD GP1, GP5, #0 ; Load command word
     LD GP0, GP3, #0 ; Load first entered command word
     inner_loop:
-      CMP GP0, GP1
-      JNE :not_match ; Use the same end sequence for when they don't match
-      ADDI GP5, #1 ; Add 1 to command word pointer
-      ADDI GP3, #1 ; Add 1 to entered command pointer
-      LD GP0, GP3, #0 ; Load entered command next word
-      LD GP1, GP5, #0 ; Load next command word
-; TODO: One problem in this function is that I'm comparing entire words. If I'm going to use a packed null byte, I need to check the bytes individually...
-      CMP GP0, GP21 ; Check if entered command word is null
-      JEQ :entered_end
-      CMP GP1, GP21 ; Check if command word is null
-      JEQ :entered_end ; If we reached the end of the command word, but there'smore of the entered command, clearly this isn't it. Try next.
-      JMP :inner_loop ; Loop again to check the next word in the sequence 
+      LLI GP13, #3 ; Shift byte amount
+      LLI GP14, #8 ; Byte
+      MUL GP14, GP13 ; Multiply to get shift amount
+      byte_loop:
+        MOV GP11, GP0
+        MOV GP12, GP1
+        SHR GP11, GP14
+        SHR GP12, GP14
+        CMP GP11, GP12
+        JEQ :match
+        LLI GP7, #1 ; Didn't match
+        match:
+        SUBI GP13, #1
+        CMP GP13, GP21 ; Check if counter is less than 0
+        JGE :byte_loop ; Keep getting bytes from this word
+        CMP GP12, GP21 ; Check if it's zero (end)
+        JNE :more_bytes
+        ; We reached the end of the command word we're checking.
+        CMP GP7, GP21  ; Check if it's zero
+        JNE :not_match ; Jump away if it didn't match
+        MOV GP28, GP4  ; Pointer to matching command
+        RET
+        more_bytes:
+          ADDI GP3, #1 ; Add 1 to get next word
+          ADDI GP5, #1 ; Add 1 to get next word
+          LD GP0, GP3, #0 ; Load entered command next word
+          LD GP1, GP5, #0 ; Load next command word
+          JMP :inner_loop
+
   
   not_match:
     ADDI GP2, #1
     MOV GP3, GP23
     JMP :outer_loop ; Try again
-
-  entered_end:
-    CMP GP1, GP21 ; Check if the command word is also null
-    JEQ :success_exit
-    ADDI GP24, #1 ; Add 1 to command pointers array
-    MOV GP3, GP23 ; Reset entered command to beginning
-    JMP :outer_loop ; Loop again
   success_exit:
     MOV GP28, GP4 ; Copy command struct pointer to return
     RET
@@ -385,25 +396,22 @@ MOV GP24, GP10
 PUSH GP10 ; Stack: Command struct pointer
 PUSH GP0  ; Stack: Input pointer, Command struct array pointer
 CALLI :find_match
-POP GP0 ; Restore, GP10 (heap pointer to command structs still pushed)
 CMP GP28,  GP21 ; Check if it's zero (no pointer found to matching command struct)
 JEQ :cmd_fail  ; Jump back to get input again
 ; We got a match, so this is a pointer to the struct. 
 ; For the add command, we're given a sequence of prompts, and we should take in values to add together.
 ; But, in future, this ought to be more generic with prompt types and what kind of input we're expecting, and what we do with it.
-MOV GP0, GP28 ; Move command struct to GP0
-MOV GP1, GP0  ; Copy it
-ADDI GP1, #1  ; This is the pointer to the prompts pointers array
-MOV GP23, GP1 ; Give it the first prompt
+MOV GP0, GP28 ; Get pointer to struct
+LD GP1, GP0, #1 ; Load the pointer from the #1 offset from that pointer, which is the prompts pointer
+LD GP23, GP1, #0 ; Load first prompt pointer
 PUSH GP0 ; Struct pointer, command struct array pointer 
-PUSH GP1 ; Prompts array pointer, Struct pointer, command struct array pointer
 CALLI :get_input ; Get input again
 MOV GP23, GP28 ; Pointer to text of value we want
 CALLI :digit_loop
-POP GP1
-ADDI GP1, #1
-MOV GP23, GP1
-PUSH GP1
+POP GP0
+LD GP1, GP0, #1 ; Load the pointer again
+LD GP23, GP1, #1 ; Second prompt pointer
+PUSH GP0
 PUSH GP28 ; Save the return to stack -> prompts -> command struct -> struct array
 CALLI :get_input
 MOV GP23, GP28 ; Pointer to text of value we want
@@ -467,14 +475,14 @@ build_ascii:
     skip_new_word:
     ST GP6, GP10, #0 ; Store the final word
   done_ascii:
-    POP GP23
-    ADDI GP23, #1
-    PUSH GP23
+    POP GP0
+    LD GP1, GP0, #1 ; prompt array pointer
+    LD GP23, GP1, #2 ; Third prompt pointer 
     CALLI :display_output
-    MOV GP23, GP11
+    MOV GP23, GP11 ; Put number in there
     CALLI :display_output
-    ST GP20, GP31, #0
-    JMP :main_loop
+    ST GP20, GP31, #1 ; New Line
+    JMP :main_loop ; Next command
 
 get_digit:
   ; GP23 - Full number
