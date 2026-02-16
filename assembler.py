@@ -108,7 +108,7 @@ class Instruction:
         self.operand_4 = operand_4
 
 instruction_table = {
-    "NOP":      Opcode(None,                        None,                           None,                           None, 1),
+    "NOP":      Opcode(None,                        None,                           None,                           None, 0),
     "CALL":     Opcode(Operands.RegSpacer,          Operands.Register,              None,                           None, 16),
     "CALLI":    Opcode(Operands.RegSpacer,          Operands.IntegerImmediate16,    None,                           None, 17),
     "RET":      Opcode(None,                        None             ,              None,                           None, 18),
@@ -165,6 +165,7 @@ instruction_table = {
     "NOT":      Opcode(Operands.Register,           None,                           None,                           None, 100),
     "CMP":      Opcode(Operands.Register,           Operands.Register,              None,                           None, 101),
     "MOV":      Opcode(Operands.Register,           Operands.Register,              None,                           None, 102),
+    "AMOV":     Opcode(Operands.Register,           None,                           None,                           None, 103)
 }
 
 assembly_file = ""
@@ -238,6 +239,9 @@ with open(assembly_file, "r") as af:
             print(f"opcode str: {opcode_str} (len: {len(opcode_str)})")
         if temp_line == "" or temp_line == "\n":
             # Skip empty lines
+            continue
+        #print(f"opcode str: {opcode_str} len: {len(opcode_str)}")
+        if(len(opcode_str) == 0):
             continue
         if opcode_str[0] == ';':
             continue # It's a comment
