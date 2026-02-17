@@ -640,6 +640,8 @@ get_input:
   LLI GP5, #0             ; Explicitly set GP5
   LLI GP6, #0             ; Explicitly set GP6
   LLI GP7, #0             ; Explicitly set GP7
+  LLI GP8, .char_Backspace ; Set to backspace ascii code
+  LLI GP12, #0        ; Used to store current reg's memory storage location, so I can subtract when I remove
   CMP GP23, GP5
   JEQ :input_poll_loop
   PUSH GP7
@@ -659,6 +661,11 @@ get_input:
     CMP GP0, GP21         ; Check if it's empty
     JEQ :input_poll_loop
     ST GP0, GP31, #1      ; Print value on screen
+    CMP GP0, GP8          ; Backspace?
+    JNE :skip_rem_char
+    CALLI :remove_char
+    JMP :input_poll_loop
+    skip_rem_char:
     CMP GP0, GP20         ; New line?
     JNE :add_text_and_loop
     ; Here we take the pointer to the beginning of the heap allocated memory and return it.
@@ -699,7 +706,52 @@ extend_and_push_heap:
   JNE :skip_set_ret
   MOV GP5, GP28 ; Set gp5 to heap pointer
   skip_set_ret:
+  MOV GP12, GP28 ; Store last mem addr
   LLI GP2, #0
   LLI GP1, #3
   RET
 
+remove_char:
+  ; The counter will tell us which character is next, so we know which to remove
+  ; Counter = -1 means we remove bits 0-7
+  ; Counter = 0 means we remove bits 8-15
+  ; Counter = 1 means we remove bits 16-23
+  ; Counter = 2 means we remove bits 24-31
+  ; Counter = 3 means one of two things:
+  ;   If GP5 is set, we go back to the previous word and remove a char from it, and remove it from memory so we can write it again.
+  ;     This also means we need to free the memory address, so we reduce the heap pointer by 1.
+  ;   If GP5 is not set, we do nothing, because there was never a character there to begin with
+  ; Instead of CMPing the counter, we should just add 1 to it and mult by 8 so we know how many bits to shift.
+  ; Shift right 8 bits, left 8 bits at 0
+  ; Shift right 16 bits, right 16 bits at 1
+  ; Shift left 24 bits, right 24 bits at 2
+  ; Don't shift immediately at 3. Set counter to 0 (because we're removing a char) and then SHR 8 bits, SHL 8 bits
+  MOV GP9, GP1
+  ADDI GP9, #2 ; Add 2
+  MULI GP9, #8 ; Multiply by byte
+  LLI GP11, #3 ; Compare
+  LLI GP13, #32 ; Compare
+  CMP GP1, GP11 ; If == 3
+  JEQ :remove_word_from_mem
+  CMP GP9, GP13
+  JEQ :set_to_zero
+  SHR GP2, GP9 ; Shift by number of bits to remove character
+  SHL GP2, GP9 ; Shift back
+  ADDI GP1, #1 ; Add 1 to counter
+  RET
+  remove_word_from_mem:
+  CMP GP5, GP21 ; If GP5 == 0
+  JEQ :do_nothing
+  LD GP2, GP12, #0 ; Load word
+  ST GP21, GP12, #0 ; Empty it
+  SUBI GP12, #1 ; Decrement
+  LLI GP1, #0
+  SHRI GP2, #8 ; Shift by known number of bits
+  SHLI GP2, #8 ; Shift by known number of bits
+  do_nothing:
+  RET
+
+  set_to_zero:
+  LLI GP2, #0 ; Set to zero
+  ADDI GP1, #1 ; Add 1 to counter
+  RET
