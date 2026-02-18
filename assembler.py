@@ -159,13 +159,15 @@ instruction_table = {
     "SHRI":     Opcode(Operands.Register,           Operands.IntegerImmediate20,    None,                           None, 0b1011000),
 
     "LD":       Opcode(Operands.Register,           Operands.Register,              Operands.IntegerImmediate15,    None, 96),
-    "ST":       Opcode(Operands.Register,           Operands.Register,              Operands.IntegerImmediate15,    None, 97),
-    "LUI":      Opcode(Operands.Register,           Operands.IntegerImmediate16,    None,                           None, 98),
-    "LLI":      Opcode(Operands.Register,           Operands.IntegerImmediate16,    None,                           None, 99),
-    "NOT":      Opcode(Operands.Register,           None,                           None,                           None, 100),
-    "CMP":      Opcode(Operands.Register,           Operands.Register,              None,                           None, 101),
-    "MOV":      Opcode(Operands.Register,           Operands.Register,              None,                           None, 102),
-    "AMOV":     Opcode(Operands.Register,           None,                           None,                           None, 103)
+    "LDB":      Opcode(Operands.Register,           Operands.Register,              Operands.IntegerImmediate15,    None, 97),
+    "ST":       Opcode(Operands.Register,           Operands.Register,              Operands.IntegerImmediate15,    None, 98),
+    "STB":      Opcode(Operands.Register,           Operands.Register,              Operands.IntegerImmediate15,    None, 99),
+    "LUI":      Opcode(Operands.Register,           Operands.IntegerImmediate16,    None,                           None, 100),
+    "LLI":      Opcode(Operands.Register,           Operands.IntegerImmediate16,    None,                           None, 101),
+    "NOT":      Opcode(Operands.Register,           None,                           None,                           None, 102),
+    "CMP":      Opcode(Operands.Register,           Operands.Register,              None,                           None, 103),
+    "MOV":      Opcode(Operands.Register,           Operands.Register,              None,                           None, 104),
+    "AMOV":     Opcode(Operands.Register,           None,                           None,                           None, 105)
 }
 
 assembly_file = ""
