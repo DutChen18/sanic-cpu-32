@@ -1,3 +1,0 @@
-XORI GP0, #1
-XORI GP1, #2
-ADD GP0, GP1
