@@ -139,11 +139,11 @@ LUI GP30, #128 ; Minimum memory address, heap grow upward?
 ; "Enter second number: " 6 words (5 + space and null)
 ; "Result: " 3 words (last word for nul)
 ; 15 words total for add command
-LLI GP23, #24 ; Allocate for 1 command word and the addition prompts
+LLI GP23, #96 ; Allocate for 1 command word and the addition prompts
 CALLI :malloc ; Obtain the pointer, it's now on GP28
 
 MOV GP10, GP28   ; Move heap pointer result into new reg, it's 24 words, we know.
-LLI GP23, #1 ; Allocate another on heap for general prompt
+LLI GP23, #4 ; Allocate another on heap for general prompt
 CALLI :malloc
 MOV GP22, GP28 ; Put pointer on GP22
 MOV GP11, GP10   ; Get pointer to command struct array

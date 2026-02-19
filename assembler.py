@@ -292,34 +292,26 @@ with open(assembly_file, "r") as af:
                 op3_comment = True
             if(debug):
                 print(f"operand_1: {operand_1}")
-            if operand_1[0] == ':':
-                # Is label
+            if operand_1.strip() in labels:
                 if debug:
-                    print(f"{operand_1} is a label (mid)")
-                if operand_1.strip(':').strip() in labels:
-                    if debug:
-                        print(f"label exists in dict")
-                    # Replace label with instruction number to allow the jump to work.
-                    label_value = labels[operand_1.strip(':').strip()]
-                    operand_1 = f"#{(label_value - line_count)}"# Set operand_2 to the difference 
-                    # Added complexity as well if the target line is more than 16-bits of lines away? It should be rejected until we implement some kind of far branching
+                    print(f"label exists in dict")
+                # Replace label with instruction number to allow the jump to work.
+                label_value = labels[operand_1.strip(':').strip()]
+                operand_1 = f"#{(label_value - line_count)}"# Set operand_2 to the difference 
+                # Added complexity as well if the target line is more than 16-bits of lines away? It should be rejected until we implement some kind of far branching
         if len(arguments) > 1 and op1_comment == False:
             operand_2 = arguments[1].strip().split(";")[0]
             if debug:
                 print(f"operand_2: {operand_2}")
             if len(arguments[1].strip().split(';')) > 1:
                 op2_comment = True
-            if operand_2[0] == ':':
-                # Is label
+            if operand_2.strip() in labels:
                 if debug:
-                    print(f"{operand_2} is a label (bot)")
-                if operand_2.strip(':').strip() in labels:
-                    if debug:
-                        print(f"label exists in dict")
-                    # Replace label with instruction number to allow the jump to work.
-                    label_value = labels[operand_2.strip(':').strip()]
-                    operand_2 = f"#{(label_value - line_count)}"# Set operand_2 to the difference 
-                    # Added complexity as well if the target line is more than 16-bits of lines away? It should be rejected until we implement some kind of far branching
+                    print(f"label exists in dict")
+                # Replace label with instruction number to allow the jump to work.
+                label_value = labels[operand_2.strip(':').strip()]
+                operand_2 = f"#{(label_value - line_count)}"# Set operand_2 to the difference 
+                #Added complexity as well if the target line is more than 16-bits of lines away? It should be rejected until we implement some kind of far branching
             if operand_2[0] == '.':
                 # Is variable
                 if operand_2.strip('.').strip() in variables:
@@ -476,13 +468,19 @@ for decode_middle in instruction_opcode_decoded:
             operand_3 = Register[decode_middle.operand_3].value
         if decode_middle.opcode.operand_3.operand_type == OperandType.AddressImmediate or decode_middle.opcode.operand_3.operand_type == OperandType.IntegerImmediate20 or decode_middle.opcode.operand_3.operand_type == OperandType.IntegerImmediate16 or decode_middle.opcode.operand_3.operand_type == OperandType.IntegerImmediate15:
             operand_3 = int(decode_middle.operand_3)
+            mask = (1 << decode_middle.opcode.operand_3.offset) - 1
+            sign_bit = ((1 << decode_middle.opcode.operand_3.offset - 1))
+            raw_operand = int(decode_middle.operand_3)
+            operand_3 = raw_operand & mask
+            if(debug):
+                print(f"raw: {raw_operand}, op3: {operand_3}")
+                print(f"bin: {bin(raw_operand)}\n{bin(operand_3)}")
     # Operand 4
     if decode_middle.opcode.operand_4 != None:
         if decode_middle.opcode.operand_4.operand_type == OperandType.Register:
             operand_4 = Register[decode_middle.operand_4].value
         if decode_middle.opcode.operand_4.operand_type == OperandType.AddressImmediate or decode_middle.opcode.operand_4.operand_type == OperandType.IntegerImmediate20 or decode_middle.opcode.operand_4.operand_type == OperandType.IntegerImmediate16 or decode_middle.opcode.operand_3.operand_type == OperandType.IntegerImmediate15:
             operand_4 = int(decode_middle.operand_4)
-    
     instruction = decode_middle.opcode.machine_code
     offset = 7
     if(debug):
@@ -501,15 +499,15 @@ for decode_middle in instruction_opcode_decoded:
     if(operand_1 != None):
         instruction, offset = pack_operand(instruction, operand_1, offset, decode_middle.opcode.operand_1.offset)
         if(debug):
-            print(f"Op1: {bin(instruction)}")
+            print(f"Op1: {bin(instruction)} ({instruction})")
     if(operand_2 != None):
         instruction, offset = pack_operand(instruction, operand_2, offset, decode_middle.opcode.operand_2.offset)
         if(debug):
-            print(f"Op2: {bin(instruction)}")
+            print(f"Op2: {bin(instruction)} ({instruction})")
     if(operand_3 != None):
         instruction, offset = pack_operand(instruction, operand_3, offset, decode_middle.opcode.operand_3.offset)
         if(debug):
-            print(f"Op3: {bin(instruction)}")
+            print(f"Op3: {bin(instruction)} ({instruction})")
     if(operand_4 != None):
         instruction, offset = pack_operand(instruction, operand_4, offset, decode_middle.opcode.operand_4.offset)
         if(debug):
@@ -517,12 +515,9 @@ for decode_middle in instruction_opcode_decoded:
     instructions.append(instruction)
 
 with open(out_path, "wb") as bf:
-    bytes_used = len(instructions * 4)
-    bytes_to_pad = 16768 - bytes_used
     for instruction in instructions:
-        bf.write(instruction.to_bytes(4, byteorder='little', signed=True))
-    for num in range(0, bytes_to_pad):
-        bf.write((0).to_bytes(4, byteorder='little', signed=False))
-
-
+        if(debug):
+            print(f"writing instruction: {instruction}")
+            print(f"bin: {bin(instruction)}")
+        bf.write(instruction.to_bytes(4, byteorder='little', signed=False))
 
