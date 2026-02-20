@@ -5,46 +5,45 @@
   <lib desc="#Wiring" name="0">
     <tool name="Splitter">
       <a name="appear" val="center"/>
-      <a name="bit1" val="0"/>
-      <a name="bit10" val="1"/>
-      <a name="bit11" val="1"/>
-      <a name="bit12" val="1"/>
-      <a name="bit13" val="1"/>
-      <a name="bit14" val="1"/>
-      <a name="bit15" val="1"/>
-      <a name="bit16" val="2"/>
-      <a name="bit17" val="2"/>
-      <a name="bit18" val="2"/>
-      <a name="bit19" val="2"/>
-      <a name="bit2" val="0"/>
-      <a name="bit20" val="2"/>
-      <a name="bit21" val="2"/>
-      <a name="bit22" val="2"/>
-      <a name="bit23" val="2"/>
-      <a name="bit24" val="3"/>
-      <a name="bit25" val="3"/>
-      <a name="bit26" val="3"/>
-      <a name="bit27" val="3"/>
-      <a name="bit28" val="3"/>
-      <a name="bit29" val="3"/>
-      <a name="bit3" val="0"/>
-      <a name="bit30" val="3"/>
-      <a name="bit31" val="3"/>
-      <a name="bit4" val="0"/>
-      <a name="bit5" val="0"/>
-      <a name="bit6" val="0"/>
-      <a name="bit7" val="0"/>
-      <a name="bit8" val="1"/>
-      <a name="bit9" val="1"/>
-      <a name="facing" val="west"/>
-      <a name="fanout" val="4"/>
+      <a name="bit0" val="none"/>
+      <a name="bit1" val="none"/>
+      <a name="bit10" val="none"/>
+      <a name="bit11" val="none"/>
+      <a name="bit12" val="0"/>
+      <a name="bit13" val="0"/>
+      <a name="bit14" val="0"/>
+      <a name="bit15" val="0"/>
+      <a name="bit16" val="0"/>
+      <a name="bit17" val="0"/>
+      <a name="bit18" val="0"/>
+      <a name="bit19" val="0"/>
+      <a name="bit2" val="none"/>
+      <a name="bit20" val="0"/>
+      <a name="bit21" val="0"/>
+      <a name="bit22" val="0"/>
+      <a name="bit23" val="0"/>
+      <a name="bit24" val="0"/>
+      <a name="bit25" val="0"/>
+      <a name="bit26" val="0"/>
+      <a name="bit27" val="0"/>
+      <a name="bit28" val="0"/>
+      <a name="bit29" val="0"/>
+      <a name="bit3" val="none"/>
+      <a name="bit30" val="0"/>
+      <a name="bit31" val="0"/>
+      <a name="bit4" val="none"/>
+      <a name="bit5" val="none"/>
+      <a name="bit6" val="none"/>
+      <a name="bit7" val="none"/>
+      <a name="bit8" val="none"/>
+      <a name="bit9" val="none"/>
+      <a name="fanout" val="1"/>
       <a name="incoming" val="32"/>
     </tool>
     <tool name="Pin">
       <a name="appearance" val="classic"/>
       <a name="facing" val="west"/>
       <a name="label" val="DATA_OUT"/>
-      <a name="type" val="output"/>
       <a name="width" val="32"/>
     </tool>
     <tool name="Pull Resistor">
@@ -3665,7 +3664,7 @@
       <circ-port dir="out" pin="2190,2430" x="180" y="320"/>
       <circ-port dir="out" pin="2370,1340" x="280" y="120"/>
     </appear>
-    <comp lib="0" loc="(1150,2290)" name="Splitter">
+    <comp lib="0" loc="(1150,1960)" name="Splitter">
       <a name="appear" val="center"/>
       <a name="bit0" val="none"/>
       <a name="bit1" val="none"/>
@@ -3688,11 +3687,11 @@
       <a name="bit25" val="0"/>
       <a name="bit26" val="0"/>
       <a name="bit27" val="0"/>
-      <a name="bit28" val="none"/>
-      <a name="bit29" val="none"/>
+      <a name="bit28" val="0"/>
+      <a name="bit29" val="0"/>
       <a name="bit3" val="none"/>
-      <a name="bit30" val="none"/>
-      <a name="bit31" val="none"/>
+      <a name="bit30" val="0"/>
+      <a name="bit31" val="0"/>
       <a name="bit4" val="none"/>
       <a name="bit5" val="none"/>
       <a name="bit6" val="none"/>
@@ -3866,10 +3865,10 @@
       <a name="bit1" val="0"/>
       <a name="bit10" val="0"/>
       <a name="bit11" val="0"/>
-      <a name="bit12" val="0"/>
-      <a name="bit13" val="0"/>
-      <a name="bit14" val="0"/>
-      <a name="bit15" val="0"/>
+      <a name="bit12" val="1"/>
+      <a name="bit13" val="1"/>
+      <a name="bit14" val="1"/>
+      <a name="bit15" val="1"/>
       <a name="bit16" val="1"/>
       <a name="bit17" val="1"/>
       <a name="bit18" val="1"/>
@@ -3906,10 +3905,10 @@
       <a name="bit13" val="0"/>
       <a name="bit14" val="0"/>
       <a name="bit15" val="0"/>
-      <a name="bit16" val="1"/>
-      <a name="bit17" val="1"/>
-      <a name="bit18" val="1"/>
-      <a name="bit19" val="1"/>
+      <a name="bit16" val="0"/>
+      <a name="bit17" val="0"/>
+      <a name="bit18" val="0"/>
+      <a name="bit19" val="0"/>
       <a name="bit2" val="0"/>
       <a name="bit20" val="1"/>
       <a name="bit21" val="1"/>
@@ -4745,17 +4744,17 @@
       <a name="font" val="SansSerif plain 12"/>
       <a name="text" val="skip agu (push/pop/call/ret)"/>
     </comp>
-    <wire from="(1150,1350)" to="(1150,2050)"/>
+    <wire from="(1150,1350)" to="(1150,1960)"/>
     <wire from="(1150,1350)" to="(1590,1350)"/>
-    <wire from="(1150,2050)" to="(1150,2290)"/>
+    <wire from="(1150,1960)" to="(1150,2050)"/>
+    <wire from="(1150,2050)" to="(1150,2760)"/>
     <wire from="(1150,2050)" to="(1160,2050)"/>
-    <wire from="(1150,2290)" to="(1150,2760)"/>
     <wire from="(1150,2760)" to="(1650,2760)"/>
     <wire from="(1150,930)" to="(1150,970)"/>
     <wire from="(1150,930)" to="(1200,930)"/>
     <wire from="(1150,970)" to="(1150,1350)"/>
     <wire from="(1160,910)" to="(1200,910)"/>
-    <wire from="(1170,2290)" to="(1230,2290)"/>
+    <wire from="(1170,1960)" to="(1230,1960)"/>
     <wire from="(1200,2050)" to="(1210,2050)"/>
     <wire from="(1200,900)" to="(1200,910)"/>
     <wire from="(1200,920)" to="(1200,930)"/>
@@ -4769,8 +4768,8 @@
     <wire from="(1220,970)" to="(1440,970)"/>
     <wire from="(1220,980)" to="(1440,980)"/>
     <wire from="(1220,990)" to="(1440,990)"/>
-    <wire from="(1230,1990)" to="(1230,2290)"/>
-    <wire from="(1230,1990)" to="(1450,1990)"/>
+    <wire from="(1230,1960)" to="(1230,2000)"/>
+    <wire from="(1230,2000)" to="(1450,2000)"/>
     <wire from="(1240,1020)" to="(1270,1020)"/>
     <wire from="(1240,1070)" to="(1260,1070)"/>
     <wire from="(1240,1170)" to="(1250,1170)"/>
@@ -4866,7 +4865,8 @@
     <wire from="(1450,1380)" to="(1460,1380)"/>
     <wire from="(1450,1690)" to="(1450,1790)"/>
     <wire from="(1450,1690)" to="(1520,1690)"/>
-    <wire from="(1450,1990)" to="(1450,2010)"/>
+    <wire from="(1450,1990)" to="(1450,2000)"/>
+    <wire from="(1450,2000)" to="(1450,2010)"/>
     <wire from="(1450,330)" to="(1450,380)"/>
     <wire from="(1450,330)" to="(1530,330)"/>
     <wire from="(1450,580)" to="(1450,690)"/>
@@ -7491,6 +7491,8 @@ fff80be2 fff80160 401e4 11d5 3162 ee8 14 12
       <a name="cols" val="80"/>
       <a name="rows" val="24"/>
     </comp>
+    <comp lib="5" loc="(610,1190)" name="Telnet"/>
+    <comp lib="5" loc="(630,1770)" name="Keyboard"/>
     <comp lib="5" loc="(880,330)" name="Keyboard"/>
     <comp loc="(580,440)" name="main"/>
     <wire from="(100,710)" to="(100,780)"/>
@@ -7579,6 +7581,8 @@ fff80be2 fff80160 401e4 11d5 3162 ee8 14 12
     <wire from="(50,40)" to="(260,40)"/>
     <wire from="(50,40)" to="(50,310)"/>
     <wire from="(50,720)" to="(70,720)"/>
+    <wire from="(530,1200)" to="(530,1210)"/>
+    <wire from="(530,1200)" to="(580,1200)"/>
     <wire from="(540,600)" to="(540,750)"/>
     <wire from="(540,600)" to="(880,600)"/>
     <wire from="(540,750)" to="(540,760)"/>
@@ -7955,5 +7959,27 @@ fff80be2 fff80160 401e4 11d5 3162 ee8 14 12
     <wire from="(770,640)" to="(780,640)"/>
     <wire from="(780,610)" to="(780,630)"/>
     <wire from="(780,660)" to="(780,670)"/>
+  </circuit>
+  <circuit name="hw_adder_32">
+    <a name="appearance" val="logisim_evolution"/>
+    <a name="circuit" val="hw_adder_32"/>
+    <a name="circuitnamedboxfixedsize" val="true"/>
+    <a name="simulationFrequency" val="32.0"/>
+    <comp lib="0" loc="(200,1270)" name="Pin">
+      <a name="appearance" val="classic"/>
+      <a name="label" val="Operand_A"/>
+      <a name="width" val="32"/>
+    </comp>
+    <comp lib="0" loc="(200,1380)" name="Pin">
+      <a name="appearance" val="classic"/>
+      <a name="label" val="Operand_B"/>
+      <a name="width" val="32"/>
+    </comp>
+  </circuit>
+  <circuit name="pd_simulator">
+    <a name="appearance" val="logisim_evolution"/>
+    <a name="circuit" val="pd_simulator"/>
+    <a name="circuitnamedboxfixedsize" val="true"/>
+    <a name="simulationFrequency" val="32.0"/>
   </circuit>
 </project>
