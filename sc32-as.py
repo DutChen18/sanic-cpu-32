@@ -127,7 +127,7 @@ Instruction("LLI", 101, [RegisterOperand(7), ImmediateOperand(12, 20, 0, False)]
 Instruction("NOT", 102, [RegisterOperand(7)])
 Instruction("CMP", 103, [RegisterOperand(7), RegisterOperand(12)])
 Instruction("MOV", 104, [RegisterOperand(7), RegisterOperand(12)])
-Instruction("AMOC", 105, [RegisterOperand(7)])
+Instruction("AMOV", 105, [RegisterOperand(7)])
 
 class Relocation:
     def __init__(self, symbol: Symbol, origin: int, offset: int, bits: int, shift: int, relative: bool):
