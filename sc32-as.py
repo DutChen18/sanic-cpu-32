@@ -335,6 +335,7 @@ if __name__ == "__main__":
     parser = ArgumentParser()
     parser.add_argument("file", nargs="+")
     parser.add_argument("--out", required=True)
+    parser.add_argument("--labels", action="store_true")
 
     args = parser.parse_args()
     module = Module()
@@ -366,7 +367,11 @@ if __name__ == "__main__":
 
             code |= (offset >> relocation.shift & (1 << relocation.bits) - 1) << relocation.offset
             section.data[origin:origin + 4] = code.to_bytes(4, byteorder="little")
-
+    
+    if(args.labels):
+        for symbol in module.symbols.values():
+            symbol_offset = symbol.label.section.offset + symbol.label.offset
+            print(f"{symbol.name}: {symbol_offset:x}")
     with open(args.out, "wb") as f:
         for section in sections:
             f.write(section.data)

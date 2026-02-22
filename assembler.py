@@ -111,20 +111,20 @@ instruction_table = {
     "NOP":      Opcode(None,                        None,                           None,                           None, 0),
     "CALL":     Opcode(Operands.RegSpacer,          Operands.Register,              None,                           None, 16),
     "CALLI":    Opcode(Operands.RegSpacer,          Operands.IntegerImmediate16,    None,                           None, 17),
-    "RET":      Opcode(None,                        None             ,              None,                           None, 18),
+    "RET":      Opcode(None,                        None,                           None,                           None, 18),
     "PUSH":     Opcode(Operands.RegSpacer,          Operands.Register,              None,                           None, 19),
-    "POP":      Opcode(Operands.Register,           None             ,              None,                           None, 20),
-    "BR":       Opcode(Operands.Register,           Operands.Register,              None,                           None, 32),
-    "BEQ":      Opcode(Operands.Register,           Operands.Register,              None,                           None, 33),
-    "BNE":      Opcode(Operands.Register,           Operands.Register,              None,                           None, 34),
-    "BLE":      Opcode(Operands.Register,           Operands.Register,              None,                           None, 35),
-    "BLT":      Opcode(Operands.Register,           Operands.Register,              None,                           None, 36),
-    "BGT":      Opcode(Operands.Register,           Operands.Register,              None,                           None, 37),
-    "BGE":      Opcode(Operands.Register,           Operands.Register,              None,                           None, 38),
-    "BLEU":     Opcode(Operands.Register,           Operands.Register,              None,                           None, 39),
-    "BLTU":     Opcode(Operands.Register,           Operands.Register,              None,                           None, 40),
-    "BGEU":     Opcode(Operands.Register,           Operands.Register,              None,                           None, 41),
-    "BGTU":     Opcode(Operands.Register,           Operands.Register,              None,                           None, 42),
+    "POP":      Opcode(Operands.Register,           None,                           None,                           None, 20),
+    "BR":       Opcode(Operands.Register,           Operands.IntegerImmediate16,    None,                           None, 32),
+    "BEQ":      Opcode(Operands.Register,           Operands.IntegerImmediate16,    None,                           None, 33),
+    "BNE":      Opcode(Operands.Register,           Operands.IntegerImmediate16,    None,                           None, 34),
+    "BLE":      Opcode(Operands.Register,           Operands.IntegerImmediate16,    None,                           None, 35),
+    "BLT":      Opcode(Operands.Register,           Operands.IntegerImmediate16,    None,                           None, 36),
+    "BGT":      Opcode(Operands.Register,           Operands.IntegerImmediate16,    None,                           None, 37),
+    "BGE":      Opcode(Operands.Register,           Operands.IntegerImmediate16,    None,                           None, 38),
+    "BLEU":     Opcode(Operands.Register,           Operands.IntegerImmediate16,    None,                           None, 39),
+    "BLTU":     Opcode(Operands.Register,           Operands.IntegerImmediate16,    None,                           None, 40),
+    "BGEU":     Opcode(Operands.Register,           Operands.IntegerImmediate16,    None,                           None, 41),
+    "BGTU":     Opcode(Operands.Register,           Operands.IntegerImmediate16,    None,                           None, 42),
 
     "JMP":      Opcode(Operands.RegSpacer,          Operands.IntegerImmediate16,    None,                           None, 48),
     "JEQ":      Opcode(Operands.RegSpacer,          Operands.IntegerImmediate16,    None,                           None, 49),
@@ -142,21 +142,23 @@ instruction_table = {
     "SUB":      Opcode(Operands.Register,           Operands.Register,              None,                           None, 0b1000001),
     "MUL":      Opcode(Operands.Register,           Operands.Register,              None,                           None, 0b1000010),
     "DIV":      Opcode(Operands.Register,           Operands.Register,              None,                           None, 0b1000011),
-    "OR" :      Opcode(Operands.Register,           Operands.Register,              None,                           None, 0b1000101),
     "AND":      Opcode(Operands.Register,           Operands.Register,              None,                           None, 0b1000100),
+    "OR" :      Opcode(Operands.Register,           Operands.Register,              None,                           None, 0b1000101),
     "XOR":      Opcode(Operands.Register,           Operands.Register,              None,                           None, 0b1000110),
     "SHL":      Opcode(Operands.Register,           Operands.Register,              None,                           None, 0b1000111),
     "SHR":      Opcode(Operands.Register,           Operands.Register,              None,                           None, 0b1001000),
+    "SRA":      Opcode(Operands.Register,           Operands.Register,              None,                           None, 73),
 
     "ADDI":     Opcode(Operands.Register,           Operands.IntegerImmediate20,    None,                           None, 0b1010000),
     "SUBI":     Opcode(Operands.Register,           Operands.IntegerImmediate20,    None,                           None, 0b1010001),
     "MULI":     Opcode(Operands.Register,           Operands.IntegerImmediate20,    None,                           None, 0b1010010),
     "DIVI":     Opcode(Operands.Register,           Operands.IntegerImmediate20,    None,                           None, 0b1010011),
-    "ORI" :     Opcode(Operands.Register,           Operands.IntegerImmediate20,    None,                           None, 0b1010101),
     "ANDI":     Opcode(Operands.Register,           Operands.IntegerImmediate20,    None,                           None, 0b1010100),
+    "ORI" :     Opcode(Operands.Register,           Operands.IntegerImmediate20,    None,                           None, 0b1010101),
     "XORI":     Opcode(Operands.Register,           Operands.IntegerImmediate20,    None,                           None, 0b1010110),
     "SHLI":     Opcode(Operands.Register,           Operands.IntegerImmediate20,    None,                           None, 0b1010111),
     "SHRI":     Opcode(Operands.Register,           Operands.IntegerImmediate20,    None,                           None, 0b1011000),
+    "SRAI":     Opcode(Operands.Register,           Operands.IntegerImmediate20,    None,                           None, 89),
 
     "LD":       Opcode(Operands.Register,           Operands.Register,              Operands.IntegerImmediate15,    None, 96),
     "LDB":      Opcode(Operands.Register,           Operands.Register,              Operands.IntegerImmediate15,    None, 97),
@@ -182,13 +184,6 @@ if len(sys.argv) > 1:
     if(len(sys.argv) > 4):
         debug = True 
 
-
-#XORI GP0, #1
-#XORI GP1, #2
-#ADD  GP0, GP1
-
-
-
 def pack_operand(instruction, operand, offset, bit_width):
     if operand is None:
         return instruction, offset
@@ -209,7 +204,10 @@ with open(assembly_file, "r") as af:
     line_count = 0
     # Gather labels first
     for line in af:
-        stripped_line = line.strip('\n').strip().split(';')[0]
+        stripped_line = line.strip('\n').strip().split(';')[0].strip()
+        if(vars_and_stuff):
+            print(f"DEBUG: {stripped_line}")
+
         if(len(stripped_line) > 0):
             if(debug):
                 print(f"last char: {stripped_line[len(stripped_line)-1]}")
@@ -263,30 +261,30 @@ with open(assembly_file, "r") as af:
         opcode = instruction_table[opcode_str]
         line_without_opcode = stripped_line[len(opcode_str):].strip()
         arguments = line_without_opcode.split(",")
-        if opcode_str == "BD":
-            # Binary data stuff
-            if line_without_opcode[0] == '"':
-                if line_without_opcode[len(line_without_opcode)-1] == '"':
-                    # We have a complete string
-                    string_val = line_without_opcode[1..(len(line_witout_opcode)-2)]
-                    byte_count = len(string_val)
-                    for(char in string_val):
-                        binary_data.append()
-                else:
-                    operand_start = line.find(line_without_opcode)
-                    right_justified_error = " " * operand_start + "^ Missing closing \" on string value"
-                    errors.append( line + "\n" +  right_justified_error)
-                    continue
-            elif line_witout_opcode[0] == "#":
-                # It's a number of some kind
-            elif line_without_opcode[0] == '\'':
-                if line_without_opcode[len(line_without_opcode)-1] == '\'':
-                
-                else:
-                    operand_start = line.find(line_without_opcode)
-                    right_justified_error = " " * operand_start + "^ Missing closing \' on char value"
-                    errors.append( line + "\n" +  right_justified_error)
-                    continue
+        # if opcode_str == "BD":
+        #     # Binary data stuff
+        #     if line_without_opcode[0] == '"':
+        #         if line_without_opcode[len(line_without_opcode)-1] == '"':
+        #             # We have a complete string
+        #             string_val = line_without_opcode[1(len(line_witout_opcode)-2)]
+        #             byte_count = len(string_val)
+        #             for(char in string_val):
+        #                 binary_data.append()
+        #         else:
+        #             operand_start = line.find(line_without_opcode)
+        #             right_justified_error = " " * operand_start + "^ Missing closing \" on string value"
+        #             errors.append( line + "\n" +  right_justified_error)
+        #             continue
+        #     elif line_witout_opcode[0] == "#":
+        #         # It's a number of some kind
+        #     elif line_without_opcode[0] == '\'':
+        #         if line_without_opcode[len(line_without_opcode)-1] == '\'':
+        #
+        #         else:
+        #             operand_start = line.find(line_without_opcode)
+        #             right_justified_error = " " * operand_start + "^ Missing closing \' on char value"
+        #             errors.append( line + "\n" +  right_justified_error)
+        #             continue
 
         operand_1 = ""
         operand_2 = ""
