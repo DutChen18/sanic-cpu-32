@@ -197,7 +197,7 @@ def is_digit(char: str):
     return char in "0123456789"
 
 def is_identifier_start(char: str):
-    return char in "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz_"
+    return char in "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz_."
 
 def is_identifier_continue(char: str):
     return is_identifier_start(char) or is_digit(char)
@@ -281,7 +281,7 @@ class Parser:
 class Context:
     def __init__(self, module: Module):
         self.module = module
-        self.section = module.get_section("code")
+        self.section = module.get_section(".text")
 
     def parse(self, file_name: str):
         with open(file_name) as f:
@@ -311,6 +311,10 @@ class Context:
 
                         if not parser.match(TokenKind.COMMA):
                             break
+                elif identifier == "SECTION":
+                    token = parser.expect(TokenKind.IDENTIFIER)
+                    text = parser.file.get_text(token)
+                    self.section = self.module.get_section(text)
                 elif identifier in Instruction.by_name:
                     instruction = Instruction.by_name[identifier]
                     code = instruction.code
@@ -340,6 +344,7 @@ if __name__ == "__main__":
         context.parse(file_name)
 
     sections = list(module.sections.values())
+    sections.sort(key=lambda section: section.name != ".main")
     offset = 0
 
     for section in sections:
