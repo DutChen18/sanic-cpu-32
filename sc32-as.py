@@ -150,6 +150,9 @@ class Label:
         self.section = section
         self.offset = offset
 
+    def get_offset(self):
+        return self.section.offset + self.offset
+
 class Symbol:
     def __init__(self, name: str):
         self.name = name
@@ -335,7 +338,7 @@ if __name__ == "__main__":
     parser = ArgumentParser()
     parser.add_argument("file", nargs="+")
     parser.add_argument("--out", required=True)
-    parser.add_argument("--labels", action="store_true")
+    parser.add_argument("--print-symbols", action="store_true")
 
     args = parser.parse_args()
     module = Module()
@@ -360,7 +363,7 @@ if __name__ == "__main__":
 
             origin = relocation.origin
             code = int.from_bytes(section.data[origin:origin + 4], byteorder="little")
-            offset = relocation.symbol.label.section.offset + relocation.symbol.label.offset
+            offset = relocation.symbol.label.get_offset()
 
             if relocation.relative:
                 offset -= section.offset + origin + 4
@@ -368,10 +371,14 @@ if __name__ == "__main__":
             code |= (offset >> relocation.shift & (1 << relocation.bits) - 1) << relocation.offset
             section.data[origin:origin + 4] = code.to_bytes(4, byteorder="little")
     
-    if(args.labels):
+    if args.print_symbols:
+        symbol_name_len = max(len(symbol.name) for symbol in module.symbols.values())
+
         for symbol in module.symbols.values():
-            symbol_offset = symbol.label.section.offset + symbol.label.offset
-            print(f"{symbol.name}: {symbol_offset:x}")
+            if symbol.label:
+                symbol_offset = symbol.label.get_offset()
+                print(f"{symbol.name:{symbol_name_len}}  {symbol_offset:08x}")
+
     with open(args.out, "wb") as f:
         for section in sections:
             f.write(section.data)
