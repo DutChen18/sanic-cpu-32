@@ -28,8 +28,7 @@ class ImmediateOperand(Operand):
         self.relative = relative
 
     def parse(self, context: Context, parser: Parser):
-        if parser.match(TokenKind.HASH):
-            token = parser.expect(TokenKind.NUMBER)
+        if token := parser.parse_number():
             number = parser.file.get_number(token)
             return (number & (1 << self.bits) - 1) << self.offset
         else:
@@ -281,6 +280,12 @@ class Parser:
 
         self.unexpected_token()
 
+    def parse_number(self):
+        if self.match(TokenKind.HASH):
+            return self.expect(TokenKind.NUMBER)
+        else:
+            return self.match(TokenKind.NUMBER)
+
 class Context:
     def __init__(self, module: Module):
         self.module = module
@@ -306,8 +311,7 @@ class Context:
                     symbol.label = Label(self.section, len(self.section.data))
                 elif identifier == "DB":
                     while True:
-                        if parser.match(TokenKind.HASH):
-                            token = parser.expect(TokenKind.NUMBER)
+                        if token := parser.parse_number():
                             self.section.data.append(file.get_number(token))
                         else:
                             parser.unexpected_token()
