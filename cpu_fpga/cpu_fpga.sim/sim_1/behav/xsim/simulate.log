@@ -1,0 +1,6 @@
+Time resolution is 1 ps
+Register:  0, Expected value: deadbeef, Returned value: deadbeef
+Register:  0, Expected value: 1234abcd, Returned value: 1234abcd
+Register:  1, Expected value: abcd1234, Returned value: abcd1234
+Register:  0, Expected value: 1234abcd, Returned value: 1234abcd
+INFO: xsimkernel Simulation Memory Usage: 279176 KB (Peak: 336448 KB), Simulation CPU Usage: 680 ms

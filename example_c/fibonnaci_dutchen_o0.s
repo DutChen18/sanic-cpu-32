@@ -63,7 +63,7 @@ LBB1_3:                                 ; %while.end
 LBB1_4:                                 ; %while.cond1
                                         ; =>This Inner Loop Header: Depth=1
 	LD GP2, GP0, #-20
-	LLI GP3, #0
+	LUI GP3, #2048
 	CMP GP2, GP3
 	JEQ LBB1_6
 	JMP LBB1_5
@@ -91,8 +91,46 @@ LBB1_6:                                 ; %while.end6
 main:                                   ; -- Begin function main
                                         ; @main
 ; %bb.0:                                ; %entry
-	LLI GP23, #1234
+	PUSH GP0
+	MOV GP0, GP29
+	SUBI GP29, #16
+	LLI GP2, #0
+	ST GP2, GP0, #-4
+	ST GP2, GP0, #-8
+	LLI GP3, #1
+	ST GP3, GP0, #-12
+	ST GP2, GP0, #-16
+	JMP LBB2_1
+LBB2_1:                                 ; %while.body
+                                        ; =>This Inner Loop Header: Depth=1
+	LDB GP2, GP0, #-16
+	ANDI GP2, #1
+	LLI GP3, #0
+	CMP GP2, GP3
+	JNE LBB2_3
+	JMP LBB2_2
+LBB2_2:                                 ; %if.then
+                                        ;   in Loop: Header=BB2_1 Depth=1
+	LD GP2, GP0, #-8
+	LD GP3, GP0, #-12
+	ADD GP2, GP3
+	ST GP2, GP0, #-8
+	LD GP23, GP0, #-8
 	CALLI printi
-	LLI GP28, #0
-	RET
+	JMP LBB2_4
+LBB2_3:                                 ; %if.else
+                                        ;   in Loop: Header=BB2_1 Depth=1
+	LD GP2, GP0, #-8
+	LD GP3, GP0, #-12
+	ADD GP2, GP3
+	ST GP2, GP0, #-12
+	LD GP23, GP0, #-12
+	CALLI printi
+	JMP LBB2_4
+LBB2_4:                                 ; %if.end
+                                        ;   in Loop: Header=BB2_1 Depth=1
+	LD GP2, GP0, #-16
+	ADDI GP2, #1
+	ST GP2, GP0, #-16
+	JMP LBB2_1
                                         ; -- End function

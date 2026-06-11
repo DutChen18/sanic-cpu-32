@@ -1,0 +1,118 @@
+absvti2.c
+  - No errors
+    0 bytes, probably the #ifdef
+
+absvdi2.c
+  fatal error: error in backend: unable to allocate function return #1
+
+absvsi2.c
+  error in backend: Cannot select: <U+001B>[0;34mt4<U+001B>[0m: i32 = GlobalAddress<ptr @__func__.__absvsi2> 0
+
+adddf3.c
+  error in backend: Cannot select: <U+001B>[0;31mt71<U+001B>[0m: ch = brcond <U+001B>[0;34mt74<U+001B>[0m,
+        <U+001B>[0;33mt94<U+001B>[0m, BasicBlock:ch<if.then.i 0x55ad22acda88>
+    <U+001B>[0;33mt94<U+001B>[0m: i32 = SC32ISD::SELECT seteq:ch, <U+001B>[0;31mt85<U+001B>[0m, <U+001B>[0;32mt86<U+001B>[0m, <U+001B>[0;32mt93<U+001B>[0m
+      <U+001B>[0;31mt85<U+001B>[0m: i32 = setcc <U+001B>[0;32mt2<U+001B>[0m, Constant:i32<0>, seteq:ch
+        <U+001B>[0;32mt2<U+001B>[0m: i32,ch = CopyFromReg <U+001B>[0;30mt0<U+001B>[0m, Register:i32 %95
+      <U+001B>[0;32mt86<U+001B>[0m: i32 = setcc <U+001B>[0;35mt82<U+001B>[0m, Constant:i32<-2146435072>, setult:ch
+        <U+001B>[0;35mt82<U+001B>[0m: i32 = add <U+001B>[0;34mt81<U+001B>[0m, Constant:i32<-2146435072>
+          <U+001B>[0;34mt81<U+001B>[0m: i32 = and <U+001B>[0;34mt4<U+001B>[0m, Constant:i32<2147483647>
+            <U+001B>[0;34mt4<U+001B>[0m: i32,ch = CopyFromReg <U+001B>[0;30mt0<U+001B>[0m, Register:i32 %96
+      <U+001B>[0;32mt93<U+001B>[0m: glue = SC32ISD::CMP <U+001B>[0;34mt81<U+001B>[0m, Constant:i32<0>
+        <U+001B>[0;34mt81<U+001B>[0m: i32 = and <U+001B>[0;34mt4<U+001B>[0m, Constant:i32<2147483647>
+          <U+001B>[0;34mt4<U+001B>[0m: i32,ch = CopyFromReg <U+001B>[0;30mt0<U+001B>[0m, Register:i32 %96
+  In function: __adddf3
+
+addsf3.c
+
+  error in backend: Cannot select: <U+001B>[0;34mt88<U+001B>[0m: i32 = ctlz <U+001B>[0;32mt23<U+001B>[0m
+    <U+001B>[0;32mt23<U+001B>[0m: i32 = and <U+001B>[0;30mt91<U+001B>[0m, Constant:i32<8388607>
+      <U+001B>[0;30mt91<U+001B>[0m: i32 = SC32ISD::SELECT setugt:ch, <U+001B>[0;36mt13<U+001B>[0m, <U+001B>[0;34mt11<U+001B>[0m, <U+001B>[0;36mt90<U+001B>[0m
+        <U+001B>[0;36mt13<U+001B>[0m: i32,ch = CopyFromReg <U+001B>[0;30mt0<U+001B>[0m, Register:i32 %1
+        <U+001B>[0;34mt11<U+001B>[0m: i32,ch = CopyFromReg <U+001B>[0;30mt0<U+001B>[0m, Register:i32 %0
+        <U+001B>[0;36mt90<U+001B>[0m: glue = SC32ISD::CMP <U+001B>[0;34mt4<U+001B>[0m, <U+001B>[0;30mt7<U+001B>[0m
+          <U+001B>[0;34mt4<U+001B>[0m: i32 = AssertZext <U+001B>[0;32mt2<U+001B>[0m, ValueType:ch:i31
+            <U+001B>[0;32mt2<U+001B>[0m: i32,ch = CopyFromReg <U+001B>[0;30mt0<U+001B>[0m, Register:i32 %3
+          <U+001B>[0;30mt7<U+001B>[0m: i32 = AssertZext <U+001B>[0;36mt6<U+001B>[0m, ValueType:ch:i31
+            <U+001B>[0;36mt6<U+001B>[0m: i32,ch = CopyFromReg <U+001B>[0;30mt0<U+001B>[0m, Register:i32 %2
+  In function: __addsf3
+
+addtf3.c 
+  - No errors
+    0 bytes
+    probably the #if defined(CRT_HAS_TF_MODE)
+
+addvdi3.c
+
+  error in backend: Cannot select: <U+001B>[0;30mt14<U+001B>[0m: ch = brcond <U+001B>[0;30mt0<U+001B>[0m, <U+001B>[0;36mt27<U+001B>[0m,
+        BasicBlock:ch<if.end6 0x55e77ad19e88>
+    <U+001B>[0;36mt27<U+001B>[0m: i32 = SC32ISD::SELECT seteq:ch, <U+001B>[0;36mt20<U+001B>[0m, <U+001B>[0;30mt21<U+001B>[0m, <U+001B>[0;35mt26<U+001B>[0m
+      <U+001B>[0;36mt20<U+001B>[0m: i32 = setcc <U+001B>[0;32mt2<U+001B>[0m, <U+001B>[0;30mt7<U+001B>[0m, setult:ch
+        <U+001B>[0;32mt2<U+001B>[0m: i32,ch = CopyFromReg <U+001B>[0;30mt0<U+001B>[0m, Register:i32 %0
+        <U+001B>[0;30mt7<U+001B>[0m: i32,ch = CopyFromReg <U+001B>[0;30mt0<U+001B>[0m, Register:i32 %6
+      <U+001B>[0;30mt21<U+001B>[0m: i32 = setcc <U+001B>[0;34mt4<U+001B>[0m, <U+001B>[0;32mt9<U+001B>[0m, setlt:ch
+        <U+001B>[0;34mt4<U+001B>[0m: i32,ch = CopyFromReg <U+001B>[0;32mt2<U+001B>[0m:1, Register:i32 %1
+        <U+001B>[0;32mt9<U+001B>[0m: i32,ch = CopyFromReg <U+001B>[0;30mt7<U+001B>[0m:1, Register:i32 %7
+      <U+001B>[0;35mt26<U+001B>[0m: glue = SC32ISD::CMP <U+001B>[0;34mt4<U+001B>[0m, <U+001B>[0;32mt9<U+001B>[0m
+        <U+001B>[0;34mt4<U+001B>[0m: i32,ch = CopyFromReg <U+001B>[0;32mt2<U+001B>[0m:1, Register:i32 %1
+        <U+001B>[0;32mt9<U+001B>[0m: i32,ch = CopyFromReg <U+001B>[0;30mt7<U+001B>[0m:1, Register:i32 %7
+  In function: __addvdi3
+
+addvsi3.c
+  error in backend: Cannot select: <U+001B>[0;34mt4<U+001B>[0m: i32 = GlobalAddress<ptr @__func__.__addvsi3> 0
+
+apple_versioning.c
+  - No errors
+    0 bytes
+  #if __APPLE__
+
+ashldi3.c
+  - fatal error: error in backend: unable to allocate function return #1
+
+ashlti3.c
+  - No errors
+    0 bytes
+    #ifdef CRT_HAS_128BIT
+
+ashrdi3.c
+  - function return #1 again
+
+ashrti3.c
+  - No errors
+    0 bytes
+  #ifdef CRT_HAS_128BIT
+
+atomic.c
+  -  error: static assertion failed due to requirement '__atomic_always_lock_free(sizeof(unsigned int), 0)': Implementation assumes lock-free
+      pointer-size cmpxchg
+
+atomic_flag_clear.c 
+  - fatal error: error in backend: Cannot select: <U+001B>[0;30mt7<U+001B>[0m: ch = AtomicStore<(volatile store seq_cst (s8) into %ir.object)>
+      <U+001B>[0;30mt0<U+001B>[0m, Constant:i32<0>, <U+001B>[0;32mt2<U+001B>[0m
+      <U+001B>[0;32mt2<U+001B>[0m: i32,ch = CopyFromReg <U+001B>[0;30mt0<U+001B>[0m, Register:i32 %0
+    In function: atomic_flag_clear
+
+atomic_flag_clear_explicit.c
+  - fatal error: error in backend: Cannot select: <U+001B>[0;36mt6<U+001B>[0m: ch = AtomicStore<(volatile store seq_cst (s8) into %ir.object)>
+      <U+001B>[0;30mt0<U+001B>[0m, Constant:i32<0>, <U+001B>[0;33mt3<U+001B>[0m
+      <U+001B>[0;33mt3<U+001B>[0m: i32,ch = CopyFromReg <U+001B>[0;30mt0<U+001B>[0m, Register:i32 %0
+    In function: atomic_flag_clear_explicit
+
+atomic_flag_test_and_set.c
+  - fatal error: error in backend: Cannot select: <U+001B>[0;36mt13<U+001B>[0m: i32,ch = AtomicSwap<(volatile load store seq_cst (s8) on %ir.object)>
+      <U+001B>[0;30mt0<U+001B>[0m, <U+001B>[0;32mt2<U+001B>[0m, Constant:i32<1>
+      <U+001B>[0;32mt2<U+001B>[0m: i32,ch = CopyFromReg <U+001B>[0;30mt0<U+001B>[0m, Register:i32 %0
+    In function: atomic_flag_test_and_set
+
+atomic_flag_test_and_set_explicit.c
+  - fatal error: error in backend: Cannot select: <U+001B>[0;34mt4<U+001B>[0m: ch = br_jt <U+001B>[0;32mt2<U+001B>[0m:1, JumpTable:i32<0>,
+      <U+001B>[0;32mt2<U+001B>[0m
+      <U+001B>[0;32mt2<U+001B>[0m: i32,ch = CopyFromReg <U+001B>[0;30mt0<U+001B>[0m, Register:i32 %8
+  In function: atomic_flag_test_and_set_explicit
+
+atomic_signal_fence.c
+  - error in backend: Cannot select: <U+001B>[0;34mt4<U+001B>[0m: ch = br_jt <U+001B>[0;32mt2<U+001B>[0m:1, JumpTable:i32<0>,
+      <U+001B>[0;32mt2<U+001B>[0m
+  <U+001B>[0;32mt2<U+001B>[0m: i32,ch = CopyFromReg <U+001B>[0;30mt0<U+001B>[0m, Register:i32 %1
+In function: atomic_signal_fence
+

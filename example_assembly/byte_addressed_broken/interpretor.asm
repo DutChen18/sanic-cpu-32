@@ -275,7 +275,7 @@ SHLI GP0, #8
 ADDI GP0, .n
 SHLI GP0, #8 
 ADDI GP0, .d
-ST GP0, GP1, #2
+ST GP0, GP1, #2So I can get away with less personal time 
 
 LLI GP0, .char_space
 SHLI GP0, #8

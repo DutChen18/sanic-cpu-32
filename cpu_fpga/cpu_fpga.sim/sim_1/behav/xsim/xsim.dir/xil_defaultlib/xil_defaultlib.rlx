@@ -1,0 +1,9 @@
+0.7
+2020.2
+Nov 14 2025
+12:36:23
+/home/boysanic/git/sanic-cpu-32/cpu_fpga/cpu_fpga.sim/sim_1/behav/xsim/glbl.v,1756381829,verilog,,,,glbl,,uvm,,,,,,
+/home/boysanic/git/sanic-cpu-32/cpu_fpga/cpu_fpga.srcs/sim_1/new/reg_test.sv,1779813618,systemVerilog,,,,reg_test,,uvm,../../../../../../../.vivado/2025.2/data/rsb/busdef,,,,,
+/home/boysanic/git/sanic-cpu-32/cpu_fpga/cpu_fpga.srcs/sim_1/new/tb_regfile.sv,1779834199,systemVerilog,,,,tb_regfile,,uvm,../../../../../../../.vivado/2025.2/data/rsb/busdef,,,,,
+/home/boysanic/git/sanic-cpu-32/cpu_fpga/cpu_fpga.srcs/sources_1/new/RegisterFile.sv,1779832330,systemVerilog,,/home/boysanic/git/sanic-cpu-32/cpu_fpga/cpu_fpga.srcs/sources_1/new/RegisterN.sv,,RegisterFile,,uvm,../../../../../../../.vivado/2025.2/data/rsb/busdef,,,,,
+/home/boysanic/git/sanic-cpu-32/cpu_fpga/cpu_fpga.srcs/sources_1/new/RegisterN.sv,1779833696,systemVerilog,,/home/boysanic/git/sanic-cpu-32/cpu_fpga/cpu_fpga.srcs/sim_1/new/tb_regfile.sv,,RegisterN,,uvm,../../../../../../../.vivado/2025.2/data/rsb/busdef,,,,,
