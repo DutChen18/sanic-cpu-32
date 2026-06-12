@@ -286,6 +286,12 @@ class Parser:
         else:
             return self.match(TokenKind.NUMBER)
 
+    def expect_number(self):
+        if token := self.parse_number():
+            return self.file.get_number(token)
+
+        parser.unexpected_token()
+
 class Context:
     def __init__(self, module: Module):
         self.module = module
@@ -311,10 +317,14 @@ class Context:
                     symbol.label = Label(self.section, len(self.section.data))
                 elif identifier == "DB":
                     while True:
-                        if token := parser.parse_number():
-                            self.section.data.append(file.get_number(token))
-                        else:
-                            parser.unexpected_token()
+                        self.section.data.append(parser.expect_number())
+
+                        if not parser.match(TokenKind.COMMA):
+                            break
+                elif identifier == "DD":
+                    while True:
+                        code = ImmediateOperand(0, 32, 0, False).parse(self, parser)
+                        self.section.data += code.to_bytes(4, byteorder="little")
 
                         if not parser.match(TokenKind.COMMA):
                             break
@@ -322,6 +332,9 @@ class Context:
                     token = parser.expect(TokenKind.IDENTIFIER)
                     text = parser.file.get_text(token)
                     self.section = self.module.get_section(text)
+                elif identifier == "ALIGN":
+                    align = parser.expect_number()
+                    self.section.data += b"\x00" * ((align - len(self.section.data)) % align)
                 elif identifier in Instruction.by_name:
                     instruction = Instruction.by_name[identifier]
                     code = instruction.code
